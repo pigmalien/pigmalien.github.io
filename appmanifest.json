@@ -1,9 +1,9 @@
 ﻿{
-	"name": "cubic",
-	"short_name": "cubic",
+	"name": "site1",
+	"short_name": "site1",
 	"start_url": "index.html",
 	"display": "fullscreen",
-	"orientation": "any",
+	"orientation": "portrait",
 	"icons": [{
 		"src": "icon-16.png",
 		"sizes": "16x16",
