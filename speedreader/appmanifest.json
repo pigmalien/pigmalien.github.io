@@ -1,6 +1,6 @@
 ﻿{
-	"name": "speed reader",
-	"short_name": "speed reader",
+	"name": "speedreader",
+	"short_name": "speedreader",
 	"start_url": "index.html",
 	"display": "fullscreen",
 	"orientation": "portrait",
