@@ -1,0 +1,31 @@
+﻿{
+	"version": 1490981737,
+	"fileList": [
+		"data.js",
+		"c2runtime.js",
+		"jquery-2.1.1.min.js",
+		"offlineClient.js",
+		"images/tiledbackground.png",
+		"images/cworker-sheet0.png",
+		"images/captionbub-sheet0.png",
+		"images/farmbg-sheet0.png",
+		"images/dirt-sheet0.png",
+		"images/dirt-sheet1.png",
+		"images/wheatdrag-sheet0.png",
+		"images/draghelper-sheet0.png",
+		"images/draghelper-sheet1.png",
+		"images/draghelper-sheet2.png",
+		"images/progress-sheet0.png",
+		"images/cowfeed-sheet0.png",
+		"images/cowpen-sheet0.png",
+		"images/cow-sheet0.png",
+		"images/cow-sheet1.png",
+		"images/install-sheet0.png",
+		"icon-16.png",
+		"icon-32.png",
+		"icon-114.png",
+		"icon-128.png",
+		"icon-256.png",
+		"loading-logo.png"
+	]
+}
