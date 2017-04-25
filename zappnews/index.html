@@ -9,113 +9,123 @@
 	<!-- Standardised web app manifest -->
 	<link rel="manifest" href="appmanifest.json" />
 	
+	<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" sizes="256x256" href="icon-256.png" />
+	<meta name="HandheldFriendly" content="true" />
+	
+	<!-- Chrome for Android web app tags -->
+	<meta name="mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" sizes="256x256" href="icon-256.png" />
+	
 	<title>zappregatorweb</title>
 	<!-- Note: running this exported project from disk may not work exactly like preview, since browsers block some features on the file:// protocol.  Once you've uploaded it to a server, it should work OK. -->
 	
-    <!-- This outlines the canvas with a black border and makes the page background black. -->
 	<style type="text/css">
-		body { background-color: rgb(227,227,213); color: white; }
-		canvas { -ms-touch-action: none; }
+		body
+		{
+			background-color: rgb(95, 55, 12);
+			color: white;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		
+		#side
+		{
+			width: 160px;
+			position: absolute;
+			top: 0px;
+			bottom: 0px;
+			border: none;
+			right: 0px;
+		}
+		
+		#main
+		{
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			bottom: 0px;
+			right: 160px;
+		}
+		
+		iframe
+		{
+			border: none;
+		}
 	</style>
-
-
 </head> 
  
-<body> 
-	<div id="fb-root"></div>
-	<div style="text-align: center;">
+<body>
+	<script src="jquery-2.1.1.min.js"></script>
 
 	<script>
+	var side_size = 160;
+	
 	// Issue a warning if trying to preview an exported project on disk.
 	(function(){
 		// Check for running exported on file protocol
 		if (window.location.protocol.substr(0, 4) === "file")
 		{
-			alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
+			alert("Exported games won't work until you upload them.");
 		}
 	})();
-	</script>
-
-		<!-- The canvas must be inside a div called c2canvasdiv -->
-		<div id="c2canvasdiv" style="margin: 0 auto; width: 720px; height: 720px;">
-		
-			<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
-			ID the runtime looks for in the jQuery ready event (above). -->
-			<canvas id="c2canvas" width="720" height="720">
-				<!-- This text is displayed if the visitor's browser does not support HTML5.
-				You can change it, but it is a good idea to link to a description of a browser
-				and provide some links to download some popular HTML5-compatible browsers. -->
-				Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a href="http://www.whatbrowser.org">What is a browser?</a>
-				<br/><br/><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br/>
-				<a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br/>
-				<a href="http://www.google.com/chrome/">Google Chrome</a><br/>
-				<a href="http://www.apple.com/safari/download/">Apple Safari</a><br/>
-			</canvas>
-			
-		</div>
-
-        <br />
-		
-
-	</div>
 	
-	<!-- Pages load faster with scripts at the bottom -->
+	function size_iframe()
+	{
+		var w = jQuery(window).width() - side_size;
+		var h = jQuery(window).height();
+		jQuery("iframe").width(w).height(h);
+	};
 	
-	<!-- Construct 2 exported games require jQuery. -->
-	<script src="jquery-2.1.1.min.js"></script>
-
-
+	jQuery(document).ready(size_iframe);
+	jQuery(window).resize(size_iframe);
 	
-    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
-    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
-	<script src="c2runtime.js"></script>
-
-    <script>
-		// Start the Construct 2 project running on window load.
-		jQuery(document).ready(function ()
-		{
-			// Create new runtime using the c2canvas
-			cr_createRuntime("c2canvas");
-		});
+	function OnRegisterSWError(e)
+	{
+		console.warn("Failed to register service worker: ", e);
+	};
+	
+	// Runtime calls this global method when ready to start caching (i.e. after startup).
+	// This registers the service worker which caches resources for offline support.
+	window.C2_RegisterSW = function C2_RegisterSW()
+	{
+		if (!navigator.serviceWorker)
+			return;		// no SW support, ignore call
 		
-		// Pause and resume on page becoming visible/invisible
-		function onVisibilityChanged() {
-			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
-				cr_setSuspended(true);
-			else
-				cr_setSuspended(false);
-		};
-		
-		document.addEventListener("visibilitychange", onVisibilityChanged, false);
-		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
-		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
-		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
-		
-		function OnRegisterSWError(e)
-		{
-			console.warn("Failed to register service worker: ", e);
-		};
-		
-		// Runtime calls this global method when ready to start caching (i.e. after startup).
-		// This registers the service worker which caches resources for offline support.
-		window.C2_RegisterSW = function C2_RegisterSW()
-		{
-			if (!navigator.serviceWorker)
-				return;		// no SW support, ignore call
-			
-			try {
-				navigator.serviceWorker.register("sw.js", { scope: "./" })
-				.then(function (reg)
-				{
-					console.log("Registered service worker on " + reg.scope);
-				})
-				.catch(OnRegisterSWError);
-			}
-			catch (e)
+		try {
+			navigator.serviceWorker.register("sw.js", { scope: "./" })
+			.then(function (reg)
 			{
-				OnRegisterSWError(e);
-			}
-		};
-    </script>
+				console.log("Registered service worker on " + reg.scope);
+			})
+			.catch(OnRegisterSWError);
+		}
+		catch (e)
+		{
+			OnRegisterSWError(e);
+		}
+	};
+	</script>
+	
+	<div id="side">
+	 <a style="color:white" href="https://newsapi.org/">Powered by: News Api</a>
+	 <img src="newsapi-logo.png" alt="News API" height="130" width="160">
+	 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- zapads -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9681020555116590"
+     data-ad-slot="1022693901"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> 
+	</div>
+	<div id="main">
+		<iframe allowfullscreen="true" src="game.html" scrolling="no" noresize="noresize" />
+	</div>
 </body> 
 </html> 
