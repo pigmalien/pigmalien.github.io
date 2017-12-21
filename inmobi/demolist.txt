@@ -1,1 +1,1 @@
-wishbone,test
+wishbone,
