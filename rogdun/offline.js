@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1554395912,
+	"version": 1554917413,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -14,13 +14,16 @@
 		"images/tilemap.png",
 		"images/sprite5-sheet0.png",
 		"images/tiledbackground2.png",
+		"images/sprite3-sheet0.png",
+		"images/sprite4-sheet0.png",
+		"images/sprite6-sheet0.png",
+		"images/tiledbackground3.png",
 		"icon-16.png",
 		"icon-32.png",
 		"icon-114.png",
 		"icon-128.png",
 		"icon-256.png",
 		"loading-logo.png",
-		"dungeongen.js",
-		"penumbra.png"
+		"dungeongen.js"
 	]
 }
