@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1557430634,
+	"version": 1558978229,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -25,6 +25,10 @@
 		"images/sprite14-sheet0.png",
 		"images/sprite15-sheet0.png",
 		"images/sprite17-sheet0.png",
+		"images/sprite7-sheet0.png",
+		"images/sprite7-sheet1.png",
+		"images/sprite7-sheet2.png",
+		"images/sprite16-sheet0.png",
 		"media/guncockbubble.m4a",
 		"media/guncockbubble.ogg",
 		"media/clang.m4a",
