@@ -1,5 +1,5 @@
 ﻿{
-	"version": 1576541208,
+	"version": 1576604693,
 	"fileList": [
 		"data.js",
 		"c2runtime.js",
@@ -13,6 +13,9 @@
 		"icon-128.png",
 		"icon-256.png",
 		"loading-logo.png",
+		"mishmashbrk.woff",
+		"mishmashbrk.woff2",
+		"stylesheet.css",
 		"moment-with-locales.min.js"
 	]
 }
