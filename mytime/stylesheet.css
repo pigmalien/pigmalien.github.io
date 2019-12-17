@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Mishmash BRK';
-    src: url('MishmashBRK.woff2') format('woff2'),
-        url('MishmashBRK.woff') format('woff');
+    src: url('mishmashbrk.woff2') format('woff2'),
+        url('mishmashbrk.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
