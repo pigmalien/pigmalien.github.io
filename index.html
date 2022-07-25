@@ -1,203 +1,103 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Will It Game?</title>
-    <link rel="icon" type="image/png" href="favinewt.png" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="//cdn.muicss.com/mui-0.10.3/extra/mui-combined.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98167149-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-98167149-1');
-</script>
-
-
-    <style>
-    body {
-      height: 100%;
-      background-color:#444;
-      overflow-x: hidden;
-    }
-    
-    html,
-    body,
-    input,
-    textarea,
-    buttons {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
-    }
-    
-    
-    /**
-     * Sidebar CSS
-     */
-    
-    #sidebar {
-      background-color: #353535;
-      padding: 15px;
-    }
-    
-    @media (min-width: 768px) {
-      #sidebar {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 180px;
-        height: 100%;
-        padding-top: 30px;
-      }
-    }
-    
-    
-    /**
-     * Content CSS
-     */
-    @media (min-width: 768px) {
-      #content {
-        margin-left: 180px;
-      }
-    }
-    </style>
-
-    <style>html {
-      --scrollbarBG: #442434;
-      --thumbBG: #346524;
-    }
-    body::-webkit-scrollbar {
-      width: 11px;
-    }
-    body {
-      scrollbar-width: thin;
-      scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-    }
-    body::-webkit-scrollbar-track {
-      background: var(--scrollbarBG);
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: var(--thumbBG) ;
-      border-radius: 6px;
-      border: 3px solid var(--scrollbarBG);
-    }</style>
-
-    <style>
-    #starter {
-      border: 2px;
-      border-left-style: solid;
-      border-left-color: #FFA000;
-      padding-left: 2px;
-    }
-    </style>
-
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  #experiment {
-    border: 2px;
-    border-left-style: solid;
-    border-left-color: #FFD600;
-    padding-left: 2px;
-  }
-  </style>
+body {font-family: Arial;}
 
-<style>
-  #demo {
-    border: 2px;
-    border-left-style: solid;
-    border-left-color: #64DD17;
-    padding-left: 2px;
-  }
-  </style>
-
-<style>
-  #game {
-    border: 2px;
-    border-left-style: solid;
-    border-left-color: #D50000;
-    padding-left: 2px;
-  }
-  </style>
-
-<style>
-  #project {
-    border: 2px;
-    border-left-style: solid;
-    border-left-color: #2962FF;
-    padding-left: 2px;
-  }
-  </style>
-  
-<style>
-  #avatar {
-  border-radius: 50%;
-  width: 25%;
-  box-shadow: 0px 2px 8px 4px rgb(36, 36, 36);
-  }
-
-#avatar:hover {
-  animation: shake 0.5s;
-  animation-iteration-count: infinite;
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  background-color: #f1f1f1;
 }
 
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
 }
 
-  </style>
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
 
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
 
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
 
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #000000;
+   color: white;
+   text-align: center;
+}
 
+</style>
 </head>
-  <body>
-    <div id="sidebar">
-      <div class="mui--text-white mui--text-display1 mui--align-vertical">WILL IT GAME? <img class="mui--pull-right" id="avatar" src="avatarnewt.png" ></div>
-      <div class="mui--text-light-secondary mui--text-caption">The Blog</div>
-      <div class="mui-divider"></div>
-      <a href="https://twitter.com/pigmalien"><img src="twitter.png" style="padding: 5px;width:25px;"></a><a href="https://discordapp.com/users/newt#5824"><img src="discord.png" style="padding: 5px;width:25px; display: inline-block;"></a>
-    </div>
-    <div id="content"  class="mui-container-fluid" style="padding: 10px;">
-      <div class="mui-row">
-        <div class="mui-col-sm-10 mui-col-sm-offset-1">
-          <br>
-          <br>
-          <div class="mui--text-light mui--text-body2" id="starter" >PROLOG</div>
-          <div class="mui-divider"></div>
-          <br>
-          <div class="mui--text-light-secondary mui--text-headline">"Thats how it always begins. Very small."</div>
-          <br>
-          <div> <p>A favorite saying of mine is "You have to know what you can't do in order to know what you can."... or was that "You have to know what you can do in order to know what you can't? Ok maybe not favorite, but it still holds up.</p>
-            <p>In this blog I will attenpt to disseminate the simple mechanics of games. Take the simplest part of a new mechanic, and set it up to see how well it works, and if it would work well with other things like blocks fitting together.</p>
-            <p>I'm also going to talk about existing examples besides the <span id="experiment">experiments</span>, as well as <span id="demo">demo's</span> that would would have a few of those parts strewn together. Then of course I'll be doing devblogs on current <span id="game">games</span>, and other <span id="project">projects</span>.</p>
-            <div class="mui--text-light-secondary mui--text-caption">Side Note:</div>
-            <p>I'll be using Construct 3 for all the examples as it's as close as you can get to psudocode, and realy quick for prototyping.</p>
-          </div>
-          <br>
-          <br>
-          <!--<div class="mui--text-light mui--text-body2">RECENT POSTS</div>
-          <div class="mui-divider"></div>
-          <br>
-          <div class="mui--text-headline">MUI Acquires New Features</div>
-          <br>
-          <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In facilisis aliquam ipsum sed dignissim. Sed ac accumsan odio. Vivamus tristique dignissim neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc cursus felis nec purus condimentum vestibulum. Donec mauris nisi, sollicitudin eget iaculis id, suscipit id odio. <a href="#">Read more...</a></div>
-          <br>-->
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+<body>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+</div>
+
+<div id="London" class="tabcontent">
+  <h3>London</h3>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Paris</h3>
+  <p>Paris is the capital of France.</p> 
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <h3>Tokyo</h3>
+  <p>Tokyo is the capital of Japan.</p>
+</div>
+
+<div class="footer">
+    <p>© 2022 Pigmalien</p>
+  </div>
+  
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+   
+</body>
+</html> 
