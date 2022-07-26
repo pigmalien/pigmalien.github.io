@@ -116,9 +116,9 @@ body {font-family: Arial;}
   </div>
 
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Games')" id="defaultOpen">Games</button>
-  <button class="tablinks" onclick="openCity(event, 'Twitter')">Twitter</button>
-  <button class="tablinks" onclick="openCity(event, 'Blog')">Blog</button>
+  <!--<button class="tablinks" onclick="openTab(event, 'Games')>Games</button>-->
+  <button class="tablinks" onclick="openTab(event, 'Blog')"id="defaultOpen">Blog</button>
+  <button class="tablinks" onclick="openTab(event, 'Social')">Social</button>
 </div>
 
 <div id="Games" class="tabcontent">
@@ -127,14 +127,13 @@ body {font-family: Arial;}
   <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
 </div>
 
-<div id="Twitter" class="tabcontent">
-  <h3>Twitter</h3>
-  <p>Contact on Twitter</p> 
+<div id="Blog" class="tabcontent">
+  <a href="https://pigmalien.blogspot.com/"><img src="blogger.png" alt="Blogger" style="width:42px;height:42px;"></a>
+ 
 </div>
 
-<div id="Blog" class="tabcontent">
-  <h3>Blog</h3>
-  <p>Read the blog.</p>
+<div id="Social" class="tabcontent">
+  <a href="https://twitter.com/pigmalien"><img src="twitter.png" alt="Twitter" style="width:42px;height:42px;"></a>
 </div>
 
 <div class="footer">
@@ -143,7 +142,7 @@ body {font-family: Arial;}
   
 
 <script>
-function openCity(evt, cityName) {
+function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -153,7 +152,7 @@ function openCity(evt, cityName) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cityName).style.display = "block";
+  document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
 }
 
