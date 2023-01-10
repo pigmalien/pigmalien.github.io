@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", sans-serif;
+height: 200px;
+  background-color: purple; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to right, purple , rgb(17, 17, 17));
+}
+
+.icon-bar {
+  width: 100%;
+  border-radius: 10px 0px 0px 10px;
+  background-color: rgb(17,17,17);
+  padding: 0px;
+  overflow: auto;
+}
+
+.icon-bar a {
+  float: left;
+  width: 10%;
+  text-align: center;
+  padding: px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 36px;
+}
+
+.glow {
+  font-size: 30px;
+  font:30px Impact;
+  color: rgb(128, 0, 128);
+  text-align: left;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 1px #fff, 0 0 5px #fff, 0 0 10px #73e600, 0 0 15px #73e600, 0 0 20px #73e600, 0 0 25px #73e600, 0 0 30px #73e600;
+  }
+  
+  to {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff700, 0 0 8px #fff700, 0 0 12px #fff700, 0 0 16px #fff700, 0 0 20px #fff700, 0 0 25px #fff700;
+  }
+}
+
+.sidebar {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: rgb(17, 17, 17);
+  overflow-x: hidden;
+  padding-top: 16px;
+}
+
+.sidebar a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-right: 160px; /* Same as the width of the sidenav */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
+div.absolute {
+  position: absolute;
+  width: 100%;
+  bottom: 100px;
+  color: white;
+} 
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px solid rgba(0, 0, 0, 0.8);
+  padding: 0px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.responsive {
+  width: 100%;
+  height: auto;
+}
+
+#shake:hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+* {box-sizing: border-box;}
+
+.container {
+  position: relative;
+  width: 100%;
+  
+}
+
+.overlay {
+  position: absolute; 
+  bottom: 0; 
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1; 
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+</style>
+</head>
+<body>
+
+  <div class="icon-bar">
+    <a href="#"><img src="images\creature.gif" id="shake" width="64" height="64"></a> 
+    <h1 class="glow">ZANY GAMES</h1>
+  </div>
+
+<div class="sidebar">
+  <a href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#services"><i class="fa fa-fw fa-wrench"></i> Services</a>
+  <a href="#clients"><i class="fa fa-fw fa-user"></i> Clients</a>
+  <a href="#contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
+  <div class="absolute">side footer</div>
+</div>
+
+<div class="main">
+  <div class="grid-container">
+    <div class="grid-item">
+      <div class="container">
+        <img src="images\mainimage.webp" id="shake" class="responsive" width="450" height="300" loading="lazy">
+        <div class="overlay">My Name is John</div>
+      </div>
+    </div>
+    <div class="grid-item">
+      <div class="container">
+        <img src="images\mainimage.webp" id="shake" class="responsive" width="450" height="300" loading="lazy">
+        <div class="overlay">My Name is John</div>
+      </div>
+    </div>
+    <div class="grid-item">
+      <div class="container">
+        <img src="images\mainimage.webp" id="shake" class="responsive" width="450" height="300" loading="lazy">
+        <div class="overlay">My Name is John</div>
+      </div>
+    </div>
+    <div class="grid-item">
+      <div class="container">
+        <img src="images\mainimage.webp" id="shake" class="responsive" width="450" height="300" loading="lazy">
+        <div class="overlay">My Name is John</div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+
+</body>
+</html> 
