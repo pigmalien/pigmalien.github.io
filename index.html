@@ -1,174 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {font-family: Arial;}
-
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border-top: none;
-}
-
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: #000000;
-   color: white;
-   text-align: center;
-}
-
-.overlay {
-  height: 0%;
-  width: 100%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.9);
-  overflow-y: hidden;
-  transition: 0.5s;
-}
-
-.overlay-content {
-  position: relative;
-  top: 25%;
-  width: 100%;
-  text-align: center;
-  margin-top: 30px;
-}
-
-.overlay a {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 36px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.overlay a:hover, .overlay a:focus {
-  color: #f1f1f1;
-}
-
-.overlay .closebtn {
-  position: absolute;
-  top: 20px;
-  right: 45px;
-  font-size: 60px;
-}
-
-@media screen and (max-height: 450px) {
-  .overlay {overflow-y: auto;}
-  .overlay a {font-size: 20px}
-  .overlay .closebtn {
-  font-size: 40px;
-  top: 15px;
-  right: 35px;
-  }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My LVAD Log</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #222;
+            color: #ddd;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .table-container table {
+            width: 100%;
+        }
+        .table-container table tbody tr:nth-child(even) {
+            background-color: #333;
+        }
+        .table-container table th, .table-container table td {
+            padding: 8px;
+            text-align: left;
+        }
+        .is-dark .navbar {
+            background-color: #1a1a1a;
+        }
+        .is-dark .navbar-item, .is-dark .navbar-link {
+            color: #ddd;
+        }
+        .is-dark .input, .is-dark .select select {
+            background-color: #333;
+            color: #ddd;
+            border-color: #555;
+        }
+        .is-dark .button.is-primary {
+            background-color: #007bff;
+            border-color: transparent;
+        }
+        .is-dark .button.is-primary:hover {
+            background-color: #0056b3;
+        }
+        .is-dark .label {
+            color: #070000;
+        }
+    </style>
 </head>
-<body>
-
-  <div id="myNav" class="overlay">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <div class="overlay-content">
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Clients</a>
-      <a href="#">Contact</a>
+<body class="is-dark">
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <strong>My LVAD Log</strong>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half">
+                <div class="box">
+                    <h2 class="title is-4">Enter Today's Data</h2>
+                    <div class="field">
+                        <label class="label">Date</label>
+                        <div class="control">
+                            <input class="input" type="date" id="dateInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Temperature (°F)</label>
+                        <div class="control">
+                            <input class="input" type="number" id="tempInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Weight (lbs)</label>
+                        <div class="control">
+                            <input class="input" type="number" id="weightInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Speed</label>
+                        <div class="control">
+                            <input class="input" type="number" id="speedInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Flow</label>
+                        <div class="control">
+                            <input class="input" type="number" id="flowInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">PI</label>
+                        <div class="control">
+                            <input class="input" type="number" id="piInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Power</label>
+                        <div class="control">
+                            <input class="input" type="number" id="powerInput">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" id="saveButton">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="box">
+                    <h2 class="title is-4">Past Data</h2>
+                    <div class="table-container">
+                        <table class="table is-bordered is-striped is-narrow is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Temp (°F)</th>
+                                    <th>Weight (lbs)</th>
+                                    <th>Speed</th>
+                                    <th>Flow</th>
+                                    <th>PI</th>
+                                    <th>Power</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateInput = document.getElementById('dateInput');
+            const tempInput = document.getElementById('tempInput');
+            const weightInput = document.getElementById('weightInput');
+            const speedInput = document.getElementById('speedInput');
+            const flowInput = document.getElementById('flowInput');
+            const piInput = document.getElementById('piInput');
+            const powerInput = document.getElementById('powerInput');
+            const saveButton = document.getElementById('saveButton');
+            const dataTable = document.getElementById('dataTable');
 
-<div class="tab">
-  <!--<button class="tablinks" onclick="openTab(event, 'Games')>Games</button>-->
-  <button class="tablinks" onclick="openTab(event, 'Blog')"id="defaultOpen">Blog</button>
-  <button class="tablinks" onclick="openTab(event, 'Social')">Social</button>
-</div>
+            function saveData() {
+                const date = dateInput.value;
+                const temp = tempInput.value;
+                const weight = weightInput.value;
+                const speed = speedInput.value;
+                const flow = flowInput.value;
+                const pi = piInput.value;
+                const power = powerInput.value;
 
-<div id="Games" class="tabcontent">
-  <h3>Games</h3>
-  <p>Other games to play</p>
-  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-</div>
+                if (!date) {
+                    alert("Please enter a date.");
+                    return;
+                }
 
-<div id="Blog" class="tabcontent">
-  <a href="https://pigmalien.blogspot.com/"><img src="blogger.png" alt="Blogger" style="width:42px;height:42px;"></a>
- 
-</div>
+                let savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                const existingIndex = savedData.findIndex(item => item.date === date);
 
-<div id="Social" class="tabcontent">
-  <a href="https://twitter.com/pigmalien"><img src="twitter.png" alt="Twitter" style="width:42px;height:42px;"></a>
-</div>
+                if (existingIndex !== -1) {
+                    savedData[existingIndex] = { date, temp, weight, speed, flow, pi, power };
+                } else {
+                    savedData.push({ date, temp, weight, speed, flow, pi, power });
+                }
 
-<div class="footer">
-    <p>© 2022 Pigmalien</p>
-  </div>
-  
+                savedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                localStorage.setItem('lvadData', JSON.stringify(savedData));
+                displayData();
+            }
 
-<script>
-function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
+            function displayData() {
+                dataTable.innerHTML = '';
+                const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-</script>
-  
-<script>
-  function openNav() {
-    document.getElementById("myNav").style.height = "100%";
-  }
-  
-  function closeNav() {
-    document.getElementById("myNav").style.height = "0%";
-  }
-  </script>
+                savedData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.date}</td>
+                        <td>${item.temp}</td>
+                        <td>${item.weight}</td>
+                        <td>${item.speed}</td>
+                        <td>${item.flow}</td>
+                        <td>${item.pi}</td>
+                        <td>${item.power}</td>
+                    `;
+                    dataTable.appendChild(row);
+                });
+            }
 
+            saveButton.addEventListener('click', saveData);
+            displayData();
+        });
+    </script>
 </body>
-</html> 
+</html>
