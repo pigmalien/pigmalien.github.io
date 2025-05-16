@@ -200,7 +200,7 @@
             function displayData() {
                 dataTable.innerHTML = '';
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-
+                savedData.sort((a, b) => new Date(b.date) - new Date(a.date));
                 savedData.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
