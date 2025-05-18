@@ -1,148 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My LVAD Log</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <style>
-        body {
-            background-color: #222;
-            color: #ddd;
-        }
-        .container {
-            margin-top: 20px;
-        }
-        .table-container {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .table-container table {
-            width: 100%;
-        }
-        .table-container table tbody tr:nth-child(even) {
-            background-color: #333;
-        }
-        .table-container table th, .table-container table td {
-            padding: 8px;
-            text-align: left;
-        }
-        .is-dark .navbar {
-            background-color: #1a1a1a;
-        }
-        .is-dark .navbar-item, .is-dark .navbar-link {
-            color: #ddd;
-        }
-        .is-dark .input, .is-dark .select select {
-            background-color: #333;
-            color: #ddd;
-            border-color: #555;
-        }
-        .is-dark .button.is-primary {
-            background-color: #007bff;
-            border-color: transparent;
-        }
-        .is-dark .button.is-primary:hover {
-            background-color: #0056b3;
-        }
-        .is-dark .label {
-            color: #070000;
-        }
-    </style>
 </head>
-<body class="is-dark">
-    <div class="text-content">
-        <h1 class="title is-2">Daily LVAD Log</h1>
-        <p class="subtitle is-4">This is a simple web application to log and track your LVAD data.</p>
-        
-      </div>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="#">
-                <strong>My LVAD Log</strong>
-            </a>
-        </div>
+<style>
+    body {
+        font-family: Arial;
+        color: rgb(255, 255, 255);
+        background-image: linear-gradient(to bottom, transparent, transparent, transparent,#000000), url("forestbackground.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed; /* Ensures backgrounds cover the viewport and stay fixed */
+        background-color: rgb(0, 0, 0);
+        padding-top: 80px; /* Added to prevent content from being hidden by the fixed header. Adjust this value based on the actual header height. */
+    }
+
+    .header {
+        /* Fixed position and full width */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        margin: 0; /* No margin */
+        padding: 0; /* No padding on the header element itself */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+        z-index: 1000; /* Ensure it's on top of other content */
+
+        /* Appearance */
+        background-color: rgba(0, 0, 0, 0.61);
+        backdrop-filter: grayscale(.8) blur(5px);
+
+    }
+
+    /* Spacing for content within the header */
+    .header h1 {
+        margin: 10px 20px 8px 20px; /* Top, Right, Bottom, Left */
+        font-size: 2em; /* Example, adjust as needed */
+    }
+    .header p {
+        margin: 0 20px 10px 20px; /* Top, Right, Bottom, Left */
+    }
+
+    .box1 {
+
+        display: inline-block;
+        white-space: nowrap;
+        width: auto;
+        height: auto;
+        margin: 25px;
+        padding: 20px;
+
+        box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: grayscale(.8) blur(5px);
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+        border-left: 2px solid rgba(225, 225, 225, 0.1);
+        border-right: 1px solid rgba(225, 225, 225, 0.2);
+        border-bottom: 3px solid rgba(100, 100, 100, 0.3);
+        border-radius: 25px 25px 3px 25px;
+        border-top-left-radius: 3;
+        box-sizing: border-box;
+    }
+
+    .box2 {
+        word-wrap: break-word;
+        display: inline-block;
+        white-space: nowrap;
+        width: auto;
+        height: auto;
+        margin: 25px;
+        padding: 20px;
+        box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: grayscale(.8) blur(5px);
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+        border-left: 2px solid rgba(225, 225, 225, 0.1);
+        border-right: 1px solid rgba(225, 225, 225, 0.2);
+        border-bottom: 3px solid rgba(100, 100, 100, 0.3);
+        border-radius: 25px 3px 25px 25px;
+        box-sizing: border-box;
+    }
+
+ /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    overflow: auto;
+  background-color: #ffffff1a;
+  background-image: linear-gradient(to right, rgba(5,71, 42,0.3) , rgba(139, 172, 216, 0.37));
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+  height: 20em;
+  backdrop-filter: grayscale(.8) blur(5px);
+ border-radius: 5px ;
+  border-top-left-radius: 3;
+  box-sizing: border-box;
+  /*box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);*/
+ box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+} 
+
+button.relative1 {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+}
+
+button.relative2 {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+</style>
+
+<body>
+    <div class="header">
+        <h1>Daily LVAD Log</h1>
+        <p>This is a simple web application to log and track your LVAD data.</p>
+    </div>
+    <nav role="navigation" aria-label="main navigation">
     </nav>
-    <div class="container">
-        <div class="columns">
-            <div class="column is-half">
-                <div class="box">
-                    <h2 class="title is-4">Enter Today's Data</h2>
-                    <div class="field">
-                        <label class="label">Date</label>
-                        <div class="control">
-                            <input class="input" type="date" id="dateInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Temperature (°F)</label>
-                        <div class="control">
-                            <input class="input" type="number" id="tempInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Weight (lbs)</label>
-                        <div class="control">
-                            <input class="input" type="number" id="weightInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Speed</label>
-                        <div class="control">
-                            <input class="input" type="number" id="speedInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Flow</label>
-                        <div class="control">
-                            <input class="input" type="number" id="flowInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">PI</label>
-                        <div class="control">
-                            <input class="input" type="number" id="piInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Power</label>
-                        <div class="control">
-                            <input class="input" type="number" id="powerInput">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-primary" id="saveButton">Save</button>
-                        </div>
+    <div>
+        <div class="box1">
+            <div style="overflow:auto">
+                <h2>Enter Today's Data</h2>
+                <div>
+                    <label>Date</label>
+                    <div>
+                        <input type="date" id="dateInput">
                     </div>
                 </div>
-            </div>
-            <div class="column is-half">
-                <div class="box">
-                    <h2 class="title is-4">Past Data</h2>
-                    <div class="table-container">
-                        <table class="table is-bordered is-striped is-narrow is-hoverable">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Temp (°F)</th>
-                                    <th>Weight (lbs)</th>
-                                    <th>Speed</th>
-                                    <th>Flow</th>
-                                    <th>PI</th>
-                                    <th>Power</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dataTable">
-                            </tbody>
-                        </table>
+                <div>
+                    <label>Temperature (°F)</label>
+                    <div>
+                        <input type="number" id="tempInput">
+                    </div>
+                </div>
+                <div>
+                    <label>Weight (lbs)</label>
+                    <div>
+                        <input type="number" id="weightInput">
+                    </div>
+                </div>
+                <div>
+                    <label>Speed</label>
+                    <div>
+                        <input type="number" id="speedInput">
+                    </div>
+                </div>
+                <div>
+                    <label>Flow</label>
+                    <div>
+                        <input type="number" id="flowInput">
+                    </div>
+                </div>
+                <div>
+                    <label>PI</label>
+                    <div>
+                        <input type="number" id="piInput">
+                    </div>
+                </div>
+                <div>
+                    <label>Power</label>
+                    <div>
+                        <input type="number" id="powerInput">
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <button class="relative1" id="saveButton">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div>
+        <div class="box2">
+            
+            <button id="myBtn" class="relative2">Contact the vad team when:</button>
+
+
+            
+            <h2>Past Data</h2>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Temp (°F)</th>
+                            <th>Weight (lbs)</th>
+                            <th>Speed</th>
+                            <th>Flow</th>
+                            <th>PI</th>
+                            <th>Power</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- Part for VAD contact info -->
+            <div id="vadContactInfoModalContent">
+                <p>
+                    <ul>
+                        <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
+                        <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline</li>
+                        <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
+                        <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
+                        <li>Increasing swelling in legs, hands, or abdomin</li>
+                        <li>Temperature is 101.5°F or higher</li>
+                        <li>Driveline is tugged or pulled</li>
+                        <li>Signs or symptoms of infection at the driveline site(this includes redness, tenderness,warmth, or
+                            drainage) Call anytime with concerns about how the site looks</li>
+                        <li>You have any alarms you can't resolve</li>
+                        <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
+                        <li>The equipment is damaged or is not working properly</li>
+                        <li>You go to the emergency room, or require hospital admission</li>
+                    </ul>
+                </p>
+            </div>
+            <!-- Part for general alert messages -->
+            <div id="generalAlertModalContent" style="display: none;">
+                <p id="modalAlertText" style="text-align: center; font-size: 1.2em;"></p>
+            </div>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Data input elements
             const dateInput = document.getElementById('dateInput');
             const tempInput = document.getElementById('tempInput');
             const weightInput = document.getElementById('weightInput');
@@ -153,6 +276,14 @@
             const saveButton = document.getElementById('saveButton');
             const dataTable = document.getElementById('dataTable');
 
+            // Modal elements
+            const modal = document.getElementById("myModal");
+            const vadContactInfoModalContent = document.getElementById('vadContactInfoModalContent');
+            const generalAlertModalContent = document.getElementById('generalAlertModalContent');
+            const modalAlertText = document.getElementById('modalAlertText');
+            const vadInfoBtn = document.getElementById("myBtn"); // Button to open VAD info
+            const closeBtn = document.getElementsByClassName("close")[0]; // Modal close button
+
             function saveData() {
                 const date = dateInput.value;
                 const temp = tempInput.value;
@@ -161,21 +292,17 @@
                 const flow = flowInput.value;
                 const pi = piInput.value;
                 const power = powerInput.value;
-
                 if (!date) {
-                    alert("Please enter a date.");
+                    displayModalWithMessage("Please enter a date.");
                     return;
                 }
-
                 let savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 const existingIndex = savedData.findIndex(item => item.date === date);
-
                 if (existingIndex !== -1) {
                     savedData[existingIndex] = { date, temp, weight, speed, flow, pi, power };
                 } else {
                     savedData.push({ date, temp, weight, speed, flow, pi, power });
                 }
-
                 savedData.sort((a, b) => new Date(a.date) - new Date(b.date));
                 localStorage.setItem('lvadData', JSON.stringify(savedData));
                 displayData();
@@ -184,11 +311,9 @@
             function displayData() {
                 dataTable.innerHTML = '';
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-
                 // Sort data by date in descending order for display
                 // Newest date on top, oldest on bottom
                 savedData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
                 savedData.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -204,26 +329,48 @@
                 });
             }
 
+            function displayModalWithMessage(message) {
+                modalAlertText.textContent = message;
+                vadContactInfoModalContent.style.display = 'none';
+                generalAlertModalContent.style.display = 'block';
+                modal.style.display = "block";
+            }
+
+            function displayVadInfoModal() {
+                vadContactInfoModalContent.style.display = 'block';
+                generalAlertModalContent.style.display = 'none';
+                modalAlertText.textContent = ''; // Clear any previous alert message
+                modal.style.display = "block";
+            }
+
+            function closeModal() {
+                modal.style.display = "none";
+                // Optionally, reset content display states if you want a specific default
+                // generalAlertModalContent.style.display = 'none';
+                // vadContactInfoModalContent.style.display = 'block'; // Or hide both
+            }
+
+            // Event Listeners
             saveButton.addEventListener('click', saveData);
+
+            if (vadInfoBtn) {
+                vadInfoBtn.onclick = displayVadInfoModal;
+            }
+
+            if (closeBtn) {
+                closeBtn.onclick = closeModal;
+            }
+
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                closeModal();
+              }
+            }
+
+            // Initial data display on page load
             displayData();
         });
     </script>
-    <p>Contact the vad team when:
-
-            <ul>
-                <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
-                <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline</li>
-                <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
-                <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
-                <li>Increasing swelling in legs, hands, or abdomin</li>
-                <li>Temperature is 101.5°F or higher</li>
-                <li>Driveline is tugged or pulled</li>
-                <l>Signs or symptoms of infection at the driveline site(this includes redness, tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</l>
-                <li>You have any alarms you can't resolve</li>
-                <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
-                <li>The equipment is damaged or is not working properly</li>
-                <li>You go to the emergency room, or require hospital admission</li>
-            </ul>
-        </p>
 </body>
+
 </html>
