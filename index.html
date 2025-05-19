@@ -7,166 +7,279 @@
     <title>My LVAD Log</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+
 </head>
 <style>
     body {
         font-family: Arial;
         color: rgb(255, 255, 255);
-        background-image: linear-gradient(to bottom, transparent, transparent, transparent,#000000), url("forestbackground.jpg");
+        background-image: linear-gradient(to bottom, transparent, transparent, transparent, #000000), url("forestbackground.jpg");
         background-repeat: no-repeat;
         background-size: cover;
-        background-attachment: fixed; /* Ensures backgrounds cover the viewport and stay fixed */
+        background-attachment: fixed;
+        /* Ensures backgrounds cover the viewport and stay fixed */
         background-color: rgb(0, 0, 0);
-        padding-top: 80px; /* Added to prevent content from being hidden by the fixed header. Adjust this value based on the actual header height. */
+        padding-top: 80px;
+        /* Added to prevent content from being hidden by the fixed header. Adjust this value based on the actual header height. */
     }
 
+    .rubik {
+            font-family: "Rubik", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400; /* Example weight, adjust as needed */
+            font-style: normal;
+        }
+
+
+    .montserrat {
+            font-family: "Montserrat", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400; /* Example weight, adjust as needed */
+            font-style: normal;
+        }
+
     .header {
-        /* Fixed position and full width */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: auto;
-        margin: 0; /* No margin */
-        padding: 0; /* No padding on the header element itself */
-        box-sizing: border-box; /* Include padding and border in the element's total width */
-        z-index: 1000; /* Ensure it's on top of other content */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* height: auto; Removed, flex will manage height */
+            /* margin: 0; Already default or handled */
+            padding: 10px 20px; /* Added padding for internal spacing */
+            box-sizing: border-box;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.61);
+            backdrop-filter: grayscale(.8) blur(5px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Added shadow to header */
+            
+            /* Flexbox for layout */
+            display: flex;
+            align-items: center; /* Vertically center items */
+            justify-content: space-between; /* Push text to left, icon to right */
+        }
 
-        /* Appearance */
-        background-color: rgba(0, 0, 0, 0.61);
-        backdrop-filter: grayscale(.8) blur(5px);
-
+    .header-text-container { /* Class for the div wrapping H1 and P */
+        flex-grow: 1; /* Allows this container to expand and push the icon to the right */
+        margin-right: 5px; /* Creates a gap between the end of the line (from H1) and the icon */
     }
 
     /* Spacing for content within the header */
     .header h1 {
-        margin: 10px 20px 8px 20px; /* Top, Right, Bottom, Left */
-        font-size: 2em; /* Example, adjust as needed */
-    }
+            /* Original margin: 0 0 8px 0; */
+            font-size: 2em;
+            /* display: inline-block; /* Removed: H1 is block by default, so its border will span its container width */
+            border-bottom: 2px solid white; /* Adds the line */
+            padding-bottom: 2px;   /* Space between the text and the line */
+            margin-bottom: 4px;    /* Space between the line and the paragraph below */
+                                   /* (3px padding + 1px border + 4px margin = 8px original total spacing) */
+        }
+
     .header p {
-        margin: 0 20px 10px 20px; /* Top, Right, Bottom, Left */
+            margin: 0; /* Adjusted margins. Header padding handles side and bottom spacing relative to paragraph. */
+        }
+
+    .header-icon {
+        font-size: 2rem; /* Adjust size as needed */
+        margin-top: 11px;
+        color: white;
     }
 
     .box1 {
 
-        display: inline-block;
-        white-space: nowrap;
-        width: auto;
-        height: auto;
-        margin: 25px;
-        padding: 20px;
+            display: inline-block;
+            /* white-space: nowrap; */
+            /* Removed to allow content wrapping like box2 */
+            width: auto;
+            height: auto;
+            margin: 30px;
+            padding: 20px;
 
-        box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
-        background-color: rgba(255, 255, 255, 0.15);
-        backdrop-filter: grayscale(.8) blur(5px);
-        border-top: 2px solid rgba(255, 255, 255, 0.3);
-        border-left: 2px solid rgba(225, 225, 225, 0.1);
-        border-right: 1px solid rgba(225, 225, 225, 0.2);
-        border-bottom: 3px solid rgba(100, 100, 100, 0.3);
-        border-radius: 25px 25px 3px 25px;
-        border-top-left-radius: 3;
-        box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: grayscale(.8) blur(5px);
+
+            border-radius: 3px 25px 3px 25px; /* Adjusted for consistent top-left 3px */
+            box-sizing: border-box;
+        }
+
+    /* Style for outset input groups in box1 */
+    .box1 .input-group {
+            border-radius: 0.375rem;
+            /* Matches Bootstrap's default input/addon radius for a consistent look */
+        }
+
+    .box1 .input-fields-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            /* Provides 1rem spacing both horizontally and vertically between input groups */
+            margin-bottom: 1rem;
+            /* Add some space before the save button */
+        }
+    .box1 .input-fields-container .input-group {
+            flex: 1 1 280px;
+            /* Allows input groups to grow and shrink, with a preferred base width of 280px */
+            /* mb-3 class is removed from HTML for these items, gap handles spacing */
+        }
+
+        /* Style for the new inset area in box1 */
+    .box1 .inset-input-area {
+            padding: 1rem;
+            /* Space around the input fields inside the inset area */
+            background-color: rgba(0, 0, 0, 0.1);
+            /* Background of the inset area, slightly darker than box1's bg */
+            border-radius: 4px;
+            /* Rounded corners for the inset area */
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+                /* Inner shadow for inset look (top-left) */
+                inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+            /* Inner highlight for inset look (bottom-right) */
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+    /* Custom focus style for input-group form-controls to have a black outline */
+    .input-group .form-control:focus {
+        border-color: #000000; /* Black border on focus */
+        box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25); /* Black glow/shadow */
+        /* z-index: 3; /* Bootstrap's default CSS for .form-control:focus in an input-group already includes z-index, so explicitly setting it here might be redundant but harmless. */
     }
-
-/* Style for outset input groups in box1 */
-.box1 .input-group {
-    border-radius: 0.375rem; /* Matches Bootstrap's default input/addon radius for a consistent look */
-    box-shadow:
-        -2px -2px 3px rgba(255, 255, 255, 0.25), /* Lighter highlight on top-left */
-         2px  2px 3px rgba(0, 0, 0, 0.35);       /* Darker shadow on bottom-right */
-    /* This ensures the shadow is applied to the group as a whole. */
-}
 
     .box2 {
-        word-wrap: break-word;
-        display: inline-block;
-        /* white-space: nowrap; */ /* Removed for better grid responsiveness */
-        width: auto;
-        height: auto;
-        margin: 25px;
-        padding: 20px;
-        box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
-        background-color: rgba(255, 255, 255, 0.15);
-        backdrop-filter: grayscale(.8) blur(5px);
-        border-top: 2px solid rgba(255, 255, 255, 0.3);
-        border-left: 2px solid rgba(225, 225, 225, 0.1);
-        border-right: 1px solid rgba(225, 225, 225, 0.2);
-        border-bottom: 3px solid rgba(100, 100, 100, 0.3);
-        border-radius: 25px 3px 25px 25px;
-        box-sizing: border-box;
-    }
+            word-wrap: break-word;
+            display: inline-block;
+            /* white-space: nowrap; */
+            /* Removed for better grid responsiveness */
+            width: auto;
+            height: auto;
+            margin: 25px;
+            padding: 5px;
+            /* Reduced padding */            
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: grayscale(.8) blur(5px);
+
+            border-radius: 25px 3px 25px 25px;
+            box-sizing: border-box;
+        }
 
     /* Style for the inset table container in box2 */
-.box2 .table-responsive {
-    padding: 0.5rem; /* Space around the table inside the inset area */
-    background-color: rgba(0, 0, 0, 0.15); /* Background of the inset area, slightly darker */
-    border-radius: 6px; /* Rounded corners for the inset area */
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4), /* Inner shadow for inset look (top-left) */
-                inset -2px -2px 5px rgba(255,255,255,0.05); /* Inner highlight for inset look (bottom-right) */
-    margin-top: 0.5rem; /* Optional: add some space above the table area if needed */
+    .box2 .table-responsive {
+            padding: 0.3rem;
+            /* Space around the table inside the inset area */
+            background-color: rgba(0, 0, 0, 0.15);
+            /* Background of the inset area, slightly darker */
+            border-radius: 4px;
+            /* Rounded corners for the inset area */
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
+                /* Inner shadow for inset look (top-left) */
+                inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+            /* Inner highlight for inset look (bottom-right) */
+            margin-top: 0rem;
+            /* Optional: add some space above the table area if needed */
+        }
+
+    /* Smaller font size for table headers in box2 */
+    .box2 .table th {
+            font-size: 0.85rem;
+            /* Adjust this value as needed */
+            font-weight: normal;
+            /* Set table header text to normal weight */
+        }
+    /* Custom Bootstrap Modal Styling */
+    #myModal .modal-content {
+            background-color: #ffffff1a;
+            background-image: linear-gradient(to right, rgba(5, 71, 42, 0.3), rgba(139, 172, 216, 0.37));
+            border: none; /* Removed modal content border */
+            backdrop-filter: grayscale(.8) blur(5px);
+            border-radius: 5px;
+            /* Custom border-radius */
+            box-sizing: border-box;
+            box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
+            color: white;
+            /* Ensure text is visible on custom background */
+        }
+    #myModal .modal-header {
+            border-bottom: none; /* Removed modal header border */
+            /* Custom header border */
+        }
+
+#myModalLabel .bi-exclamation-square {
+  font-size: 1.5em; /* Adjust this value to your desired size */
 }
 
-/* Custom Bootstrap Modal Styling */
-#myModal .modal-content {
-  background-color: #ffffff1a;
-  background-image: linear-gradient(to right, rgba(5,71, 42,0.3) , rgba(139, 172, 216, 0.37));
-  border: 1px solid #888;
-  backdrop-filter: grayscale(.8) blur(5px);
-  border-radius: 5px; /* Custom border-radius */
-  box-sizing: border-box;
-  box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
-  color: white; /* Ensure text is visible on custom background */
-}
+        
+    #myModal .modal-body {
+            padding: 10px;
+            /* Requested padding */
+        }
 
-#myModal .modal-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Custom header border */
-}
-
-#myModal .modal-body {
-    padding: 10px; /* Requested padding */
-}
-
-
+    /* Style for specific h2 headings to use Montserrat Bold */
+    .box1 h2,
+    .box2 h2 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700; /* Bold weight for Montserrat */
+    }
 </style>
 
 <body>
     <div class="header">
-        <h1>Daily LVAD Log</h1>
-        <p>This is a simple web application to log and track your LVAD data.</p>
-    </div>
-    <nav role="navigation" aria-label="main navigation">
-    </nav>
+        <div class="header-text-container"> <!-- Wrapper for text content, now with a class -->
+            <h1 class="rubik"> Daily LVAD Log</h1>
+            <p class="montserrat ">This is a simple web application to log and track your LVAD data.</p>
+        </div>
+        <i class="bi bi-heart-pulse header-icon"></i> <!-- Added Bootstrap Icon -->
+    </div>    
     <div>
         <div class="box1">
             <div style="overflow:auto">
                 <h2 class="mb-3">Enter Today's Data</h2>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="dateInput-addon">Date</span>
-                    <input type="date" class="form-control" id="dateInput" aria-label="Date" aria-describedby="dateInput-addon">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="tempInput-addon">Temperature (°F)</span>
-                    <input type="number" class="form-control" id="tempInput" aria-label="Temperature (°F)" aria-describedby="tempInput-addon">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="weightInput-addon">Weight (lbs)</span>
-                    <input type="number" class="form-control" id="weightInput" aria-label="Weight (lbs)" aria-describedby="weightInput-addon">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="speedInput-addon">Speed</span>
-                    <input type="number" class="form-control" id="speedInput" aria-label="Speed" aria-describedby="speedInput-addon">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="flowInput-addon">Flow</span>
-                    <input type="number" class="form-control" id="flowInput" aria-label="Flow" aria-describedby="flowInput-addon">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="piInput-addon">PI</span>
-                    <input type="number" class="form-control" id="piInput" aria-label="PI" aria-describedby="piInput-addon">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="powerInput-addon">Power</span>
-                    <input type="number" class="form-control" id="powerInput" aria-label="Power" aria-describedby="powerInput-addon">
+                <div class="inset-input-area">
+                    <div class="input-fields-container">
+                        <div class="input-group">
+                            <span class="input-group-text" id="dateInput-addon">Date</span>
+                            <input type="date" class="form-control" id="dateInput" aria-label="Date"
+                                aria-describedby="dateInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="tempInput-addon">Temperature (°F)</span>
+                            <input type="number" class="form-control" id="tempInput" aria-label="Temperature (°F)"
+                                aria-describedby="tempInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="weightInput-addon">Weight (lbs)</span>
+                            <input type="number" class="form-control" id="weightInput" aria-label="Weight (lbs)"
+                                aria-describedby="weightInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="speedInput-addon">Speed</span>
+                            <input type="number" class="form-control" id="speedInput" aria-label="Speed"
+                                aria-describedby="speedInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="flowInput-addon">Flow</span>
+                            <input type="number" class="form-control" id="flowInput" aria-label="Flow"
+                                aria-describedby="flowInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="piInput-addon">PI</span>
+                            <input type="number" class="form-control" id="piInput" aria-label="PI"
+                                aria-describedby="piInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="powerInput-addon">Power</span>
+                            <input type="number" class="form-control" id="powerInput" aria-label="Power"
+                                aria-describedby="powerInput-addon">
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-3 text-end">
                     <button id="saveButton" class="btn btn-sm btn-outline-light">Save</button>
@@ -182,7 +295,9 @@
                         <h2>Past Data</h2>
                     </div>
                     <div class="col-auto">
-                        <button id="myBtn" class="btn btn-sm btn-outline-light">Contact the vad team when:</button>
+                        <button id="myBtn" class="btn btn-sm btn-outline-light" >
+                            <i class="bi bi-info-lg"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="row">
@@ -197,7 +312,7 @@
                                         <th class="border-end border-secondary">Speed</th>
                                         <th class="border-end border-secondary">Flow</th>
                                         <th class="border-end border-secondary">PI</th>
-                                        <th>Power</th> 
+                                        <th>Power</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dataTable">
@@ -212,33 +327,35 @@
     </div>
     <!-- Bootstrap Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg"> 
-            <div class="modal-content"> 
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                <div class="modal-body"> 
+                <div class="modal-body">
                     <!-- Part for VAD contact info -->
                     <div id="vadContactInfoModalContent">
-                        <p>
-                            <ul>
-                                <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
-                                <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline</li>
-                                <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
-                                <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
-                                <li>Increasing swelling in legs, hands, or abdomin</li>
-                                <li>Temperature is 101.5°F or higher</li>
-                                <li>Driveline is tugged or pulled</li>
-                                <li>Signs or symptoms of infection at the driveline site(this includes redness, tenderness,warmth, or
-                                    drainage) Call anytime with concerns about how the site looks</li>
-                                <li>You have any alarms you can't resolve</li>
-                                <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
-                                <li>The equipment is damaged or is not working properly</li>
-                                <li>You go to the emergency room, or require hospital admission</li>
-                            </ul>
-                        </p>
+                        <ul>
+                            <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
+                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline
+                            </li>
+                            <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
+                            <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
+                            <li>Increasing swelling in legs, hands, or abdomin</li>
+                            <li>Temperature is 101.5°F or higher</li>
+                            <li>Driveline is tugged or pulled</li>
+                            <li>Signs or symptoms of infection at the driveline site(this includes redness,
+                                tenderness,warmth, or
+                                drainage) Call anytime with concerns about how the site looks</li>
+                            <li>You have any alarms you can't resolve</li>
+                            <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
+                            <li>The equipment is damaged or is not working properly</li>
+                            <li>You go to the emergency room, or require hospital admission</li>
+                        </ul>
                     </div>
+
                     <!-- Part for general alert messages -->
                     <div id="generalAlertModalContent" style="display: none;">
                         <p id="modalAlertText" style="text-align: center; font-size: 1.2em;"></p>
@@ -316,15 +433,19 @@
             }
 
             function displayModalWithMessage(message) {
-                modalAlertText.textContent = message;
+                if (message === "Please enter a date.") {
+                    modalAlertText.innerHTML = `<i>${message}</i>`;
+                } else {
+                    modalAlertText.textContent = message;
+                }
                 vadContactInfoModalContent.style.display = 'none';
                 generalAlertModalContent.style.display = 'block';
-                myModalLabel.textContent = "Alert";
+                myModalLabel.innerHTML = '<i class="bi bi-exclamation-square"></i>';
                 bootstrapModal.show();
             }
 
             function displayVadInfoModal() {
-                myModalLabel.textContent = "Danger Checkist";
+                myModalLabel.textContent = "Contact the vad team when";
                 vadContactInfoModalContent.style.display = 'block';
                 generalAlertModalContent.style.display = 'none';
                 modalAlertText.textContent = ''; // Clear any previous alert message
