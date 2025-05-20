@@ -9,19 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-
 
 </head>
 <style>
     body {
-        font-family: Arial;
+        /* font-family will now be inherited from Bootstrap's defaults */
         color: rgb(255, 255, 255);
         background-image: linear-gradient(to bottom, transparent, transparent, transparent, #000000), url("forestbackground.jpg");
         background-repeat: no-repeat;
@@ -32,21 +24,6 @@
         padding-top: 80px;
         /* Added to prevent content from being hidden by the fixed header. Adjust this value based on the actual header height. */
     }
-
-    .rubik {
-            font-family: "Rubik", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 400; /* Example weight, adjust as needed */
-            font-style: normal;
-        }
-
-
-    .montserrat {
-            font-family: "Montserrat", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 400; /* Example weight, adjust as needed */
-            font-style: normal;
-        }
 
     .header {
             position: fixed;
@@ -79,7 +56,7 @@
             font-size: 2em;
             /* display: inline-block; /* Removed: H1 is block by default, so its border will span its container width */
             border-bottom: 2px solid white; /* Adds the line */
-            padding-bottom: 2px;   /* Space between the text and the line */
+            padding-bottom: 0.19em;   /* Space between the text and the line, increased by 2px */
             margin-bottom: 4px;    /* Space between the line and the paragraph below */
                                    /* (3px padding + 1px border + 4px margin = 8px original total spacing) */
         }
@@ -88,12 +65,31 @@
             margin: 0; /* Adjusted margins. Header padding handles side and bottom spacing relative to paragraph. */
         }
 
+    /* Keyframes for pulsing effect */
+    @keyframes pulseIcon {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.15);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
     .header-icon {
         font-size: 2rem; /* Adjust size as needed */
         margin-top: 11px;
         color: white;
+        animation: pulseIcon 2s infinite ease-in-out; /* Apply the pulse animation */
     }
 
+    /* Keyframes for fade-in and slide-up effect */
+    @keyframes fadeInSlideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
     .box1 {
 
             display: inline-block;
@@ -109,13 +105,26 @@
 
             border-radius: 6px 6px 6px 6px; /* Adjusted for consistent top-left 3px */
             box-sizing: border-box;
+            animation: fadeInSlideUp 0.7s 0.2s ease-out forwards; /* Apply entrance animation with a slight delay */
+            opacity: 0; /* Start hidden for animation */
+
         }
 
     /* Style for outset input groups in box1 */
     .box1 .input-group {
-            border-radius: 0.375rem;
+            border-radius: 0; /* Ensure the group itself has no radius */
             /* Matches Bootstrap's default input/addon radius for a consistent look */
         }
+
+    /* Ensure the form-control elements (input boxes) within box1 have 0 border radius */
+    .box1 .form-control {
+        border-radius: 0;
+    }
+
+    /* Ensure the input-group-text elements (labels) within box1 also have 0 border radius */
+    .box1 .input-group-text {
+        border-radius: 0;
+    }
 
     .box1 .input-fields-container {
             display: flex;
@@ -133,7 +142,7 @@
 
         /* Style for the new inset area in box1 */
     .box1 .inset-input-area {
-            padding: 1rem;
+            padding: 0.3rem;
             /* Space around the input fields inside the inset area */
             background-color: rgba(0, 0, 0, 0.1);
             /* Background of the inset area, slightly darker than box1's bg */
@@ -149,6 +158,7 @@
 
     /* Custom focus style for input-group form-controls to have a black outline */
     .input-group .form-control:focus {
+
         border-color: #000000; /* Black border on focus */
         box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25); /* Black glow/shadow */
         /* z-index: 3; /* Bootstrap's default CSS for .form-control:focus in an input-group already includes z-index, so explicitly setting it here might be redundant but harmless. */
@@ -169,7 +179,14 @@
 
             border-radius: 6px 6px 6px 6px;
             box-sizing: border-box;
+            animation: fadeInSlideUp 0.7s 0.4s ease-out forwards; /* Apply entrance animation with a later delay */
+            opacity: 0; /* Start hidden for animation */
         }
+
+    /* Add transition for smoother focus on input fields */
+    .input-group .form-control {
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
 
     /* Style for the inset table container in box2 */
     .box2 .table-responsive {
@@ -194,6 +211,13 @@
             font-weight: normal;
             /* Set table header text to normal weight */
         }
+
+    /* Make table backgrounds in box2 transparent, while keeping text white via table-dark */
+    .box2 .table.table-dark {
+        --bs-table-bg: transparent; /* Base background of the table */
+        --bs-table-striped-bg: transparent; /* Background of striped rows */
+        --bs-table-hover-bg: transparent;   /* Background of hovered rows */
+    }
     /* Custom Bootstrap Modal Styling */
     #myModal .modal-content {
             background-color: #ffffff1a;
@@ -223,18 +247,19 @@
         }
 
     /* Style for specific h2 headings to use Montserrat Bold */
+    /* Updated to use Bootstrap's default font stack */
     .box1 h2,
     .box2 h2 {
-        font-family: "Montserrat", sans-serif;
-        font-weight: 700; /* Bold weight for Montserrat */
+        /* font-family will be inherited from body, using Bootstrap's default sans-serif stack */
+        font-weight: 700; /* Keep headings bold */
     }
 </style>
 
 <body>
     <div class="header">
         <div class="header-text-container"> <!-- Wrapper for text content, now with a class -->
-            <h1 class="rubik"> Daily LVAD Log</h1>
-            <p class="montserrat ">This is a simple web application to log and track your LVAD data.</p>
+            <h1> Daily LVAD Log</h1>
+            <p>This is a simple web application to log and track your LVAD data.</p>
         </div>
         <i class="bi bi-heart-pulse header-icon"></i> <!-- Added Bootstrap Icon -->
     </div>    
@@ -243,7 +268,7 @@
             <div style="overflow:auto">
                 <h2 class="mb-3">Enter Today's Data</h2>
                 <div class="inset-input-area">
-                    <div class="input-fields-container">
+                    <div class="input-fields-container ">
                         <div class="input-group">
                             <span class="input-group-text" id="dateInput-addon">Date</span>
                             <input type="date" class="form-control" id="dateInput" aria-label="Date"
@@ -304,7 +329,7 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover table-dark">
-                                <thead class=>
+                                <thead>
                                     <tr>
                                         <th class="border-end border-secondary">Date</th>
                                         <th class="border-end border-secondary">Temp (°F)</th>
@@ -440,7 +465,7 @@
                 }
                 vadContactInfoModalContent.style.display = 'none';
                 generalAlertModalContent.style.display = 'block';
-                myModalLabel.innerHTML = '<i class="bi bi-exclamation-square"></i>';
+                myModalLabel.innerHTML = '<i class="bi bi-exclamation-square me-2"></i> Alert';
                 bootstrapModal.show();
             }
 
