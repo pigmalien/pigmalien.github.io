@@ -26,162 +26,205 @@
     }
 
     .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            /* height: auto; Removed, flex will manage height */
-            /* margin: 0; Already default or handled */
-            padding: 10px 20px; /* Added padding for internal spacing */
-            box-sizing: border-box;
-            z-index: 1000;
-            background-color: rgba(0, 0, 0, 0.61);
-            backdrop-filter: grayscale(.8) blur(5px);
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Added shadow to header */
-            
-            /* Flexbox for layout */
-            display: flex;
-            align-items: center; /* Vertically center items */
-            justify-content: space-between; /* Push text to left, icon to right */
-        }
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        /* height: auto; Removed, flex will manage height */
+        /* margin: 0; Already default or handled */
+        padding: 10px 20px;
+        /* Added padding for internal spacing */
+        box-sizing: border-box;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.61);
+        backdrop-filter: grayscale(.8) blur(5px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        /* Added shadow to header */
 
-    .header-text-container { /* Class for the div wrapping H1 and P */
-        flex-grow: 1; /* Allows this container to expand and push the icon to the right */
-        margin-right: 5px; /* Creates a gap between the end of the line (from H1) and the icon */
+        /* Flexbox for layout */
+        display: flex;
+        align-items: center;
+        /* Vertically center items */
+        justify-content: space-between;
+        /* Push text to left, icon to right */
+    }
+
+    .header-text-container {
+        /* Class for the div wrapping H1 and P */
+        flex-grow: 1;
+        /* Allows this container to expand and push the icon to the right */
+        margin-right: 5px;
+        /* Creates a gap between the end of the line (from H1) and the icon */
     }
 
     /* Spacing for content within the header */
     .header h1 {
-            /* Original margin: 0 0 8px 0; */
-            font-size: 2em;
-            /* display: inline-block; /* Removed: H1 is block by default, so its border will span its container width */
-            border-bottom: 2px solid white; /* Adds the line */
-            padding-bottom: 0.19em;   /* Space between the text and the line, increased by 2px */
-            margin-bottom: 4px;    /* Space between the line and the paragraph below */
-                                   /* (3px padding + 1px border + 4px margin = 8px original total spacing) */
-        }
+        /* Original margin: 0 0 8px 0; */
+        font-size: 2em;
+        /* display: inline-block; /* Removed: H1 is block by default, so its border will span its container width */
+        border-bottom: 2px solid white;
+        /* Adds the line */
+        padding-bottom: 0.19em;
+        /* Space between the text and the line, increased by 2px */
+        margin-bottom: 4px;
+        /* Space between the line and the paragraph below */
+        /* (3px padding + 1px border + 4px margin = 8px original total spacing) */
+    }
 
     .header p {
-            margin: 0; /* Adjusted margins. Header padding handles side and bottom spacing relative to paragraph. */
-        }
+        margin: 0;
+        /* Adjusted margins. Header padding handles side and bottom spacing relative to paragraph. */
+    }
 
     /* Keyframes for pulsing effect */
     @keyframes pulseIcon {
         0% {
             transform: scale(1);
         }
+
         50% {
             transform: scale(1.15);
         }
+
         100% {
             transform: scale(1);
         }
     }
 
     .header-icon {
-        font-size: 2rem; /* Adjust size as needed */
+        font-size: 2rem;
+        /* Adjust size as needed */
         margin-top: 11px;
         color: white;
-        animation: pulseIcon 2s infinite ease-in-out; /* Apply the pulse animation */
+        animation: pulseIcon 2s infinite ease-in-out;
+        /* Apply the pulse animation */
     }
 
     /* Keyframes for fade-in and slide-up effect */
     @keyframes fadeInSlideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
+
     .box1 {
 
-            display: inline-block;
-            /* white-space: nowrap; */
-            /* Removed to allow content wrapping like box2 */
-            width: auto;
-            height: auto;
-            margin: 30px;
-            padding: 20px;
+        display: inline-block;
+        /* white-space: nowrap; */
+        /* Removed to allow content wrapping like box2 */
+        width: auto;
+        height: auto;
+        margin: 30px;
+        padding: 20px;
 
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: grayscale(.8) blur(5px);
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: grayscale(.8) blur(5px);
 
-            border-radius: 6px 6px 6px 6px; /* Adjusted for consistent top-left 3px */
-            box-sizing: border-box;
-            animation: fadeInSlideUp 0.7s 0.2s ease-out forwards; /* Apply entrance animation with a slight delay */
-            opacity: 0; /* Start hidden for animation */
+        border-radius: 6px 0px 0px 6px;
+        /* Adjusted for consistent top-left 3px */
+        box-sizing: border-box;
+        animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
+        /* Apply entrance animation with a slight delay */
+        opacity: 0;
+        /* Start hidden for animation */
 
-        }
+    }
 
     /* Style for outset input groups in box1 */
     .box1 .input-group {
-            border-radius: 0; /* Ensure the group itself has no radius */
-            /* Matches Bootstrap's default input/addon radius for a consistent look */
-        }
+        border-radius: 0;
+        /* Ensure the group itself has no radius */
+        /* Matches Bootstrap's default input/addon radius for a consistent look */
+    }
 
     /* Ensure the form-control elements (input boxes) within box1 have 0 border radius */
     .box1 .form-control {
         border-radius: 0;
+        background-color: transparent;
+        /* Make input background transparent */
+        color: white;
+        /* Set input text color to white */
     }
 
-    /* Ensure the input-group-text elements (labels) within box1 also have 0 border radius */
+    /* Style labels (input-group-text) in box1:
+       - 0 border radius
+       - Transparent background
+       - White text color */
     .box1 .input-group-text {
         border-radius: 0;
+        background-color: #0000;
+        /* Set the background color to transparent */
+        color: white;
+        /* Set label text color to white */
     }
 
     .box1 .input-fields-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            /* Provides 1rem spacing both horizontally and vertically between input groups */
-            margin-bottom: 1rem;
-            /* Add some space before the save button */
-        }
-    .box1 .input-fields-container .input-group {
-            flex: 1 1 280px;
-            /* Allows input groups to grow and shrink, with a preferred base width of 280px */
-            /* mb-3 class is removed from HTML for these items, gap handles spacing */
-        }
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        /* Provides 1rem spacing both horizontally and vertically between input groups */
+        margin-bottom: 1rem;
+        /* Add some space before the save button */
+    }
 
-        /* Style for the new inset area in box1 */
+    .box1 .input-fields-container .input-group {
+        flex: 1 1 280px;
+        /* Allows input groups to grow and shrink, with a preferred base width of 280px */
+        /* mb-3 class is removed from HTML for these items, gap handles spacing */
+    }
+
+    /* Style for the new inset area in box1 */
     .box1 .inset-input-area {
-            padding: 0.3rem;
-            /* Space around the input fields inside the inset area */
-            background-color: rgba(0, 0, 0, 0.1);
-            /* Background of the inset area, slightly darker than box1's bg */
-            border-radius: 4px;
-            /* Rounded corners for the inset area */
-            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
-                /* Inner shadow for inset look (top-left) */
-                inset -2px -2px 5px rgba(255, 255, 255, 0.05);
-            /* Inner highlight for inset look (bottom-right) */
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
+        padding: 0.3rem;
+        /* Space around the input fields inside the inset area */
+        background-color: rgba(0, 0, 0, 0.1);
+        /* Background of the inset area, slightly darker than box1's bg */
+        border-radius: 4px;
+        /* Rounded corners for the inset area */
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+            /* Inner shadow for inset look (top-left) */
+            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+        /* Inner highlight for inset look (bottom-right) */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 
     /* Custom focus style for input-group form-controls to have a black outline */
     .input-group .form-control:focus {
 
-        border-color: #000000; /* Black border on focus */
-        box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25); /* Black glow/shadow */
+        border-color: #000000;
+        /* Black border on focus */
+        box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+        /* Black glow/shadow */
         /* z-index: 3; /* Bootstrap's default CSS for .form-control:focus in an input-group already includes z-index, so explicitly setting it here might be redundant but harmless. */
     }
 
     .box2 {
-            word-wrap: break-word;
-            display: inline-block;
-            /* white-space: nowrap; */
-            /* Removed for better grid responsiveness */
-            width: auto;
-            height: auto;
-            margin: 25px;
-            padding: 5px;
-            /* Reduced padding */            
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: grayscale(.8) blur(5px);
+        word-wrap: break-word;
+        display: inline-block;
+        /* white-space: nowrap; */
+        /* Removed for better grid responsiveness */
+        width: auto;
+        height: auto;
+        margin: 25px;
+        padding: 5px;
+        /* Reduced padding */
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: grayscale(.8) blur(5px);
 
-            border-radius: 6px 6px 6px 6px;
-            box-sizing: border-box;
-            animation: fadeInSlideUp 0.7s 0.4s ease-out forwards; /* Apply entrance animation with a later delay */
-            opacity: 0; /* Start hidden for animation */
-        }
+        border-radius: 6px 0px 0px 6px;
+        box-sizing: border-box;
+        animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
+        /* Apply entrance animation with a later delay */
+        opacity: 0;
+        /* Start hidden for animation */
+    }
 
     /* Add transition for smoother focus on input fields */
     .input-group .form-control {
@@ -190,68 +233,162 @@
 
     /* Style for the inset table container in box2 */
     .box2 .table-responsive {
-            padding: 0.3rem;
-            /* Space around the table inside the inset area */
-            background-color: rgba(0, 0, 0, 0.15);
-            /* Background of the inset area, slightly darker */
-            border-radius: 4px;
-            /* Rounded corners for the inset area */
-            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
-                /* Inner shadow for inset look (top-left) */
-                inset -2px -2px 5px rgba(255, 255, 255, 0.05);
-            /* Inner highlight for inset look (bottom-right) */
-            margin-top: 0rem;
-            /* Optional: add some space above the table area if needed */
-        }
+        padding: 0.3rem;
+        /* Space around the table inside the inset area */
+        background-color: rgba(0, 0, 0, 0.15);
+        /* Background of the inset area, slightly darker */
+        border-radius: 4px;
+        /* Rounded corners for the inset area */
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
+            /* Inner shadow for inset look (top-left) */
+            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+        /* Inner highlight for inset look (bottom-right) */
+        margin-top: 0rem;
+        /* Optional: add some space above the table area if needed */
+    }
 
     /* Smaller font size for table headers in box2 */
     .box2 .table th {
-            font-size: 0.85rem;
-            /* Adjust this value as needed */
-            font-weight: normal;
-            /* Set table header text to normal weight */
-        }
+        font-size: 0.85rem;
+        /* Adjust this value as needed */
+        font-weight: normal;
+        /* Set table header text to normal weight */
+    }
 
     /* Make table backgrounds in box2 transparent, while keeping text white via table-dark */
     .box2 .table.table-dark {
-        --bs-table-bg: transparent; /* Base background of the table */
-        --bs-table-striped-bg: transparent; /* Background of striped rows */
-        --bs-table-hover-bg: transparent;   /* Background of hovered rows */
+        --bs-table-bg: transparent;
+        /* Base background of the table */
+        --bs-table-striped-bg: transparent;
+        /* Background of striped rows */
+        --bs-table-hover-bg: transparent;
+        /* Background of hovered rows */
+    }
+
+    /* Change color of table dividers in box2 to white */
+    .box2 .table .border-secondary {
+        border-color: white !important;
+    }
+
+    .vertical-tab {
+        position: absolute;
+        top: 0;
+        /* Align to the top of box2 */
+        right: 0;
+        /* Align to the right of box2 */
+        transform: translateX(100%);
+        /* Move it completely outside to the right */
+        /* To make it appear connected but outside the border */
+
+        width: 50px;
+        /* Width of the tab */
+        height: 50px;
+        /* Height of the tab, adjust as needed */
+
+        /* Inherit box2 styling */
+        background-color: rgba(255, 255, 255, 0.15);
+        /* Same as box2 */
+        backdrop-filter: grayscale(.8) blur(5px);
+        /* Same as box2 */
+
+        /* Rounded corners for the tab shape (only on the right side) */
+        border-top-right-radius: 6px;
+        /* Top-right rounded */
+        border-bottom-right-radius: 6px;
+        /* Bottom-right rounded */
+        border-top-left-radius: 0;
+        /* No rounding on these sides */
+        border-bottom-left-radius: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        /* Icon size */
+        color: white;
+        /* Icon color */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        /* Small shadow for depth */
+        transition: transform 0.3s ease-in-out;
+        /* Smooth transition for hover effect */
+        z-index: 10;
+        /* Ensure it's above other content if needed */
+    }
+
+    .vertical-tab:hover {
+        transform: translateX(calc(100% + 5px));
+        /* Move it slightly further on hover for a subtle pop-out effect */
+    }
+.download-tab {
+        top: 0;
+}
+.upload-tab {
+        top: 55px;
+}
+.vertical-tab .btn {
+        background-color: transparent; /* Makes the button background transparent */
+        border: none; /* Removes the button border */
+        color: white; /* Ensures the icon/text color is white */
+        padding: 0; /* Removes default button padding */
+        width: 100%; /* Makes the button fill the entire tab area */
+        height: 100%; /* Makes the button fill the entire tab area */
+        display: flex; /* Centers the icon within the button/tab */
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical-tab .btn:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtle hover background for the button itself */
+    }
+
+    /* Increase size of the download icon in its specific tab button */
+    #tabDownloadButton i.bi-file-arrow-down {
+        font-size: 1.75rem; /* Double the default tab icon size (1.5rem * 2) */
+    }
+
+    /* Set size of the upload icon in its specific tab button */
+    #tabUploadButton i.bi-file-arrow-up { /* Changed ID to tabUploadButton for consistency */
+        font-size: 1.75rem; 
     }
     /* Custom Bootstrap Modal Styling */
     #myModal .modal-content {
-            background-color: #ffffff1a;
-            background-image: linear-gradient(to right, rgba(5, 71, 42, 0.3), rgba(139, 172, 216, 0.37));
-            border: none; /* Removed modal content border */
-            backdrop-filter: grayscale(.8) blur(5px);
-            border-radius: 5px;
-            /* Custom border-radius */
-            box-sizing: border-box;
-            box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
-            color: white;
-            /* Ensure text is visible on custom background */
-        }
+        background-color: #ffffff1a;
+        background-image: linear-gradient(to right, rgba(5, 71, 42, 0.3), rgba(139, 172, 216, 0.37));
+        border: none;
+        /* Removed modal content border */
+        backdrop-filter: grayscale(.8) blur(5px);
+        border-radius: 5px;
+        /* Custom border-radius */
+        box-sizing: border-box;
+        box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
+        color: white;
+        /* Ensure text is visible on custom background */
+    }
+
     #myModal .modal-header {
-            border-bottom: none; /* Removed modal header border */
-            /* Custom header border */
-        }
+        border-bottom: none;
+        /* Removed modal header border */
+        /* Custom header border */
+    }
 
-#myModalLabel .bi-exclamation-square {
-  font-size: 1.5em; /* Adjust this value to your desired size */
-}
+    #myModalLabel .bi-exclamation-square {
+        font-size: 1.5em;
+        /* Adjust this value to your desired size */
+    }
 
-        
+
     #myModal .modal-body {
-            padding: 10px;
-            /* Requested padding */
-        }
+        padding: 10px;
+        /* Requested padding */
+    }
 
     /* Style for specific h2 headings to use Montserrat Bold */
     /* Updated to use Bootstrap's default font stack */
     .box1 h2,
     .box2 h2 {
         /* font-family will be inherited from body, using Bootstrap's default sans-serif stack */
-        font-weight: 700; /* Keep headings bold */
+        font-weight: 700;
+        /* Keep headings bold */
     }
 </style>
 
@@ -259,14 +396,14 @@
     <div class="header">
         <div class="header-text-container"> <!-- Wrapper for text content, now with a class -->
             <h1> Daily LVAD Log</h1>
-            <p>This is a simple web application to log and track your LVAD data.</p>
+            <p>Keep track of your necessary information</p>
         </div>
         <i class="bi bi-heart-pulse header-icon"></i> <!-- Added Bootstrap Icon -->
-    </div>    
-    <div>
-        <div class="box1">
+    </div>
+    <div class="d-flex justify-content-center align-items-start flex-wrap">
+        <div class="box1"> <!-- This is where the "New LVAD Log Entry" form will reside -->
             <div style="overflow:auto">
-                <h2 class="mb-3">Enter Today's Data</h2>
+                <h2 class="mb-3">New LVAD Log Entry</h2>
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
                         <div class="input-group">
@@ -311,45 +448,58 @@
                 </div>
             </div>
         </div>
+
+    <div class="box2 position-relative"> <!-- This box2 should be inside the d-flex container above -->
+        <div class="vertical-tab download-tab"> <!-- Added download-tab class for consistency -->
+            <button id="tabDownloadButton" class="btn" title="Download Data">
+                <i class="bi bi-file-arrow-down"></i>
+            </button>
+        </div>
+        <div class="vertical-tab upload-tab">
+        <button id="tabUploadButton" class="btn" title="Import Data"> <!-- Changed ID and class for consistency -->
+                        <i class="bi bi-file-arrow-up"></i>
+                    </button>
     </div>
-    <div>
-        <div class="box2">
-            <div class="container-fluid">
-                <div class="row align-items-center mb-3">
-                    <div class="col">
-                        <h2>Past Data</h2>
-                    </div>
-                    <div class="col-auto">
-                        <button id="myBtn" class="btn btn-sm btn-outline-light" >
-                            <i class="bi bi-info-lg"></i>
-                        </button>
-                    </div>
+    <input type="file" id="uploadInput" accept=".json" style="display: none;">
+        <div class="container-fluid">
+            <div class="row align-items-center mb-3">
+                <div class="col">
+                    <h2>LVAD Data History</h2>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-dark">
-                                <thead>
-                                    <tr>
-                                        <th class="border-end border-secondary">Date</th>
-                                        <th class="border-end border-secondary">Temp (°F)</th>
-                                        <th class="border-end border-secondary">Weight (lbs)</th>
-                                        <th class="border-end border-secondary">Speed</th>
-                                        <th class="border-end border-secondary">Flow</th>
-                                        <th class="border-end border-secondary">PI</th>
-                                        <th>Power</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dataTable">
-                                    <!-- Data rows will be populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="col-auto">
+                    <button id="myBtn" class="btn btn-sm btn-outline-light">
+                        <i class="bi bi-info-lg"></i>
+                    </button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-dark">
+                            <thead>
+                                <tr>
+                                    <th class="border-end border-secondary">Date</th>
+                                    <th class="border-end border-secondary">Temp (°F)</th>
+                                    <th class="border-end border-secondary">Weight (lbs)</th>
+                                    <th class="border-end border-secondary">Speed</th>
+                                    <th class="border-end border-secondary">Flow</th>
+                                    <th class="border-end border-secondary">PI</th>
+                                    <th>Power</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                
+            </div>
         </div>
-    </div>
+    </div> <!-- This closes the d-flex container -->
+
+
+    <!-- Removed duplicated LVAD Data History section and its outer box2 wrapper -->
     <!-- Bootstrap Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -410,6 +560,8 @@
             const generalAlertModalContent = document.getElementById('generalAlertModalContent');
             const modalAlertText = document.getElementById('modalAlertText');
             const vadInfoBtn = document.getElementById("myBtn"); // Button to open VAD info
+            const tabUploadButton = document.getElementById('tabUploadButton'); // Get the upload button in the tab
+            const tabDownloadButton = document.getElementById('tabDownloadButton'); // Get the download button in the tab
             // const closeBtn = document.getElementsByClassName("close")[0]; // No longer needed, Bootstrap handles close
 
             function saveData() {
@@ -477,12 +629,87 @@
                 bootstrapModal.show();
             }
 
+            function downloadJsonData() {
+                const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                if (savedData.length === 0) {
+                    displayModalWithMessage("No data available to download.");
+                    return;
+                }
+
+
+
+                // Format the JSON with an indent of 2 spaces for readability
+                const jsonData = JSON.stringify(savedData, null, 2);
+                const blob = new Blob([jsonData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'lvad_data_history.json';
+                document.body.appendChild(a); // Append to body to ensure click works in all browsers
+                a.click();
+                document.body.removeChild(a); // Clean up
+                URL.revokeObjectURL(url); // Release the object URL
+            }
+            function uploadJsonData(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        // Enhanced validation
+                        if (!Array.isArray(importedData) ||
+                            importedData.some(item =>
+                                typeof item !== 'object' || item === null ||
+                                typeof item.date === 'undefined' || typeof item.temp === 'undefined' ||
+                                typeof item.weight === 'undefined' || typeof item.speed === 'undefined' ||
+                                typeof item.flow === 'undefined' || typeof item.pi === 'undefined' || typeof item.power === 'undefined')) {
+                            displayModalWithMessage("Invalid file format: Each item must be an object with all required properties (Date, Temp, Weight, Speed, Flow, PI, Power).");
+                            event.target.value = null; // Reset file input
+                            return;
+                        }
+
+                        let existingData = JSON.parse(localStorage.getItem('lvadData')) || [];
+
+                        // Merge and remove duplicates by date
+                        const mergedData = [...existingData, ...importedData].reduce((acc, curr) => {
+                            acc[curr.date] = curr;
+                            return acc;
+                        }, {});
+                        const mergedArray = Object.values(mergedData);
+
+                        mergedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+                        localStorage.setItem('lvadData', JSON.stringify(mergedArray));
+                        displayData();
+                        displayModalWithMessage("Data successfully imported and merged.");
+                    } catch (err) {
+                        displayModalWithMessage("Failed to read or parse JSON file. Ensure it's valid.");
+                    } finally {
+                        event.target.value = null; // Reset file input to allow re-uploading the same file
+                    }
+                };
+                reader.readAsText(file);
+            }
+
             // closeModal function is no longer needed as Bootstrap handles this.
             // Event Listeners
             saveButton.addEventListener('click', saveData);
 
+            // const uploadJsonButton = document.getElementById('uploadJsonButton'); // Replaced by tabUploadButton
+            const uploadInput = document.getElementById('uploadInput');
+
+            if (tabUploadButton && uploadInput) { // Use tabUploadButton
+                tabUploadButton.addEventListener('click', () => uploadInput.click());
+                uploadInput.addEventListener('change', uploadJsonData);
+            }
+
+
             if (vadInfoBtn) {
                 vadInfoBtn.onclick = displayVadInfoModal;
+            }
+            if (tabDownloadButton) { // Check if the download tab button exists
+                tabDownloadButton.addEventListener('click', downloadJsonData);
             }
 
             // Bootstrap handles closing via data-bs-dismiss attribute and backdrop click.
