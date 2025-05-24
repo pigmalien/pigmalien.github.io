@@ -9,21 +9,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <style>
     body {
-        /* font-family will now be inherited from Bootstrap's defaults */
         color: rgb(255, 255, 255);
         background-image: linear-gradient(to bottom, transparent, transparent, transparent, #000000), url("forestbackground.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
-        /* Ensures backgrounds cover the viewport and stay fixed */
-        min-height: 100vh; /* Ensure background covers full height even with less content */
+        min-height: 100vh;
         background-color: rgb(0, 0, 0);
-        padding-top: 80px;
-        /* Added to prevent content from being hidden by the fixed header. Adjust this value based on the actual header height. */
+        padding-top: 80px; /* For fixed header */
     }
 
     .header {
@@ -31,445 +29,322 @@
         top: 0;
         left: 0;
         width: 100%;
-        /* height: auto; Removed, flex will manage height */
-        /* margin: 0; Already default or handled */
         padding: 10px 20px;
-        /* Added padding for internal spacing */
         box-sizing: border-box;
         z-index: 1000;
         background-color: rgba(0, 0, 0, 0.61);
         backdrop-filter: grayscale(.8) blur(5px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-        /* Added shadow to header */
-
-        /* Flexbox for layout */
         display: flex;
         align-items: center;
-        /* Vertically center items */
         justify-content: space-between;
-        /* Push text to left, icon to right */
     }
 
     .header-text-container {
-        /* Class for the div wrapping H1 and P */
         flex-grow: 1;
-        /* Allows this container to expand and push the icon to the right */
         margin-right: 5px;
-        /* Creates a gap between the end of the line (from H1) and the icon */
     }
 
-    /* Spacing for content within the header */
     .header h1 {
-        /* Original margin: 0 0 8px 0; */
         font-size: 2em;
-        /* display: inline-block; /* Removed: H1 is block by default, so its border will span its container width */
         border-bottom: 2px solid white;
-        /* Adds the line */
         padding-bottom: 0.19em;
-        /* Space between the text and the line, increased by 2px */
         margin-bottom: 4px;
-        /* Space between the line and the paragraph below */
-        /* (3px padding + 1px border + 4px margin = 8px original total spacing) */
     }
 
     .header p {
         margin: 0;
-        /* Adjusted margins. Header padding handles side and bottom spacing relative to paragraph. */
     }
 
-    /* Keyframes for pulsing effect */
     @keyframes pulseIcon {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.15);
-        }
-
-        100% {
-            transform: scale(1);
-        }
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
     }
 
     .header-icon {
         font-size: 2rem;
-        /* Adjust size as needed */
         margin-top: 11px;
         color: white;
         animation: pulseIcon 2s infinite ease-in-out;
-        /* Apply the pulse animation */
     }
 
-    /* Keyframes for fade-in and slide-up effect */
     @keyframes fadeInSlideUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .box1 {
-
-        /* display: inline-block; Removed for Bootstrap grid */
-        /* white-space: nowrap; */
-        /* Removed to allow content wrapping like box2 */
-        /* width: auto; Removed for Bootstrap grid */
-        /* margin: 30px; Removed, Bootstrap columns will handle spacing */
         padding: 20px;
-
         background-color: rgba(255, 255, 255, 0.15);
         backdrop-filter: grayscale(.8) blur(5px);
-
-        border-radius: 6px 0px 0px 6px; /* Top-left, bottom-left rounded */
-
+        border-radius: 6px 0px 0px 6px;
         box-sizing: border-box;
         animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
-        /* Apply entrance animation with a slight delay */
         opacity: 0;
-        /* Start hidden for animation */
-
     }
 
-    /* Style for outset input groups in box1 */
-    .box1 .input-group {
-        border-radius: 0;
-        /* Ensure the group itself has no radius */
-        /* Matches Bootstrap's default input/addon radius for a consistent look */
-    }
-
-    /* Ensure the form-control elements (input boxes) within box1 have 0 border radius */
-    .box1 .form-control {
-        border-radius: 0;
-        background-color: transparent;
-        /* Make input background transparent */
-        color: white;
-        /* Set input text color to white */
-    }
-
-    /* Style labels (input-group-text) in box1:
-       - 0 border radius
-       - Transparent background
-       - White text color */
+    .box1 .input-group,
+    .box1 .form-control,
     .box1 .input-group-text {
         border-radius: 0;
-        background-color: #0000;
-        /* Set the background color to transparent */
+    }
+
+    .box1 .form-control {
+        background-color: transparent;
         color: white;
-        /* Set label text color to white */
+    }
+
+    .box1 .input-group-text {
+        background-color: #0000;
+        color: white;
     }
 
     .box1 .input-fields-container {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
-        /* Provides 1rem spacing both horizontally and vertically between input groups */
         margin-bottom: 1rem;
-        /* Add some space before the save button */
     }
 
     .box1 .input-fields-container .input-group {
         flex: 1 1 280px;
-        /* Allows input groups to grow and shrink, with a preferred base width of 280px */
-        /* mb-3 class is removed from HTML for these items, gap handles spacing */
     }
 
-    /* Style for the new inset area in box1 */
     .box1 .inset-input-area {
         padding: 0.3rem;
-        /* Space around the input fields inside the inset area */
         background-color: rgba(0, 0, 0, 0.1);
-        /* Background of the inset area, slightly darker than box1's bg */
         border-radius: 4px;
-        /* Rounded corners for the inset area */
         box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
-            /* Inner shadow for inset look (top-left) */
-            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
-        /* Inner highlight for inset look (bottom-right) */
+                    inset -2px -2px 5px rgba(255, 255, 255, 0.05);
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
-    /* Custom focus style for input-group form-controls to have a black outline */
     .input-group .form-control:focus {
-
         border-color: #000000;
-        /* Black border on focus */
         box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
-        /* Black glow/shadow */
-        /* z-index: 3; /* Bootstrap's default CSS for .form-control:focus in an input-group already includes z-index, so explicitly setting it here might be redundant but harmless. */
     }
 
-    .box2 {
-        word-wrap: break-word;
-        /* display: inline-block; Removed for Bootstrap grid */
-        /* white-space: nowrap; */
-        /* Removed for better grid responsiveness */
-        /* width: auto; Removed for Bootstrap grid */
-        /* margin: 25px; Removed, Bootstrap columns will handle spacing */
-        padding: 20px; /* Increased padding for consistency and mobile tab spacing */
-        background-color: rgba(255, 255, 255, 0.15);
-        backdrop-filter: grayscale(.8) blur(5px);
-
-        border-radius: 0px 6px 6px 0px; /* Top-right, bottom-right rounded for desktop */
-        box-sizing: border-box;
-        animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
-        /* Apply entrance animation with a later delay */
-        opacity: 0;
-        /* Start hidden for animation */
-    }
-
-    /* Add transition for smoother focus on input fields */
     .input-group .form-control {
         transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
+    
+    .box2 {
+        word-wrap: break-word;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: grayscale(.8) blur(5px);
+        border-radius: 0px 6px 6px 0px;
+        box-sizing: border-box;
+        animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
+        opacity: 0;
+    }
 
-    /* Style for the inset table container in box2 */
-    .box2 .table-responsive {
+    .box2 .charts-container-inset {
         padding: 0.3rem;
-        /* Space around the table inside the inset area */
         background-color: rgba(0, 0, 0, 0.15);
-        /* Background of the inset area, slightly darker */
         border-radius: 4px;
-        /* Rounded corners for the inset area */
         box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
-            /* Inner shadow for inset look (top-left) */
-            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
-        /* Inner highlight for inset look (bottom-right) */
+                    inset -2px -2px 5px rgba(255, 255, 255, 0.05);
         margin-top: 0rem;
-        /* Optional: add some space above the table area if needed */
     }
 
-    /* Smaller font size for table headers in box2 */
-    .box2 .table th {
-        font-size: 0.85rem;
-        /* Adjust this value as needed */
-        font-weight: normal;
-        /* Set table header text to normal weight */
+    .chart-container {
+        position: relative;
+        height: 250px; 
+        width: 100%;
+        margin-bottom: 1rem; 
     }
 
-    /* Make table backgrounds in box2 transparent, while keeping text white via table-dark */
-    .box2 .table.table-dark {
-        --bs-table-bg: transparent;
-        /* Base background of the table */
-        --bs-table-striped-bg: transparent;
-        /* Background of striped rows */
-        --bs-table-hover-bg: transparent;
-        /* Background of hovered rows */
-        --bs-table-border-color: white; /* This will make horizontal row borders white */
-    }
 
-    /* Change color of table dividers in box2 to white */
-    .box2 .table .border-secondary {
-        border-color: white !important;
-    }
-    /* Custom Bootstrap Modal Styling */
     #myModal .modal-content,
-    #confirmationModal .modal-content { /* Apply to both modals */
+    #confirmationModal .modal-content {
         background-color: #ffffff1a;
         background-image: linear-gradient(to right, rgba(5, 71, 42, 0.3), rgba(139, 172, 216, 0.37));
         border: none;
-        /* Removed modal content border */
         backdrop-filter: grayscale(.8) blur(5px);
         border-radius: 5px;
-        /* Custom border-radius */
         box-sizing: border-box;
         box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
         color: white;
-        /* Ensure text is visible on custom background */
     }
 
     #myModal .modal-header,
-    #confirmationModal .modal-header { /* Apply to both modals */
+    #confirmationModal .modal-header {
         border-bottom: none;
-        /* Removed modal header border */
     }
-     #confirmationModal .modal-footer {
-        border-top: none; /* Remove top border from footer for consistency */
+    #confirmationModal .modal-footer {
+        border-top: none;
     }
-
 
     #myModalLabel .bi-exclamation-square {
         font-size: 1.5em;
-        /* Adjust this value to your desired size */
     }
-
 
     #myModal .modal-body {
         padding: 10px;
-        /* Requested padding */
     }
      #confirmationModal .modal-body {
-        padding: 1rem; /* Standard padding for confirmation text */
+        padding: 1rem;
     }
 
-    /* Style for specific h2 headings to use Montserrat Bold */
-    /* Updated to use Bootstrap's default font stack */
     .box1 h2,
     .box2 h2 {
-        /* font-family will be inherited from body, using Bootstrap's default sans-serif stack */
         font-weight: 700;
-        /* Keep headings bold */
     }
 
-    /* Mobile-specific adjustments */
-    @media (max-width: 991.98px) { /* Affects screens smaller than 'lg' (Bootstrap breakpoint) */
+    @media (max-width: 991.98px) {
         .box1, .box2 {
-            border-radius: 6px; /* Apply to all corners on smaller screens */
-            margin-left: 0; /* Ensure no extra side margins from original styles */
+            border-radius: 6px;
+            margin-left: 0;
             margin-right: 0;
         }
-
     }
 
-    @media (max-width: 575.98px) { /* Extra small screens (Bootstrap 'sm' breakpoint) */
+    @media (max-width: 575.98px) {
         .header h1 {
-            font-size: 1.6em; /* Smaller font for h1 */
+            font-size: 1.6em;
             padding-bottom: 0.15em;
+        }
+        .chart-container {
+            height: 200px;
         }
     }
 </style>
 
 <body>
     <div class="header">
-        <div class="header-text-container"> <!-- Wrapper for text content, now with a class -->
+        <div class="header-text-container">
             <h1> Daily LVAD Log</h1>
             <p>Keep track of your vital stats</p>
         </div>
-        <i class="bi bi-heart-pulse header-icon"></i> <!-- Added Bootstrap Icon -->
+        <i class="bi bi-heart-pulse header-icon"></i>
     </div>
-    <!-- Main content area with Bootstrap grid -->
+
     <div class="container-fluid pt-3">
         <div class="row justify-content-center">
-            <div class="box1 col-12 col-lg-5 mb-4"> <!-- Added Bootstrap column classes and margin -->
+            <div class="box1 col-12 col-lg-5 mb-4">
                 <h2 class="mb-3">New LVAD Log Entry</h2>
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
                         <div class="input-group">
                             <span class="input-group-text" id="dateInput-addon">Date</span>
-                            <input type="date" class="form-control" id="dateInput" aria-label="Date"
-                                aria-describedby="dateInput-addon">
+                            <input type="date" class="form-control" id="dateInput" aria-label="Date" aria-describedby="dateInput-addon">
                         </div>
                         <div class="input-group">
                             <span class="input-group-text" id="tempInput-addon">Temperature (°F)</span>
-                            <input type="number" class="form-control" id="tempInput" aria-label="Temperature (°F)"
-                                aria-describedby="tempInput-addon">
+                            <input type="number" class="form-control" id="tempInput" aria-label="Temperature (°F)" aria-describedby="tempInput-addon">
                         </div>
                         <div class="input-group">
                             <span class="input-group-text" id="weightInput-addon">Weight (lbs)</span>
-                            <input type="number" class="form-control" id="weightInput" aria-label="Weight (lbs)"
-                                aria-describedby="weightInput-addon">
+                            <input type="number" class="form-control" id="weightInput" aria-label="Weight (lbs)" aria-describedby="weightInput-addon">
                         </div>
                         <div class="input-group">
                             <span class="input-group-text" id="speedInput-addon">Speed</span>
-                            <input type="number" class="form-control" id="speedInput" aria-label="Speed"
-                                aria-describedby="speedInput-addon">
+                            <input type="number" class="form-control" id="speedInput" aria-label="Speed" aria-describedby="speedInput-addon">
                         </div>
                         <div class="input-group">
                             <span class="input-group-text" id="flowInput-addon">Flow</span>
-                            <input type="number" class="form-control" id="flowInput" aria-label="Flow"
-                                aria-describedby="flowInput-addon">
+                            <input type="number" class="form-control" id="flowInput" aria-label="Flow" aria-describedby="flowInput-addon">
                         </div>
                         <div class="input-group">
                             <span class="input-group-text" id="piInput-addon">PI</span>
-                            <input type="number" class="form-control" id="piInput" aria-label="PI"
-                                aria-describedby="piInput-addon">
+                            <input type="number" class="form-control" id="piInput" aria-label="PI" aria-describedby="piInput-addon">
                         </div>
                         <div class="input-group">
                             <span class="input-group-text" id="powerInput-addon">Power</span>
-                            <input type="number" class="form-control" id="powerInput" aria-label="Power"
-                                aria-describedby="powerInput-addon">
+                            <input type="number" class="form-control" id="powerInput" aria-label="Power" aria-describedby="powerInput-addon">
                         </div>
                     </div>
                 </div>
                 <div class="mt-3 text-end">
                     <button id="saveButton" class="btn btn-sm btn-outline-light">Save</button>
                 </div>
-            </div> <!-- End box1 --> 
-            <div class="box2 col-12 col-lg-7 mb-4"> <!-- Removed position-relative -->
-        <div class="container-fluid">
-            <div class="row align-items-center mb-3">
-                <div class="col">
-                    <h2>LVAD Data History</h2>
-                </div>
-                <div class="col-auto">
-                    <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2" title="Download Data">
-                        <i class="bi bi-file-arrow-down"></i>
-                    </button>
-                    <button id="tabUploadButton" class="btn btn-sm btn-outline-light me-2" title="Import Data">
-                        <i class="bi bi-file-arrow-up"></i>
-                    </button>
-                    <button id="myBtn" class="btn btn-sm btn-outline-light" title="Information">
-                        <i class="bi bi-info-lg"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-dark">
-                            <thead>
-                                <tr>
-                                    <th class="border-end border-secondary">Date</th>
-                                    <th class="border-end border-secondary">Temp (°F)</th>
-                                    <th class="border-end border-secondary">Weight (lbs)</th>
-                                    <th class="border-end border-secondary">Speed</th>
-                                    <th class="border-end border-secondary">Flow</th>
-                                    <th class="border-end border-secondary">PI</th>
-                                    <th>Power</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dataTable">
-                            </tbody>
-                        </table>
+            </div> 
+
+            <div class="box2 col-12 col-lg-7 mb-4">
+                <div class="container-fluid px-0">
+                    <div class="row align-items-center mb-3">
+                        <div class="col">
+                            <h2>LVAD Data History</h2>
+                        </div>
+                        <div class="col-auto">
+                            <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2" title="Download Data">
+                                <i class="bi bi-file-arrow-down"></i>
+                            </button>
+                            <button id="tabUploadButton" class="btn btn-sm btn-outline-light me-2" title="Import Data">
+                                <i class="bi bi-file-arrow-up"></i>
+                            </button>
+                            <button id="myBtn" class="btn btn-sm btn-outline-light" title="Information">
+                                <i class="bi bi-info-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="charts-container-inset">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="tempChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="weightChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="speedChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="flowChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="piChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="chart-container">
+                                    <canvas id="powerChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <input type="file" id="uploadInput" accept=".json" style="display: none;"> 
             </div>
         </div>
-                <!-- Hidden file input remains, can be anywhere as it's not visible -->
-                <input type="file" id="uploadInput" accept=".json" style="display: none;"> 
-            </div> <!-- End box2 -->
-        </div> <!-- End row -->
-    </div> <!-- End container-fluid -->
+    </div>
     
-
     <!-- Information Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Part for VAD contact info -->
                     <div id="vadContactInfoModalContent">
                         <ul>
                             <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
-                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline
-                            </li>
+                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline</li>
                             <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
                             <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
                             <li>Increasing swelling in legs, hands, or abdomin</li>
                             <li>Temperature is 101.5°F or higher</li>
                             <li>Driveline is tugged or pulled</li>
-                            <li>Signs or symptoms of infection at the driveline site(this includes redness,
-                                tenderness,warmth, or
-                                drainage) Call anytime with concerns about how the site looks</li>
+                            <li>Signs or symptoms of infection at the driveline site(this includes redness, tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li>
                             <li>You have any alarms you can't resolve</li>
                             <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
                             <li>The equipment is damaged or is not working properly</li>
                             <li>You go to the emergency room, or require hospital admission</li>
                         </ul>
                     </div>
-
-                    <!-- Part for general alert messages -->
                     <div id="generalAlertModalContent" style="display: none;">
                         <p id="modalAlertText" style="text-align: center; font-size: 1.2em;"></p>
                     </div>
@@ -480,7 +355,7 @@
 
     <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered"> <!-- modal-sm for a compact confirmation, modal-dialog-centered -->
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content"> 
                 <div class="modal-header">
                     <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
@@ -497,10 +372,8 @@
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Data input elements
             const dateInput = document.getElementById('dateInput');
             const tempInput = document.getElementById('tempInput');
             const weightInput = document.getElementById('weightInput');
@@ -509,9 +382,7 @@
             const piInput = document.getElementById('piInput');
             const powerInput = document.getElementById('powerInput');
             const saveButton = document.getElementById('saveButton');
-            const dataTable = document.getElementById('dataTable');
-
-            // Info/Alert Modal elements
+            
             const modalElement = document.getElementById("myModal");
             const bootstrapModal = new bootstrap.Modal(modalElement);
             const myModalLabel = document.getElementById('myModalLabel');
@@ -520,71 +391,179 @@
             const modalAlertText = document.getElementById('modalAlertText');
             const vadInfoBtn = document.getElementById("myBtn"); 
 
-            // Confirmation Modal elements
             const confirmationModalElement = document.getElementById('confirmationModal');
             const bootstrapConfirmationModal = new bootstrap.Modal(confirmationModalElement);
             const confirmationModalLabel = document.getElementById('confirmationModalLabel');
             const confirmationModalBodyText = document.getElementById('confirmationModalBodyText');
             const confirmYesButton = document.getElementById('confirmYesButton');
-            // const confirmNoButton = document.getElementById('confirmNoButton'); // Not strictly needed for JS if only using data-bs-dismiss
+            
+            let currentYesCallback = null;
 
-            let currentYesCallback = null; // To store the action for the "Yes" button in confirmation modal
-
-            // Buttons
             const tabUploadButton = document.getElementById('tabUploadButton'); 
             const tabDownloadButton = document.getElementById('tabDownloadButton'); 
             const uploadInput = document.getElementById('uploadInput');
 
+            let chartInstances = {};
+            const chartConfigs = {
+                temp: { canvasId: 'tempChart', label: 'Temperature', unit: '°F', color: 'rgba(54, 162, 235, 1)' },
+                weight: { canvasId: 'weightChart', label: 'Weight', unit: 'lbs', color: 'rgba(75, 192, 192, 1)' },
+                speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)' },
+                flow: { canvasId: 'flowChart', label: 'Flow', unit: 'L/min', color: 'rgba(153, 102, 255, 1)' },
+                pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)' },
+                power: { canvasId: 'powerChart', label: 'Power', unit: 'Watts', color: 'rgba(255, 99, 132, 1)' }
+            };
 
             function saveData() {
-                const date = dateInput.value;
-                const temp = tempInput.value;
-                const weight = weightInput.value;
-                const speed = speedInput.value;
-                const flow = flowInput.value;
-                const pi = piInput.value;
-                const power = powerInput.value;
-                if (!date) {
+                const data = {
+                    date: dateInput.value,
+                    temp: tempInput.value,
+                    weight: weightInput.value,
+                    speed: speedInput.value,
+                    flow: flowInput.value,
+                    pi: piInput.value,
+                    power: powerInput.value
+                };
+                if (!data.date) {
                     displayModalWithMessage("Please enter a date.");
                     return;
                 }
                 let savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                const existingIndex = savedData.findIndex(item => item.date === date);
+                const existingIndex = savedData.findIndex(item => item.date === data.date);
                 if (existingIndex !== -1) {
-                    savedData[existingIndex] = { date, temp, weight, speed, flow, pi, power };
+                    savedData[existingIndex] = data;
                 } else {
-                    savedData.push({ date, temp, weight, speed, flow, pi, power });
+                    savedData.push(data);
                 }
                 savedData.sort((a, b) => new Date(a.date) - new Date(b.date));
                 localStorage.setItem('lvadData', JSON.stringify(savedData));
-                displayData();
+                displayCharts();
             }
 
-            function displayData() {
-                dataTable.innerHTML = '';
-                const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                savedData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Newest first
-                savedData.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="border-end border-secondary">${item.date}</td>
-                        <td class="border-end border-secondary">${item.temp}</td>
-                        <td class="border-end border-secondary">${item.weight}</td>
-                        <td class="border-end border-secondary">${item.speed}</td>
-                        <td class="border-end border-secondary">${item.flow}</td>
-                        <td class="border-end border-secondary">${item.pi}</td>
-                        <td>${item.power}</td> 
-                    `;
-                    dataTable.appendChild(row);
+            function formatDateLabel(dateObj) {
+                const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                return `${days[dateObj.getDay()]}, ${months[dateObj.getMonth()]} ${dateObj.getDate()}`;
+            }
+
+            function displayCharts() {
+                let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                allSavedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                const recentData = allSavedData.slice(-7);
+
+                const labels = []; // For X-axis: "Sun, Jan 1", "Mon, Jan 2", ...
+                const datasets = {}; // For Y-axis data: { temp: [val1, val2,...], weight: [val1, val2,...] }
+                
+                Object.keys(chartConfigs).forEach(key => {
+                    datasets[key] = [];
+                });
+
+                recentData.forEach(entry => {
+                    const [yearStr, monthStr, dayStr] = entry.date.split('-');
+                    const year = parseInt(yearStr, 10);
+                    const month = parseInt(monthStr, 10) - 1;
+                    const day = parseInt(dayStr, 10);
+                    const dateObj = new Date(year, month, day);
+                    
+                    labels.push(formatDateLabel(dateObj)); // Formatted date for X-axis
+
+                    Object.keys(chartConfigs).forEach(metricKey => {
+                        const value = entry[metricKey];
+                        datasets[metricKey].push(value !== undefined && value !== "" ? parseFloat(value) : null);
+                    });
+                });
+                
+                Object.keys(chartConfigs).forEach(key => {
+                    const config = chartConfigs[key];
+                    const ctx = document.getElementById(config.canvasId)?.getContext('2d');
+                    if (!ctx) {
+                        console.error(`Canvas with ID ${config.canvasId} not found.`);
+                        return;
+                    }
+
+                    if (chartInstances[config.canvasId]) {
+                        chartInstances[config.canvasId].destroy();
+                    }
+
+                    chartInstances[config.canvasId] = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels, // X-axis labels are the formatted dates
+                            datasets: [{
+                                label: `${config.label} (${config.unit || ''})`.trim(), // Dataset label for legend/tooltip
+                                data: datasets[key], // Y-axis data is the array of metric values
+                                borderColor: config.color,
+                                backgroundColor: config.color.replace('1)', '0.2)'),
+                                tension: 0.1,
+                                fill: false,
+                                pointBackgroundColor: 'white',
+                                pointBorderColor: config.color,
+                                pointHoverBackgroundColor: config.color,
+                                pointHoverBorderColor: 'white',
+                                spanGaps: true 
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { // Y-axis for metric values
+                                    beginAtZero: false, 
+                                    title: {
+                                        display: true,
+                                        text: config.unit || '', // Unit on Y-axis title
+                                        color: 'white',
+                                        font: { size: 10 }
+                                    },
+                                    ticks: { color: 'white', font: { size: 10 } },
+                                    grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                                },
+                                x: { // X-axis for dates
+                                    ticks: { color: 'white', font: { size: 10 } },
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' } // Fainter grid for X
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: { color: 'white', font: { size: 12 } }
+                                },
+                                title: { // Main chart title (metric name)
+                                    display: true,
+                                    text: config.label, 
+                                    color: 'white',
+                                    font: { size: 14, weight: 'bold' },
+                                    padding: { top: 10, bottom: 10 }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0,0,0,0.7)',
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                    callbacks: {
+                                        // title: function(tooltipItems) { // Optional: if you want date as tooltip title
+                                        //     return tooltipItems[0].label; 
+                                        // },
+                                        label: function(context) {
+                                            let label = context.dataset.label || ''; // "Temperature (°F)"
+                                            if (label) {
+                                                // Extract just the metric name for the tooltip line if preferred
+                                                label = label.split('(')[0].trim() + ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += context.parsed.y + (config.unit ? ' ' + config.unit : '');
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
                 });
             }
 
             function displayModalWithMessage(message) {
-                if (message === "Please enter a date.") {
-                    modalAlertText.innerHTML = `<i>${message}</i>`;
-                } else {
-                    modalAlertText.textContent = message;
-                }
+                modalAlertText.innerHTML = (message === "Please enter a date.") ? `<i>${message}</i>` : message;
                 vadContactInfoModalContent.style.display = 'none';
                 generalAlertModalContent.style.display = 'block';
                 myModalLabel.innerHTML = '<i class="bi bi-exclamation-square me-2"></i> Alert';
@@ -592,7 +571,7 @@
             }
 
             function displayVadInfoModal() {
-                myModalLabel.textContent = "Contact the vad team when";
+                myModalLabel.textContent = "Contact the VAD team when";
                 vadContactInfoModalContent.style.display = 'block';
                 generalAlertModalContent.style.display = 'none';
                 modalAlertText.textContent = ''; 
@@ -607,17 +586,13 @@
             }
             
             confirmYesButton.addEventListener('click', () => {
-                if (currentYesCallback) {
-                    currentYesCallback();
-                }
+                if (currentYesCallback) currentYesCallback();
                 bootstrapConfirmationModal.hide();
-                currentYesCallback = null; // Reset callback
+                currentYesCallback = null;
             });
-
 
             function _executeDownload() {
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                // This check is now slightly redundant if done before calling showConfirmationModal, but good for direct calls.
                 if (savedData.length === 0) { 
                     displayModalWithMessage("No data available to download.");
                     return;
@@ -635,7 +610,7 @@
             }
 
             function downloadJsonData() {
-                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 if (savedData.length === 0) {
                     displayModalWithMessage("No data available to download.");
                     return;
@@ -646,30 +621,24 @@
             function uploadJsonData(event) {
                 const file = event.target.files[0];
                 if (!file) return;
-
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     try {
                         const importedData = JSON.parse(e.target.result);
                         if (!Array.isArray(importedData) ||
-                            importedData.some(item =>
-                                typeof item !== 'object' || item === null ||
+                            importedData.some(item => typeof item !== 'object' || item === null ||
                                 !['date', 'temp', 'weight', 'speed', 'flow', 'pi', 'power'].every(prop => typeof item[prop] !== 'undefined')
                             )) {
-                            displayModalWithMessage("Invalid file format: Each item must be an object with all required properties (Date, Temp, Weight, Speed, Flow, PI, Power).");
+                            displayModalWithMessage("Invalid file format: Each item must be an object with all required properties.");
                             return;
                         }
-
                         let existingData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                        const mergedData = [...existingData, ...importedData].reduce((acc, curr) => {
-                            acc[curr.date] = curr; // Overwrites existing entries with the same date from imported data
-                            return acc;
-                        }, {});
-                        const mergedArray = Object.values(mergedData);
-
+                        const mergedDataMap = new Map(existingData.map(item => [item.date, item]));
+                        importedData.forEach(item => mergedDataMap.set(item.date, item));
+                        const mergedArray = Array.from(mergedDataMap.values());
                         mergedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
                         localStorage.setItem('lvadData', JSON.stringify(mergedArray));
-                        displayData();
+                        displayCharts();
                         displayModalWithMessage("Data successfully imported and merged.");
                     } catch (err) {
                         displayModalWithMessage("Failed to read or parse JSON file. Ensure it's valid.");
@@ -680,34 +649,19 @@
                 reader.readAsText(file);
             }
 
-            // Event Listeners
             saveButton.addEventListener('click', saveData);
-
             if (tabUploadButton && uploadInput) {
                 tabUploadButton.addEventListener('click', () => {
-                    showConfirmationModal(
-                        "Confirm Import", 
-                        "Are you sure you want to import data? This will merge with existing data; entries with the same date will be updated by the imported file.", 
-                        () => {
-                            uploadInput.click();
-                        }
-                    );
+                    showConfirmationModal("Confirm Import", "Import data? Entries with the same date will be updated.", () => uploadInput.click());
                 });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
+            if (vadInfoBtn) vadInfoBtn.onclick = displayVadInfoModal;
+            if (tabDownloadButton) tabDownloadButton.addEventListener('click', downloadJsonData);
 
-            if (vadInfoBtn) {
-                vadInfoBtn.onclick = displayVadInfoModal;
-            }
-            if (tabDownloadButton) { 
-                tabDownloadButton.addEventListener('click', downloadJsonData);
-            }
-
-            displayData(); // Initial data display
+            displayCharts();
         });
     </script>
-    <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
