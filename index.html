@@ -20,6 +20,7 @@
         background-size: cover;
         background-attachment: fixed;
         /* Ensures backgrounds cover the viewport and stay fixed */
+        min-height: 100vh; /* Ensure background covers full height even with less content */
         background-color: rgb(0, 0, 0);
         padding-top: 80px;
         /* Added to prevent content from being hidden by the fixed header. Adjust this value based on the actual header height. */
@@ -115,19 +116,18 @@
 
     .box1 {
 
-        display: inline-block;
+        /* display: inline-block; Removed for Bootstrap grid */
         /* white-space: nowrap; */
         /* Removed to allow content wrapping like box2 */
-        width: auto;
-        height: auto;
-        margin: 30px;
+        /* width: auto; Removed for Bootstrap grid */
+        /* margin: 30px; Removed, Bootstrap columns will handle spacing */
         padding: 20px;
 
         background-color: rgba(255, 255, 255, 0.15);
         backdrop-filter: grayscale(.8) blur(5px);
 
-        border-radius: 6px 0px 0px 6px;
-        /* Adjusted for consistent top-left 3px */
+        border-radius: 6px 0px 0px 6px; /* Top-left, bottom-left rounded */
+
         box-sizing: border-box;
         animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
         /* Apply entrance animation with a slight delay */
@@ -207,18 +207,16 @@
 
     .box2 {
         word-wrap: break-word;
-        display: inline-block;
+        /* display: inline-block; Removed for Bootstrap grid */
         /* white-space: nowrap; */
         /* Removed for better grid responsiveness */
-        width: auto;
-        height: auto;
-        margin: 25px;
-        padding: 5px;
-        /* Reduced padding */
+        /* width: auto; Removed for Bootstrap grid */
+        /* margin: 25px; Removed, Bootstrap columns will handle spacing */
+        padding: 20px; /* Increased padding for consistency and mobile tab spacing */
         background-color: rgba(255, 255, 255, 0.15);
         backdrop-filter: grayscale(.8) blur(5px);
 
-        border-radius: 6px 0px 0px 6px;
+        border-radius: 0px 6px 6px 0px; /* Top-right, bottom-right rounded for desktop */
         box-sizing: border-box;
         animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
         /* Apply entrance animation with a later delay */
@@ -263,95 +261,16 @@
         /* Background of striped rows */
         --bs-table-hover-bg: transparent;
         /* Background of hovered rows */
+        --bs-table-border-color: white; /* This will make horizontal row borders white */
     }
 
     /* Change color of table dividers in box2 to white */
     .box2 .table .border-secondary {
         border-color: white !important;
     }
-
-    .vertical-tab {
-        position: absolute;
-        top: 0;
-        /* Align to the top of box2 */
-        right: 0;
-        /* Align to the right of box2 */
-        transform: translateX(100%);
-        /* Move it completely outside to the right */
-        /* To make it appear connected but outside the border */
-
-        width: 50px;
-        /* Width of the tab */
-        height: 50px;
-        /* Height of the tab, adjust as needed */
-
-        /* Inherit box2 styling */
-        background-color: rgba(255, 255, 255, 0.15);
-        /* Same as box2 */
-        backdrop-filter: grayscale(.8) blur(5px);
-        /* Same as box2 */
-
-        /* Rounded corners for the tab shape (only on the right side) */
-        border-top-right-radius: 6px;
-        /* Top-right rounded */
-        border-bottom-right-radius: 6px;
-        /* Bottom-right rounded */
-        border-top-left-radius: 0;
-        /* No rounding on these sides */
-        border-bottom-left-radius: 0;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        font-size: 1.5rem;
-        /* Icon size */
-        color: white;
-        /* Icon color */
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-        /* Small shadow for depth */
-        transition: transform 0.3s ease-in-out;
-        /* Smooth transition for hover effect */
-        z-index: 10;
-        /* Ensure it's above other content if needed */
-    }
-
-    .vertical-tab:hover {
-        transform: translateX(calc(100% + 5px));
-        /* Move it slightly further on hover for a subtle pop-out effect */
-    }
-.download-tab {
-        top: 0;
-}
-.upload-tab {
-        top: 55px;
-}
-.vertical-tab .btn {
-        background-color: transparent; /* Makes the button background transparent */
-        border: none; /* Removes the button border */
-        color: white; /* Ensures the icon/text color is white */
-        padding: 0; /* Removes default button padding */
-        width: 100%; /* Makes the button fill the entire tab area */
-        height: 100%; /* Makes the button fill the entire tab area */
-        display: flex; /* Centers the icon within the button/tab */
-        justify-content: center;
-        align-items: center;
-    }
-    .vertical-tab .btn:hover {
-        background-color: rgba(255, 255, 255, 0.1); /* Subtle hover background for the button itself */
-    }
-
-    /* Increase size of the download icon in its specific tab button */
-    #tabDownloadButton i.bi-file-arrow-down {
-        font-size: 1.75rem; /* Double the default tab icon size (1.5rem * 2) */
-    }
-
-    /* Set size of the upload icon in its specific tab button */
-    #tabUploadButton i.bi-file-arrow-up { /* Changed ID to tabUploadButton for consistency */
-        font-size: 1.75rem; 
-    }
     /* Custom Bootstrap Modal Styling */
-    #myModal .modal-content {
+    #myModal .modal-content,
+    #confirmationModal .modal-content { /* Apply to both modals */
         background-color: #ffffff1a;
         background-image: linear-gradient(to right, rgba(5, 71, 42, 0.3), rgba(139, 172, 216, 0.37));
         border: none;
@@ -365,11 +284,15 @@
         /* Ensure text is visible on custom background */
     }
 
-    #myModal .modal-header {
+    #myModal .modal-header,
+    #confirmationModal .modal-header { /* Apply to both modals */
         border-bottom: none;
         /* Removed modal header border */
-        /* Custom header border */
     }
+     #confirmationModal .modal-footer {
+        border-top: none; /* Remove top border from footer for consistency */
+    }
+
 
     #myModalLabel .bi-exclamation-square {
         font-size: 1.5em;
@@ -381,6 +304,9 @@
         padding: 10px;
         /* Requested padding */
     }
+     #confirmationModal .modal-body {
+        padding: 1rem; /* Standard padding for confirmation text */
+    }
 
     /* Style for specific h2 headings to use Montserrat Bold */
     /* Updated to use Bootstrap's default font stack */
@@ -390,19 +316,37 @@
         font-weight: 700;
         /* Keep headings bold */
     }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 991.98px) { /* Affects screens smaller than 'lg' (Bootstrap breakpoint) */
+        .box1, .box2 {
+            border-radius: 6px; /* Apply to all corners on smaller screens */
+            margin-left: 0; /* Ensure no extra side margins from original styles */
+            margin-right: 0;
+        }
+
+    }
+
+    @media (max-width: 575.98px) { /* Extra small screens (Bootstrap 'sm' breakpoint) */
+        .header h1 {
+            font-size: 1.6em; /* Smaller font for h1 */
+            padding-bottom: 0.15em;
+        }
+    }
 </style>
 
 <body>
     <div class="header">
         <div class="header-text-container"> <!-- Wrapper for text content, now with a class -->
             <h1> Daily LVAD Log</h1>
-            <p>Keep track of your necessary information</p>
+            <p>Keep track of your vital stats</p>
         </div>
         <i class="bi bi-heart-pulse header-icon"></i> <!-- Added Bootstrap Icon -->
     </div>
-    <div class="d-flex justify-content-center align-items-start flex-wrap">
-        <div class="box1"> <!-- This is where the "New LVAD Log Entry" form will reside -->
-            <div style="overflow:auto">
+    <!-- Main content area with Bootstrap grid -->
+    <div class="container-fluid pt-3">
+        <div class="row justify-content-center">
+            <div class="box1 col-12 col-lg-5 mb-4"> <!-- Added Bootstrap column classes and margin -->
                 <h2 class="mb-3">New LVAD Log Entry</h2>
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
@@ -446,28 +390,21 @@
                 <div class="mt-3 text-end">
                     <button id="saveButton" class="btn btn-sm btn-outline-light">Save</button>
                 </div>
-            </div>
-        </div>
-
-    <div class="box2 position-relative"> <!-- This box2 should be inside the d-flex container above -->
-        <div class="vertical-tab download-tab"> <!-- Added download-tab class for consistency -->
-            <button id="tabDownloadButton" class="btn" title="Download Data">
-                <i class="bi bi-file-arrow-down"></i>
-            </button>
-        </div>
-        <div class="vertical-tab upload-tab">
-        <button id="tabUploadButton" class="btn" title="Import Data"> <!-- Changed ID and class for consistency -->
-                        <i class="bi bi-file-arrow-up"></i>
-                    </button>
-    </div>
-    <input type="file" id="uploadInput" accept=".json" style="display: none;">
+            </div> <!-- End box1 --> 
+            <div class="box2 col-12 col-lg-7 mb-4"> <!-- Removed position-relative -->
         <div class="container-fluid">
             <div class="row align-items-center mb-3">
                 <div class="col">
                     <h2>LVAD Data History</h2>
                 </div>
                 <div class="col-auto">
-                    <button id="myBtn" class="btn btn-sm btn-outline-light">
+                    <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2" title="Download Data">
+                        <i class="bi bi-file-arrow-down"></i>
+                    </button>
+                    <button id="tabUploadButton" class="btn btn-sm btn-outline-light me-2" title="Import Data">
+                        <i class="bi bi-file-arrow-up"></i>
+                    </button>
+                    <button id="myBtn" class="btn btn-sm btn-outline-light" title="Information">
                         <i class="bi bi-info-lg"></i>
                     </button>
                 </div>
@@ -492,15 +429,16 @@
                         </table>
                     </div>
                 </div>
-
-                
             </div>
         </div>
-    </div> <!-- This closes the d-flex container -->
+                <!-- Hidden file input remains, can be anywhere as it's not visible -->
+                <input type="file" id="uploadInput" accept=".json" style="display: none;"> 
+            </div> <!-- End box2 -->
+        </div> <!-- End row -->
+    </div> <!-- End container-fluid -->
+    
 
-
-    <!-- Removed duplicated LVAD Data History section and its outer box2 wrapper -->
-    <!-- Bootstrap Modal -->
+    <!-- Information Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
@@ -539,6 +477,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered"> <!-- modal-sm for a compact confirmation, modal-dialog-centered -->
+            <div class="modal-content"> 
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmationModalBodyText"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" id="confirmNoButton">No</button>
+                    <button type="button" class="btn btn-light" id="confirmYesButton">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Data input elements
@@ -552,17 +511,30 @@
             const saveButton = document.getElementById('saveButton');
             const dataTable = document.getElementById('dataTable');
 
-            // Modal elements
+            // Info/Alert Modal elements
             const modalElement = document.getElementById("myModal");
             const bootstrapModal = new bootstrap.Modal(modalElement);
             const myModalLabel = document.getElementById('myModalLabel');
             const vadContactInfoModalContent = document.getElementById('vadContactInfoModalContent');
             const generalAlertModalContent = document.getElementById('generalAlertModalContent');
             const modalAlertText = document.getElementById('modalAlertText');
-            const vadInfoBtn = document.getElementById("myBtn"); // Button to open VAD info
-            const tabUploadButton = document.getElementById('tabUploadButton'); // Get the upload button in the tab
-            const tabDownloadButton = document.getElementById('tabDownloadButton'); // Get the download button in the tab
-            // const closeBtn = document.getElementsByClassName("close")[0]; // No longer needed, Bootstrap handles close
+            const vadInfoBtn = document.getElementById("myBtn"); 
+
+            // Confirmation Modal elements
+            const confirmationModalElement = document.getElementById('confirmationModal');
+            const bootstrapConfirmationModal = new bootstrap.Modal(confirmationModalElement);
+            const confirmationModalLabel = document.getElementById('confirmationModalLabel');
+            const confirmationModalBodyText = document.getElementById('confirmationModalBodyText');
+            const confirmYesButton = document.getElementById('confirmYesButton');
+            // const confirmNoButton = document.getElementById('confirmNoButton'); // Not strictly needed for JS if only using data-bs-dismiss
+
+            let currentYesCallback = null; // To store the action for the "Yes" button in confirmation modal
+
+            // Buttons
+            const tabUploadButton = document.getElementById('tabUploadButton'); 
+            const tabDownloadButton = document.getElementById('tabDownloadButton'); 
+            const uploadInput = document.getElementById('uploadInput');
+
 
             function saveData() {
                 const date = dateInput.value;
@@ -591,9 +563,7 @@
             function displayData() {
                 dataTable.innerHTML = '';
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                // Sort data by date in descending order for display
-                // Newest date on top, oldest on bottom
-                savedData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                savedData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Newest first
                 savedData.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -625,31 +595,54 @@
                 myModalLabel.textContent = "Contact the vad team when";
                 vadContactInfoModalContent.style.display = 'block';
                 generalAlertModalContent.style.display = 'none';
-                modalAlertText.textContent = ''; // Clear any previous alert message
+                modalAlertText.textContent = ''; 
                 bootstrapModal.show();
             }
 
-            function downloadJsonData() {
+            function showConfirmationModal(title, message, yesCallback) {
+                confirmationModalLabel.textContent = title;
+                confirmationModalBodyText.textContent = message;
+                currentYesCallback = yesCallback;
+                bootstrapConfirmationModal.show();
+            }
+            
+            confirmYesButton.addEventListener('click', () => {
+                if (currentYesCallback) {
+                    currentYesCallback();
+                }
+                bootstrapConfirmationModal.hide();
+                currentYesCallback = null; // Reset callback
+            });
+
+
+            function _executeDownload() {
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                if (savedData.length === 0) {
+                // This check is now slightly redundant if done before calling showConfirmationModal, but good for direct calls.
+                if (savedData.length === 0) { 
                     displayModalWithMessage("No data available to download.");
                     return;
                 }
-
-
-
-                // Format the JSON with an indent of 2 spaces for readability
                 const jsonData = JSON.stringify(savedData, null, 2);
                 const blob = new Blob([jsonData], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'lvad_data_history.json';
-                document.body.appendChild(a); // Append to body to ensure click works in all browsers
+                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a); // Clean up
-                URL.revokeObjectURL(url); // Release the object URL
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             }
+
+            function downloadJsonData() {
+                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                if (savedData.length === 0) {
+                    displayModalWithMessage("No data available to download.");
+                    return;
+                }
+                showConfirmationModal("Confirm Download", "Are you sure you want to download the LVAD data history?", _executeDownload);
+            }
+
             function uploadJsonData(event) {
                 const file = event.target.files[0];
                 if (!file) return;
@@ -658,23 +651,18 @@
                 reader.onload = function (e) {
                     try {
                         const importedData = JSON.parse(e.target.result);
-                        // Enhanced validation
                         if (!Array.isArray(importedData) ||
                             importedData.some(item =>
                                 typeof item !== 'object' || item === null ||
-                                typeof item.date === 'undefined' || typeof item.temp === 'undefined' ||
-                                typeof item.weight === 'undefined' || typeof item.speed === 'undefined' ||
-                                typeof item.flow === 'undefined' || typeof item.pi === 'undefined' || typeof item.power === 'undefined')) {
+                                !['date', 'temp', 'weight', 'speed', 'flow', 'pi', 'power'].every(prop => typeof item[prop] !== 'undefined')
+                            )) {
                             displayModalWithMessage("Invalid file format: Each item must be an object with all required properties (Date, Temp, Weight, Speed, Flow, PI, Power).");
-                            event.target.value = null; // Reset file input
                             return;
                         }
 
                         let existingData = JSON.parse(localStorage.getItem('lvadData')) || [];
-
-                        // Merge and remove duplicates by date
                         const mergedData = [...existingData, ...importedData].reduce((acc, curr) => {
-                            acc[curr.date] = curr;
+                            acc[curr.date] = curr; // Overwrites existing entries with the same date from imported data
                             return acc;
                         }, {});
                         const mergedArray = Object.values(mergedData);
@@ -686,36 +674,36 @@
                     } catch (err) {
                         displayModalWithMessage("Failed to read or parse JSON file. Ensure it's valid.");
                     } finally {
-                        event.target.value = null; // Reset file input to allow re-uploading the same file
+                        event.target.value = null; 
                     }
                 };
                 reader.readAsText(file);
             }
 
-            // closeModal function is no longer needed as Bootstrap handles this.
             // Event Listeners
             saveButton.addEventListener('click', saveData);
 
-            // const uploadJsonButton = document.getElementById('uploadJsonButton'); // Replaced by tabUploadButton
-            const uploadInput = document.getElementById('uploadInput');
-
-            if (tabUploadButton && uploadInput) { // Use tabUploadButton
-                tabUploadButton.addEventListener('click', () => uploadInput.click());
+            if (tabUploadButton && uploadInput) {
+                tabUploadButton.addEventListener('click', () => {
+                    showConfirmationModal(
+                        "Confirm Import", 
+                        "Are you sure you want to import data? This will merge with existing data; entries with the same date will be updated by the imported file.", 
+                        () => {
+                            uploadInput.click();
+                        }
+                    );
+                });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
-
 
             if (vadInfoBtn) {
                 vadInfoBtn.onclick = displayVadInfoModal;
             }
-            if (tabDownloadButton) { // Check if the download tab button exists
+            if (tabDownloadButton) { 
                 tabDownloadButton.addEventListener('click', downloadJsonData);
             }
 
-            // Bootstrap handles closing via data-bs-dismiss attribute and backdrop click.
-
-            // Initial data display on page load
-            displayData();
+            displayData(); // Initial data display
         });
     </script>
     <!-- Bootstrap JS Bundle with Popper -->
