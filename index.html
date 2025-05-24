@@ -445,32 +445,53 @@
                 return `${days[dateObj.getDay()]}, ${months[dateObj.getMonth()]} ${dateObj.getDate()}`;
             }
 
+            function getLocalDateFromString(dateString) { // YYYY-MM-DD
+                const [year, month, day] = dateString.split('-').map(Number);
+                return new Date(year, month - 1, day); // JS month is 0-indexed
+            }
+
             function displayCharts() {
                 let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 allSavedData.sort((a, b) => new Date(a.date) - new Date(b.date));
-                const recentData = allSavedData.slice(-7);
 
-                const labels = []; // For X-axis: "Sun, Jan 1", "Mon, Jan 2", ...
-                const datasets = {}; // For Y-axis data: { temp: [val1, val2,...], weight: [val1, val2,...] }
-                
+                let endDate;
+                if (allSavedData.length > 0) {
+                    endDate = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
+                } else {
+                    endDate = new Date(); // Default to today if no data
+                }
+                endDate.setHours(0, 0, 0, 0); // Normalize end date
+
+                const labels = []; // For X-axis: continuous 7-day calendar window
+                const datasets = {}; 
                 Object.keys(chartConfigs).forEach(key => {
                     datasets[key] = [];
                 });
 
-                recentData.forEach(entry => {
-                    const [yearStr, monthStr, dayStr] = entry.date.split('-');
-                    const year = parseInt(yearStr, 10);
-                    const month = parseInt(monthStr, 10) - 1;
-                    const day = parseInt(dayStr, 10);
-                    const dateObj = new Date(year, month, day);
+                // Create a map of saved data for quick lookup
+                const dataMap = new Map();
+                allSavedData.forEach(item => {
+                    dataMap.set(item.date, item);
+                });
+
+                for (let i = 6; i >= 0; i--) { // Iterate from 6 days before endDate to endDate
+                    const targetDate = new Date(endDate);
+                    targetDate.setDate(endDate.getDate() - i);
+                    targetDate.setHours(0,0,0,0); // Normalize target date for the window
+
+                    labels.push(formatDateLabel(targetDate));
                     
-                    labels.push(formatDateLabel(dateObj)); // Formatted date for X-axis
+                    const dateStringForLookup = targetDate.toISOString().split('T')[0]; // YYYY-MM-DD
+                    const entry = dataMap.get(dateStringForLookup);
 
                     Object.keys(chartConfigs).forEach(metricKey => {
-                        const value = entry[metricKey];
-                        datasets[metricKey].push(value !== undefined && value !== "" ? parseFloat(value) : null);
+                        if (entry && entry[metricKey] !== undefined && entry[metricKey] !== "") {
+                            datasets[metricKey].push(parseFloat(entry[metricKey]));
+                        } else {
+                            datasets[metricKey].push(0); // Use 0 if no data for this calendar day
+                        }
                     });
-                });
+                }
                 
                 Object.keys(chartConfigs).forEach(key => {
                     const config = chartConfigs[key];
@@ -487,10 +508,10 @@
                     chartInstances[config.canvasId] = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: labels, // X-axis labels are the formatted dates
+                            labels: labels, 
                             datasets: [{
-                                label: `${config.label} (${config.unit || ''})`.trim(), // Dataset label for legend/tooltip
-                                data: datasets[key], // Y-axis data is the array of metric values
+                                label: `${config.label} (${config.unit || ''})`.trim(),
+                                data: datasets[key], 
                                 borderColor: config.color,
                                 backgroundColor: config.color.replace('1)', '0.2)'),
                                 tension: 0.1,
@@ -499,27 +520,27 @@
                                 pointBorderColor: config.color,
                                 pointHoverBackgroundColor: config.color,
                                 pointHoverBorderColor: 'white',
-                                spanGaps: true 
+                                spanGaps: false // If you want 0 to be a distinct point, not a gap
                             }]
                         },
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
                             scales: {
-                                y: { // Y-axis for metric values
-                                    beginAtZero: false, 
+                                y: { 
+                                    beginAtZero: true, // Consider if always starting at 0 is best for all metrics
                                     title: {
                                         display: true,
-                                        text: config.unit || '', // Unit on Y-axis title
+                                        text: config.unit || '', 
                                         color: 'white',
                                         font: { size: 10 }
                                     },
                                     ticks: { color: 'white', font: { size: 10 } },
                                     grid: { color: 'rgba(255, 255, 255, 0.2)' }
                                 },
-                                x: { // X-axis for dates
+                                x: { 
                                     ticks: { color: 'white', font: { size: 10 } },
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' } // Fainter grid for X
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' } 
                                 }
                             },
                             plugins: {
@@ -528,7 +549,7 @@
                                     position: 'top',
                                     labels: { color: 'white', font: { size: 12 } }
                                 },
-                                title: { // Main chart title (metric name)
+                                title: { 
                                     display: true,
                                     text: config.label, 
                                     color: 'white',
@@ -540,13 +561,9 @@
                                     titleColor: 'white',
                                     bodyColor: 'white',
                                     callbacks: {
-                                        // title: function(tooltipItems) { // Optional: if you want date as tooltip title
-                                        //     return tooltipItems[0].label; 
-                                        // },
                                         label: function(context) {
-                                            let label = context.dataset.label || ''; // "Temperature (°F)"
+                                            let label = context.dataset.label || ''; 
                                             if (label) {
-                                                // Extract just the metric name for the tooltip line if preferred
                                                 label = label.split('(')[0].trim() + ': ';
                                             }
                                             if (context.parsed.y !== null) {
