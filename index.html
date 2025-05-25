@@ -49,25 +49,46 @@
 
     .header h1 {
         font-size: 2em;
-        border-bottom: 2px solid white;
-        padding-bottom: 0.19em;
-        margin-bottom: 4px;
+        padding-bottom: calc(0.19em + 2px); 
+        margin-bottom: 4px; 
+        position: relative; 
+    }
+
+    .header h1::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0; 
+        width: 100%;
+        height: 0.075em; 
+        background-image: repeating-linear-gradient(
+            to right,
+            white 0, white 7px,      
+            transparent 7px, transparent 14px 
+        );
+        background-size: 14px 100%; 
+        background-position: -14px 0; 
+        animation: animateDashBorder 2s linear infinite; /* Duration changed to 2s as per user note */
+    }
+
+    @keyframes animateDashBorder {
+        to {
+            background-position: 0 0; 
+        }
     }
 
     .header p {
         margin: 0;
     }
 
-    @keyframes pulseIcon {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.15); }
-    }
+    /* Removed @keyframes pulseIcon as it's no longer used for the heart */
 
     .header-icon {
         font-size: 2rem;
         margin-top: 11px;
         color: white;
-        animation: pulseIcon 2s infinite ease-in-out;
+        /* animation: pulseIcon 2s infinite ease-in-out; */ /* REMOVED */
+        transition: opacity 0.1s ease-in-out; /* Optional: for a subtle fade between states */
     }
 
     @keyframes fadeInSlideUp {
@@ -206,7 +227,6 @@
     @media (max-width: 575.98px) {
         .header h1 {
             font-size: 1.6em;
-            padding-bottom: 0.15em;
         }
         .chart-container {
             height: 200px;
@@ -220,7 +240,7 @@
             <h1> Daily LVAD Log</h1>
             <p>Keep track of your vital stats</p>
         </div>
-        <i class="bi bi-heart-pulse header-icon"></i>
+        <i class="bi bi-heart-pulse header-icon"></i> <!-- Initial class -->
     </div>
 
     <div class="container-fluid pt-3">
@@ -407,6 +427,9 @@
             const tabDownloadButton = document.getElementById('tabDownloadButton'); 
             const uploadInput = document.getElementById('uploadInput');
 
+            const headerIcon = document.querySelector('.header-icon'); // Get the icon element
+
+
             let chartInstances = {};
             const chartConfigs = { 
                 temp: { canvasId: 'tempChart', label: 'Temperature', unit: '', color: 'rgba(54, 162, 235, 1)', precision: 1 },
@@ -557,7 +580,7 @@
                                     font: { size: 14, weight: 'bold' },
                                     padding: { 
                                         top: 10, 
-                                        bottom: 15 // Increased bottom padding
+                                        bottom: 15 
                                     }
                                 },
                                 tooltip: {
@@ -691,6 +714,22 @@
                 };
                 reader.readAsText(file);
             }
+
+            // Heart Icon Animation Toggle
+            if (headerIcon) {
+                let isFilled = false; 
+                setInterval(() => {
+                    if (isFilled) {
+                        headerIcon.classList.remove('bi-heart-pulse-fill');
+                        headerIcon.classList.add('bi-heart-pulse');
+                    } else {
+                        headerIcon.classList.remove('bi-heart-pulse');
+                        headerIcon.classList.add('bi-heart-pulse-fill');
+                    }
+                    isFilled = !isFilled; 
+                }, 1000); 
+            }
+
 
             saveButton.addEventListener('click', saveData);
             if (tabUploadButton && uploadInput) {
