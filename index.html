@@ -60,7 +60,7 @@
         left: 0;
         bottom: 0; 
         width: 100%;
-        height: 0.075em; 
+        height: 2px; 
         background-image: repeating-linear-gradient(
             to right,
             white 0, white 7px,      
@@ -68,7 +68,7 @@
         );
         background-size: 14px 100%; 
         background-position: -14px 0; 
-        animation: animateDashBorder 2s linear infinite; /* Duration changed to 2s as per user note */
+        animation: animateDashBorder 2s linear infinite;
     }
 
     @keyframes animateDashBorder {
@@ -81,14 +81,11 @@
         margin: 0;
     }
 
-    /* Removed @keyframes pulseIcon as it's no longer used for the heart */
-
     .header-icon {
         font-size: 2rem;
         margin-top: 11px;
         color: white;
-        /* animation: pulseIcon 2s infinite ease-in-out; */ /* REMOVED */
-        transition: opacity 0.1s ease-in-out; /* Optional: for a subtle fade between states */
+        transition: opacity 0.1s ease-in-out; 
     }
 
     @keyframes fadeInSlideUp {
@@ -240,7 +237,7 @@
             <h1> Daily LVAD Log</h1>
             <p>Keep track of your vital stats</p>
         </div>
-        <i class="bi bi-heart-pulse header-icon"></i> <!-- Initial class -->
+        <i class="bi bi-heart-pulse header-icon"></i> 
     </div>
 
     <div class="container-fluid pt-3">
@@ -335,6 +332,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3"> 
+                            <div class="col-12">
+                                <div class="chart-container" style="height: 300px;"> 
+                                    <canvas id="combinedLogChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <input type="file" id="uploadInput" accept=".json" style="display: none;"> 
@@ -426,8 +430,7 @@
             const tabUploadButton = document.getElementById('tabUploadButton'); 
             const tabDownloadButton = document.getElementById('tabDownloadButton'); 
             const uploadInput = document.getElementById('uploadInput');
-
-            const headerIcon = document.querySelector('.header-icon'); // Get the icon element
+            const headerIcon = document.querySelector('.header-icon');
 
 
             let chartInstances = {};
@@ -437,7 +440,13 @@
                 speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0 },
                 flow: { canvasId: 'flowChart', label: 'Flow', unit: 'L/min', color: 'rgba(153, 102, 255, 1)', precision: 1 },
                 pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1 },
-                power: { canvasId: 'powerChart', label: 'Power', unit: 'Watts', color: 'rgba(255, 99, 132, 1)', precision: 1 }
+                power: { canvasId: 'powerChart', label: 'Power', unit: 'Watts', color: 'rgba(255, 99, 132, 1)', precision: 1 },
+                combined: { 
+                    canvasId: 'combinedLogChart', 
+                    label: 'All Metrics (Log Scale)', 
+                    unit: '', 
+                    precision: 1 
+                }
             };
 
             function saveData() {
@@ -477,22 +486,32 @@
                 return new Date(year, month - 1, day); 
             }
 
+            function addDays(date, days) {
+                const result = new Date(date);
+                result.setDate(result.getDate() + days);
+                return result;
+            }
+
+            function dateToYYYYMMDD(date) {
+                return date.toISOString().split('T')[0];
+            }
+
             function displayCharts() {
                 let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 allSavedData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-                let endDate;
+                let endDate7Day;
                 if (allSavedData.length > 0) {
-                    endDate = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
+                    endDate7Day = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
                 } else {
-                    endDate = new Date(); 
+                    endDate7Day = new Date(); 
                 }
-                endDate.setHours(0, 0, 0, 0);
+                endDate7Day.setHours(0, 0, 0, 0);
 
-                const labels = []; 
-                const datasets = {}; 
+                const labels7Day = []; 
+                const datasets7Day = {}; 
                 Object.keys(chartConfigs).forEach(key => {
-                    datasets[key] = [];
+                    if (key !== 'combined') datasets7Day[key] = [];
                 });
 
                 const dataMap = new Map();
@@ -501,43 +520,42 @@
                 });
 
                 for (let i = 6; i >= 0; i--) { 
-                    const targetDate = new Date(endDate);
-                    targetDate.setDate(endDate.getDate() - i);
+                    const targetDate = new Date(endDate7Day);
+                    targetDate.setDate(endDate7Day.getDate() - i);
                     targetDate.setHours(0,0,0,0); 
-
-                    labels.push(formatDateLabel(targetDate));
-                    
-                    const dateStringForLookup = targetDate.toISOString().split('T')[0]; 
+                    labels7Day.push(formatDateLabel(targetDate));
+                    const dateStringForLookup = dateToYYYYMMDD(targetDate); 
                     const entry = dataMap.get(dateStringForLookup);
 
                     Object.keys(chartConfigs).forEach(metricKey => {
+                        if (metricKey === 'combined') return; 
                         if (entry && entry[metricKey] !== undefined && entry[metricKey] !== "") {
-                            datasets[metricKey].push(parseFloat(entry[metricKey]));
+                            datasets7Day[metricKey].push(parseFloat(entry[metricKey]));
                         } else {
-                            datasets[metricKey].push(0); 
+                            datasets7Day[metricKey].push(0); 
                         }
                     });
                 }
                 
                 Object.keys(chartConfigs).forEach(key => {
+                    if (key === 'combined') return; 
+
                     const config = chartConfigs[key];
                     const ctx = document.getElementById(config.canvasId)?.getContext('2d');
                     if (!ctx) {
-                        console.error(`Canvas with ID ${config.canvasId} not found.`);
+                        console.error(`Canvas with ID ${config.canvasId} not found for 7-day chart.`);
                         return;
                     }
-
                     if (chartInstances[config.canvasId]) {
                         chartInstances[config.canvasId].destroy();
                     }
-
-                    chartInstances[config.canvasId] = new Chart(ctx, {
+                    chartInstances[config.canvasId] = new Chart(ctx, { 
                         type: 'line',
                         data: {
-                            labels: labels, 
+                            labels: labels7Day, 
                             datasets: [{
                                 label: config.unit ? `${config.label} (${config.unit})` : config.label,
-                                data: datasets[key], 
+                                data: datasets7Day[key], 
                                 borderColor: config.color,
                                 backgroundColor: config.color.replace('1)', '0.2)'),
                                 tension: 0.1,
@@ -570,18 +588,13 @@
                                 }
                             },
                             plugins: {
-                                legend: { 
-                                    display: false 
-                                },
+                                legend: { display: false },
                                 title: { 
                                     display: true,
                                     text: config.label, 
                                     color: 'white',
                                     font: { size: 14, weight: 'bold' },
-                                    padding: { 
-                                        top: 10, 
-                                        bottom: 15 
-                                    }
+                                    padding: { top: 10, bottom: 15 }
                                 },
                                 tooltip: {
                                     backgroundColor: 'rgba(0,0,0,0.7)',
@@ -589,18 +602,17 @@
                                     bodyColor: 'white',
                                     callbacks: {
                                         label: function(context) {
-                                            const currentConfig = Object.values(chartConfigs).find(c => c.label === context.chart.options.plugins.title.text);
-                                            let tooltipLabel = context.dataset.label || '';
-                                            if(tooltipLabel) {
-                                                tooltipLabel = tooltipLabel.split('(')[0].trim() + ': ';
+                                            const currentChartConfig = Object.values(chartConfigs).find(c => c.label === context.chart.options.plugins.title.text);
+                                            let tooltipLabelText = context.dataset.label || '';
+                                            if(tooltipLabelText) {
+                                                tooltipLabelText = tooltipLabelText.split('(')[0].trim() + ': ';
                                             } else { 
-                                                tooltipLabel = (currentConfig.label || '') + ': ';
+                                                tooltipLabelText = (currentChartConfig.label || '') + ': ';
                                             }
-                                            
                                             if (context.parsed.y !== null) {
-                                                return tooltipLabel + context.parsed.y.toFixed(currentConfig.precision) + (currentConfig.unit ? ' ' + currentConfig.unit : '');
+                                                return tooltipLabelText + context.parsed.y.toFixed(currentChartConfig.precision) + (currentChartConfig.unit ? ' ' + currentChartConfig.unit : '');
                                             }
-                                            return tooltipLabel + 'N/A';
+                                            return tooltipLabelText + 'N/A';
                                         }
                                     }
                                 },
@@ -610,15 +622,11 @@
                                     color: function(context) { 
                                         return context.dataset.data[context.dataIndex] === 0 ? 'rgba(255, 255, 255, 0.5)' : 'white';
                                     },
-                                    font: {
-                                        size: 9, 
-                                        weight: 'normal'
-                                    },
+                                    font: { size: 9, weight: 'normal' },
                                     formatter: function(value, context) {
-                                        const chartTitle = context.chart.options.plugins.title.text;
-                                        const metricConfig = Object.values(chartConfigs).find(c => c.label === chartTitle);
-                                        const precision = metricConfig ? metricConfig.precision : 0;
-                                        return value.toFixed(precision);
+                                        const chartTitleText = context.chart.options.plugins.title.text;
+                                        const metricCfg = Object.values(chartConfigs).find(c => c.label === chartTitleText);
+                                        return value.toFixed(metricCfg ? metricCfg.precision : 0);
                                     },
                                     offset: 4, 
                                 }
@@ -626,7 +634,171 @@
                         }
                     });
                 });
+
+                if (allSavedData.length > 0) {
+                    const combinedConfig = chartConfigs.combined;
+                    const combinedCtx = document.getElementById(combinedConfig.canvasId)?.getContext('2d');
+                    if (!combinedCtx) {
+                        console.error(`Canvas with ID ${combinedConfig.canvasId} not found for combined chart.`);
+                        return;
+                    }
+
+                    const firstDate = getLocalDateFromString(allSavedData[0].date);
+                    const lastDate = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
+                    
+                    const combinedLabels = [];
+                    const combinedDatasetsData = {}; 
+                    const metricKeys = ['temp', 'weight', 'speed', 'flow', 'pi', 'power'];
+                    metricKeys.forEach(mk => combinedDatasetsData[mk] = []);
+
+                    let currentDate = new Date(firstDate);
+                    while (currentDate <= lastDate) {
+                        combinedLabels.push(formatDateLabel(currentDate));
+                        const currentDateStr = dateToYYYYMMDD(currentDate);
+                        const entry = dataMap.get(currentDateStr);
+
+                        metricKeys.forEach(mk => {
+                            let valueToPush = null; 
+                            if (entry && entry[mk] !== undefined && entry[mk] !== "") {
+                                valueToPush = parseFloat(entry[mk]);
+                            } else { 
+                                const prevDate = addDays(currentDate, -1);
+                                const nextDate = addDays(currentDate, 1);
+                                const prevDateStr = dateToYYYYMMDD(prevDate);
+                                const nextDateStr = dateToYYYYMMDD(nextDate);
+
+                                const prevEntry = dataMap.get(prevDateStr);
+                                const nextEntry = dataMap.get(nextDateStr);
+
+                                if (prevEntry && prevEntry[mk] !== undefined && prevEntry[mk] !== "" &&
+                                    nextEntry && nextEntry[mk] !== undefined && nextEntry[mk] !== "") {
+                                    const prevVal = parseFloat(prevEntry[mk]);
+                                    const nextVal = parseFloat(nextEntry[mk]);
+                                    if (prevVal > 0 && nextVal > 0) { 
+                                      valueToPush = (prevVal + nextVal) / 2;
+                                    }
+                                }
+                            }
+                            combinedDatasetsData[mk].push(valueToPush > 0 ? valueToPush : null);
+                        });
+                        currentDate = addDays(currentDate, 1);
+                    }
+
+                    const finalCombinedDatasets = metricKeys.map(mk => {
+                        const individualConfig = chartConfigs[mk];
+                        return {
+                            label: individualConfig.label, 
+                            data: combinedDatasetsData[mk],
+                            borderColor: individualConfig.color,
+                            backgroundColor: individualConfig.color.replace('1)', '0.2)'), 
+                            tension: 0.1,
+                            fill: false,
+                            pointRadius: 0, 
+                            borderWidth: 1.5 
+                        };
+                    });
+
+                    if (chartInstances[combinedConfig.canvasId]) {
+                        chartInstances[combinedConfig.canvasId].destroy();
+                    }
+                    chartInstances[combinedConfig.canvasId] = new Chart(combinedCtx, {
+                        type: 'line',
+                        data: {
+                            labels: combinedLabels,
+                            datasets: finalCombinedDatasets
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: { 
+                                mode: 'index',
+                                intersect: false,
+                            },
+                            scales: {
+                                y: {
+                                    type: 'logarithmic',
+                                    title: {
+                                        display: true,
+                                        text: 'Value (Log Scale)',
+                                        color: 'white',
+                                        font: { size: 10 }
+                                    },
+                                    ticks: { 
+                                        color: 'white', 
+                                        font: { size: 10 },
+                                        callback: function(value, index, values) {
+                                            if (value === 1 || value === 10 || value === 100 || value === 1000 || value === 0.1 || value === 0.01 || value === 0.001) { // Added 0.001 for smaller values
+                                                return value.toString();
+                                            }
+                                            if (Math.log10(value) % 1 === 0) { // General powers of 10
+                                                return value.toString();
+                                            }
+                                            return null; 
+                                        }
+                                    },
+                                    grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                                    // afterBuildTicks: chart => { // Simpler approach for log ticks is to let Chart.js auto-generate good ones
+                                    //     // chart.ticks = chart.ticks.filter(tick => tick.value === 1 || tick.value === 10 || tick.value === 100 || tick.value === 0.1);
+                                    // }
+                                },
+                                x: {
+                                    ticks: { 
+                                        color: 'white', 
+                                        font: { size: 10 },
+                                        maxRotation: 70, 
+                                        minRotation: 20,
+                                        autoSkip: true, 
+                                        maxTicksLimit: Math.min(20, Math.max(7, Math.floor(combinedLabels.length / 3))) // Dynamic tick limit
+                                    },
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                }
+                            },
+                            plugins: {
+                                legend: { 
+                                    display: true,
+                                    position: 'top',
+                                    labels: { color: 'white', font: { size: 10 } }
+                                },
+                                title: {
+                                    display: true,
+                                    text: combinedConfig.label,
+                                    color: 'white',
+                                    font: { size: 14, weight: 'bold' },
+                                    padding: { top: 10, bottom: 15 }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0,0,0,0.8)',
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (context.parsed.y !== null) {
+                                                const originalMetricConfig = Object.values(chartConfigs).find(c => c.label === context.dataset.label);
+                                                const precision = originalMetricConfig ? originalMetricConfig.precision : chartConfigs.combined.precision;
+                                                const unit = originalMetricConfig ? originalMetricConfig.unit : '';
+                                                label += ': ' + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : '');
+                                            } else {
+                                                label += ': N/A';
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                },
+                                datalabels: { 
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                } else { 
+                     if (chartInstances[chartConfigs.combined.canvasId]) {
+                        chartInstances[chartConfigs.combined.canvasId].destroy();
+                        delete chartInstances[chartConfigs.combined.canvasId]; // Remove reference
+                    }
+                }
             }
+            
 
             function displayModalWithMessage(message) {
                 modalAlertText.innerHTML = (message === "Please enter a date.") ? `<i>${message}</i>` : message;
@@ -715,7 +887,6 @@
                 reader.readAsText(file);
             }
 
-            // Heart Icon Animation Toggle
             if (headerIcon) {
                 let isFilled = false; 
                 setInterval(() => {
@@ -729,7 +900,6 @@
                     isFilled = !isFilled; 
                 }, 1000); 
             }
-
 
             saveButton.addEventListener('click', saveData);
             if (tabUploadButton && uploadInput) {
