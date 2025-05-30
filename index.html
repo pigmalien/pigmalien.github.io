@@ -17,7 +17,7 @@
 <style>
     body {
         color: rgb(255, 255, 255);
-        background-image: linear-gradient(to bottom, transparent, transparent, transparent, #000000), url("forestbackground.jpg");
+        background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.25) 50%, #000000 100%), url("forestbackground.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
@@ -242,14 +242,14 @@
 
     <div class="container-fluid pt-3">
         <div class="row justify-content-center">
-            <div class="box1 col-12 col-lg-5 mb-4">
+            <div class="box1 col-12 col-lg-auto mb-4">
                 <h2 class="mb-3">New LVAD Log Entry</h2>
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
                         <div class="input-group">
                             <span class="input-group-text" id="dateInput-addon">Date</span>
                             <input type="date" class="form-control" id="dateInput" aria-label="Date" aria-describedby="dateInput-addon">
-                        </div>
+                        </div> 
                         <div class="input-group">
                             <span class="input-group-text" id="tempInput-addon">Temperature</span>
                             <input type="number" class="form-control" id="tempInput" aria-label="Temperature" aria-describedby="tempInput-addon">
@@ -281,7 +281,7 @@
                 </div>
             </div> 
 
-            <div class="box2 col-12 col-lg-7 mb-4">
+            <div class="box2 col-12 col-lg-auto mb-4">
                 <div class="container-fluid px-0">
                     <div class="row align-items-center mb-3">
                         <div class="col">
@@ -329,13 +329,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="chart-container">
                                     <canvas id="powerChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3"> 
-                            <div class="col-12">
-                                <div class="chart-container" style="height: 300px;"> 
-                                    <canvas id="combinedLogChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -435,18 +428,12 @@
 
             let chartInstances = {};
             const chartConfigs = { 
-                temp: { canvasId: 'tempChart', label: 'Temperature', unit: '', color: 'rgba(54, 162, 235, 1)', precision: 1 },
-                weight: { canvasId: 'weightChart', label: 'Weight', unit: '', color: 'rgba(75, 192, 192, 1)', precision: 1 },
-                speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0 },
+                temp: { canvasId: 'tempChart', label: 'Temperature', unit: '°F', color: 'rgba(54, 162, 235, 1)', precision: 1 },
+                weight: { canvasId: 'weightChart', label: 'Weight', unit: 'lbs', color: 'rgba(75, 192, 192, 1)', precision: 1 },
+                speed: { canvasId: 'speedChart', label: 'Speed', unit: 'rpm', color: 'rgba(255, 206, 86, 1)', precision: 0 },
                 flow: { canvasId: 'flowChart', label: 'Flow', unit: 'L/min', color: 'rgba(153, 102, 255, 1)', precision: 1 },
                 pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1 },
-                power: { canvasId: 'powerChart', label: 'Power', unit: 'Watts', color: 'rgba(255, 99, 132, 1)', precision: 1 },
-                combined: { 
-                    canvasId: 'combinedLogChart', 
-                    label: 'All Metrics (Log Scale)', 
-                    unit: '', 
-                    precision: 1 
-                }
+                power: { canvasId: 'powerChart', label: 'Power', unit: 'Watts', color: 'rgba(255, 99, 132, 1)', precision: 1 }
             };
 
             function saveData() {
@@ -493,12 +480,15 @@
             }
 
             function dateToYYYYMMDD(date) {
-                return date.toISOString().split('T')[0];
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
             }
 
             function displayCharts() {
                 let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                allSavedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                allSavedData.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
 
                 let endDate7Day;
                 if (allSavedData.length > 0) {
@@ -509,9 +499,9 @@
                 endDate7Day.setHours(0, 0, 0, 0);
 
                 const labels7Day = []; 
-                const datasets7Day = {}; 
+                const datasets7DayRaw = {}; 
                 Object.keys(chartConfigs).forEach(key => {
-                    if (key !== 'combined') datasets7Day[key] = [];
+                    datasets7DayRaw[key] = [];
                 });
 
                 const dataMap = new Map();
@@ -525,21 +515,38 @@
                     targetDate.setHours(0,0,0,0); 
                     labels7Day.push(formatDateLabel(targetDate));
                     const dateStringForLookup = dateToYYYYMMDD(targetDate); 
-                    const entry = dataMap.get(dateStringForLookup);
-
+                    
                     Object.keys(chartConfigs).forEach(metricKey => {
-                        if (metricKey === 'combined') return; 
-                        if (entry && entry[metricKey] !== undefined && entry[metricKey] !== "") {
-                            datasets7Day[metricKey].push(parseFloat(entry[metricKey]));
-                        } else {
-                            datasets7Day[metricKey].push(0); 
+                        const entry = dataMap.get(dateStringForLookup);
+                        let value = null; // Default to null for missing or invalid data
+                        if (entry && entry[metricKey] !== undefined && entry[metricKey] !== "" && !isNaN(parseFloat(entry[metricKey]))) {
+                            value = parseFloat(entry[metricKey]);
                         }
+                        datasets7DayRaw[metricKey].push(value);
                     });
                 }
+
+                const datasets7DayFinal = {};
+                Object.keys(chartConfigs).forEach(metricKey => {
+                    const rawData = datasets7DayRaw[metricKey];
+                    const knownValues = rawData.filter(val => val !== null);
+                    let averageForMetric = null; 
+
+                    if (knownValues.length > 0) {
+                        averageForMetric = knownValues.reduce((sum, val) => sum + val, 0) / knownValues.length;
+                        averageForMetric = parseFloat(averageForMetric.toFixed(chartConfigs[metricKey].precision));
+                    }
+
+                    datasets7DayFinal[metricKey] = rawData.map(val => {
+                        if (val !== null) {
+                            return val; 
+                        } else {
+                            return averageForMetric; // This will be null if no known values
+                        }
+                    });
+                });
                 
                 Object.keys(chartConfigs).forEach(key => {
-                    if (key === 'combined') return; 
-
                     const config = chartConfigs[key];
                     const ctx = document.getElementById(config.canvasId)?.getContext('2d');
                     if (!ctx) {
@@ -555,7 +562,7 @@
                             labels: labels7Day, 
                             datasets: [{
                                 label: config.unit ? `${config.label} (${config.unit})` : config.label,
-                                data: datasets7Day[key], 
+                                data: datasets7DayFinal[key], 
                                 borderColor: config.color,
                                 backgroundColor: config.color.replace('1)', '0.2)'),
                                 tension: 0.1,
@@ -564,7 +571,7 @@
                                 pointBorderColor: config.color,
                                 pointHoverBackgroundColor: config.color,
                                 pointHoverBorderColor: 'white',
-                                spanGaps: false 
+                                spanGaps: false // Line will break if data points are null
                             }]
                         },
                         options: {
@@ -607,12 +614,19 @@
                                             if(tooltipLabelText) {
                                                 tooltipLabelText = tooltipLabelText.split('(')[0].trim() + ': ';
                                             } else { 
-                                                tooltipLabelText = (currentChartConfig.label || '') + ': ';
+                                                tooltipLabelText = (currentChartConfig?.label || '') + ': ';
                                             }
-                                            if (context.parsed.y !== null) {
-                                                return tooltipLabelText + context.parsed.y.toFixed(currentChartConfig.precision) + (currentChartConfig.unit ? ' ' + currentChartConfig.unit : '');
+
+                                            if (context.parsed.y === null || context.parsed.y === undefined) {
+                                                return tooltipLabelText + 'N/A';
                                             }
-                                            return tooltipLabelText + 'N/A';
+                                            if (context.parsed.y === 0) {
+                                                return tooltipLabelText + '-';
+                                            }
+                                            
+                                            const precision = currentChartConfig ? currentChartConfig.precision : 0;
+                                            const unit = currentChartConfig ? currentChartConfig.unit : '';
+                                            return tooltipLabelText + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : '');
                                         }
                                     }
                                 },
@@ -620,10 +634,16 @@
                                     align: 'top', 
                                     anchor: 'end', 
                                     color: function(context) { 
-                                        return context.dataset.data[context.dataIndex] === 0 ? 'rgba(255, 255, 255, 0.5)' : 'white';
+                                        const value = context.dataset.data[context.dataIndex];
+                                        if (value === 0) return 'rgba(255, 255, 255, 0.6)'; // Fainter for '-'
+                                        if (value === null || value === undefined) return 'transparent'; // Hide if null
+                                        return 'white';
                                     },
                                     font: { size: 9, weight: 'normal' },
                                     formatter: function(value, context) {
+                                        if (value === null || value === undefined) return ''; // No label for null
+                                        if (value === 0) return '-';
+                                        
                                         const chartTitleText = context.chart.options.plugins.title.text;
                                         const metricCfg = Object.values(chartConfigs).find(c => c.label === chartTitleText);
                                         return value.toFixed(metricCfg ? metricCfg.precision : 0);
@@ -634,169 +654,6 @@
                         }
                     });
                 });
-
-                if (allSavedData.length > 0) {
-                    const combinedConfig = chartConfigs.combined;
-                    const combinedCtx = document.getElementById(combinedConfig.canvasId)?.getContext('2d');
-                    if (!combinedCtx) {
-                        console.error(`Canvas with ID ${combinedConfig.canvasId} not found for combined chart.`);
-                        return;
-                    }
-
-                    const firstDate = getLocalDateFromString(allSavedData[0].date);
-                    const lastDate = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
-                    
-                    const combinedLabels = [];
-                    const combinedDatasetsData = {}; 
-                    const metricKeys = ['temp', 'weight', 'speed', 'flow', 'pi', 'power'];
-                    metricKeys.forEach(mk => combinedDatasetsData[mk] = []);
-
-                    let currentDate = new Date(firstDate);
-                    while (currentDate <= lastDate) {
-                        combinedLabels.push(formatDateLabel(currentDate));
-                        const currentDateStr = dateToYYYYMMDD(currentDate);
-                        const entry = dataMap.get(currentDateStr);
-
-                        metricKeys.forEach(mk => {
-                            let valueToPush = null; 
-                            if (entry && entry[mk] !== undefined && entry[mk] !== "") {
-                                valueToPush = parseFloat(entry[mk]);
-                            } else { 
-                                const prevDate = addDays(currentDate, -1);
-                                const nextDate = addDays(currentDate, 1);
-                                const prevDateStr = dateToYYYYMMDD(prevDate);
-                                const nextDateStr = dateToYYYYMMDD(nextDate);
-
-                                const prevEntry = dataMap.get(prevDateStr);
-                                const nextEntry = dataMap.get(nextDateStr);
-
-                                if (prevEntry && prevEntry[mk] !== undefined && prevEntry[mk] !== "" &&
-                                    nextEntry && nextEntry[mk] !== undefined && nextEntry[mk] !== "") {
-                                    const prevVal = parseFloat(prevEntry[mk]);
-                                    const nextVal = parseFloat(nextEntry[mk]);
-                                    if (prevVal > 0 && nextVal > 0) { 
-                                      valueToPush = (prevVal + nextVal) / 2;
-                                    }
-                                }
-                            }
-                            combinedDatasetsData[mk].push(valueToPush > 0 ? valueToPush : null);
-                        });
-                        currentDate = addDays(currentDate, 1);
-                    }
-
-                    const finalCombinedDatasets = metricKeys.map(mk => {
-                        const individualConfig = chartConfigs[mk];
-                        return {
-                            label: individualConfig.label, 
-                            data: combinedDatasetsData[mk],
-                            borderColor: individualConfig.color,
-                            backgroundColor: individualConfig.color.replace('1)', '0.2)'), 
-                            tension: 0.1,
-                            fill: false,
-                            pointRadius: 0, 
-                            borderWidth: 1.5 
-                        };
-                    });
-
-                    if (chartInstances[combinedConfig.canvasId]) {
-                        chartInstances[combinedConfig.canvasId].destroy();
-                    }
-                    chartInstances[combinedConfig.canvasId] = new Chart(combinedCtx, {
-                        type: 'line',
-                        data: {
-                            labels: combinedLabels,
-                            datasets: finalCombinedDatasets
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            interaction: { 
-                                mode: 'index',
-                                intersect: false,
-                            },
-                            scales: {
-                                y: {
-                                    type: 'logarithmic',
-                                    title: {
-                                        display: true,
-                                        text: 'Value (Log Scale)',
-                                        color: 'white',
-                                        font: { size: 10 }
-                                    },
-                                    ticks: { 
-                                        color: 'white', 
-                                        font: { size: 10 },
-                                        callback: function(value, index, values) {
-                                            if (value === 1 || value === 10 || value === 100 || value === 1000 || value === 0.1 || value === 0.01 || value === 0.001) { // Added 0.001 for smaller values
-                                                return value.toString();
-                                            }
-                                            if (Math.log10(value) % 1 === 0) { // General powers of 10
-                                                return value.toString();
-                                            }
-                                            return null; 
-                                        }
-                                    },
-                                    grid: { color: 'rgba(255, 255, 255, 0.2)' },
-                                    // afterBuildTicks: chart => { // Simpler approach for log ticks is to let Chart.js auto-generate good ones
-                                    //     // chart.ticks = chart.ticks.filter(tick => tick.value === 1 || tick.value === 10 || tick.value === 100 || tick.value === 0.1);
-                                    // }
-                                },
-                                x: {
-                                    ticks: { 
-                                        color: 'white', 
-                                        font: { size: 10 },
-                                        maxRotation: 70, 
-                                        minRotation: 20,
-                                        autoSkip: true, 
-                                        maxTicksLimit: Math.min(20, Math.max(7, Math.floor(combinedLabels.length / 3))) // Dynamic tick limit
-                                    },
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                                }
-                            },
-                            plugins: {
-                                legend: { 
-                                    display: true,
-                                    position: 'top',
-                                    labels: { color: 'white', font: { size: 10 } }
-                                },
-                                title: {
-                                    display: true,
-                                    text: combinedConfig.label,
-                                    color: 'white',
-                                    font: { size: 14, weight: 'bold' },
-                                    padding: { top: 10, bottom: 15 }
-                                },
-                                tooltip: {
-                                    backgroundColor: 'rgba(0,0,0,0.8)',
-                                    titleColor: 'white',
-                                    bodyColor: 'white',
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.dataset.label || '';
-                                            if (context.parsed.y !== null) {
-                                                const originalMetricConfig = Object.values(chartConfigs).find(c => c.label === context.dataset.label);
-                                                const precision = originalMetricConfig ? originalMetricConfig.precision : chartConfigs.combined.precision;
-                                                const unit = originalMetricConfig ? originalMetricConfig.unit : '';
-                                                label += ': ' + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : '');
-                                            } else {
-                                                label += ': N/A';
-                                            }
-                                            return label;
-                                        }
-                                    }
-                                },
-                                datalabels: { 
-                                    display: false
-                                }
-                            }
-                        }
-                    });
-                } else { 
-                     if (chartInstances[chartConfigs.combined.canvasId]) {
-                        chartInstances[chartConfigs.combined.canvasId].destroy();
-                        delete chartInstances[chartConfigs.combined.canvasId]; // Remove reference
-                    }
-                }
             }
             
 
@@ -865,20 +722,21 @@
                         const importedData = JSON.parse(e.target.result);
                         if (!Array.isArray(importedData) ||
                             importedData.some(item => typeof item !== 'object' || item === null ||
-                                !['date', 'temp', 'weight', 'speed', 'flow', 'pi', 'power'].every(prop => typeof item[prop] !== 'undefined')
+                                !['date', 'temp', 'weight', 'speed', 'flow', 'pi', 'power'].every(prop => Object.prototype.hasOwnProperty.call(item, prop))
                             )) {
-                            displayModalWithMessage("Invalid file format: Each item must be an object with all required properties.");
+                            displayModalWithMessage("Invalid file format: Each item must be an object with all required properties (date, temp, weight, speed, flow, pi, power).");
                             return;
                         }
                         let existingData = JSON.parse(localStorage.getItem('lvadData')) || [];
                         const mergedDataMap = new Map(existingData.map(item => [item.date, item]));
-                        importedData.forEach(item => mergedDataMap.set(item.date, item));
+                        importedData.forEach(item => mergedDataMap.set(item.date, item)); 
                         const mergedArray = Array.from(mergedDataMap.values());
-                        mergedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+                        mergedArray.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
                         localStorage.setItem('lvadData', JSON.stringify(mergedArray));
                         displayCharts();
                         displayModalWithMessage("Data successfully imported and merged.");
                     } catch (err) {
+                        console.error("Import error:", err);
                         displayModalWithMessage("Failed to read or parse JSON file. Ensure it's valid.");
                     } finally {
                         event.target.value = null; 
@@ -900,11 +758,13 @@
                     isFilled = !isFilled; 
                 }, 1000); 
             }
+            
+            dateInput.value = dateToYYYYMMDD(new Date());
 
             saveButton.addEventListener('click', saveData);
             if (tabUploadButton && uploadInput) {
                 tabUploadButton.addEventListener('click', () => {
-                    showConfirmationModal("Confirm Import", "Import data? Entries with the same date will be updated.", () => uploadInput.click());
+                    showConfirmationModal("Confirm Import", "Import data? Entries with the same date will be updated with the imported values.", () => uploadInput.click());
                 });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
