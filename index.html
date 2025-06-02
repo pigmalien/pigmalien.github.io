@@ -12,18 +12,20 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <!-- chartjs-plugin-datalabels -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <style>
     body {
         color: rgb(255, 255, 255);
-        background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.25) 50%, #000000 100%), url("forestbackground.jpg");
+        background-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 50%, #000000 100%), url("forestbackground.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
         min-height: 100vh;
         background-color: rgb(0, 0, 0);
-        padding-top: 80px; /* For fixed header */
+        padding-top: 80px;
+        /* For fixed header */
     }
 
     .header {
@@ -49,31 +51,29 @@
 
     .header h1 {
         font-size: 2em;
-        padding-bottom: calc(0.19em + 2px); 
-        margin-bottom: 4px; 
-        position: relative; 
+        padding-bottom: calc(0.19em + 2px);
+        margin-bottom: 4px;
+        position: relative;
     }
 
     .header h1::after {
         content: '';
         position: absolute;
         left: 0;
-        bottom: 0; 
+        bottom: 0;
         width: 100%;
-        height: 2px; 
-        background-image: repeating-linear-gradient(
-            to right,
-            white 0, white 7px,      
-            transparent 7px, transparent 14px 
-        );
-        background-size: 14px 100%; 
-        background-position: -14px 0; 
+        height: 2px;
+        background-image: repeating-linear-gradient(to right,
+                white 0, white 7px,
+                transparent 7px, transparent 14px);
+        background-size: 14px 100%;
+        background-position: -14px 0;
         animation: animateDashBorder 2s linear infinite;
     }
 
     @keyframes animateDashBorder {
         to {
-            background-position: 0 0; 
+            background-position: 0 0;
         }
     }
 
@@ -85,12 +85,19 @@
         font-size: 2rem;
         margin-top: 11px;
         color: white;
-        transition: opacity 0.1s ease-in-out; 
+        transition: opacity 0.1s ease-in-out;
     }
 
     @keyframes fadeInSlideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .box1 {
@@ -113,11 +120,29 @@
         background-color: transparent;
         color: white;
     }
+    /* Placeholder CSS can be removed or left, as placeholders are gone */
+    /* .box1 .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+        opacity: 1; 
+    }
+    .box1 .form-control:-ms-input-placeholder { 
+       color: rgba(255, 255, 255, 0.4);
+    }
+    .box1 .form-control::-ms-input-placeholder { 
+       color: rgba(255, 255, 255, 0.4);
+    } */
+
 
     .box1 .input-group-text {
         background-color: #0000;
         color: white;
+        min-width: 110px; /* Adjust as needed for icon + text */
+        justify-content: flex-start;
     }
+     .box1 .input-group-text .bi {
+        vertical-align: middle;
+    }
+
 
     .box1 .input-fields-container {
         display: flex;
@@ -127,7 +152,7 @@
     }
 
     .box1 .input-fields-container .input-group {
-        flex: 1 1 280px;
+        flex: 1 1 280px; /* Adjusted for potentially wider input groups with icons */
     }
 
     .box1 .inset-input-area {
@@ -135,20 +160,37 @@
         background-color: rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
-                    inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
     .input-group .form-control:focus {
-        border-color: #000000;
-        box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+        border-color: #007bff; /* A slightly more visible focus color */
+        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.35);
+        background-color: rgba(0,0,0,0.1); /* Keep background consistent on focus */
+        color: white;
     }
 
     .input-group .form-control {
         transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
-    
+
+    /* Hide spinners on number inputs */
+    .box1 input[type=number]::-webkit-inner-spin-button,
+    .box1 input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+.box1 input[type=number] {
+    -moz-appearance: textfield; /* For Firefox */
+    appearance: textfield;      /* Standard version */
+    /* Or, more commonly for removing default UI like spinners: */
+    /* appearance: none; */
+}
+
+
     .box2 {
         word-wrap: break-word;
         padding: 20px;
@@ -165,15 +207,15 @@
         background-color: rgba(0, 0, 0, 0.15);
         border-radius: 4px;
         box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
-                    inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
         margin-top: 0rem;
     }
 
     .chart-container {
         position: relative;
-        height: 250px; 
+        height: 250px;
         width: 100%;
-        margin-bottom: 1rem; 
+        margin-bottom: 1rem;
     }
 
 
@@ -193,18 +235,26 @@
     #confirmationModal .modal-header {
         border-bottom: none;
     }
+
     #confirmationModal .modal-footer {
         border-top: none;
     }
 
-    #myModalLabel .bi-exclamation-square {
+    #myModalLabel .bi { /* General icon styling for modal title */
         font-size: 1.5em;
+        vertical-align: middle;
     }
+
 
     #myModal .modal-body {
         padding: 10px;
     }
-     #confirmationModal .modal-body {
+    #myModal .modal-body ul {
+        padding-left: 20px; /* Indent bullet points if message is an array */
+    }
+
+
+    #confirmationModal .modal-body {
         padding: 1rem;
     }
 
@@ -214,7 +264,9 @@
     }
 
     @media (max-width: 991.98px) {
-        .box1, .box2 {
+
+        .box1,
+        .box2 {
             border-radius: 6px;
             margin-left: 0;
             margin-right: 0;
@@ -225,8 +277,13 @@
         .header h1 {
             font-size: 1.6em;
         }
+
         .chart-container {
             height: 200px;
+        }
+         .box1 .input-group-text {
+            min-width: 50px; /* Allow smaller labels on small screens */
+            font-size: 0.9em;
         }
     }
 </style>
@@ -237,7 +294,7 @@
             <h1> Daily LVAD Log</h1>
             <p>Keep track of your vital stats</p>
         </div>
-        <i class="bi bi-heart-pulse header-icon"></i> 
+        <i class="bi bi-heart-pulse header-icon"></i>
     </div>
 
     <div class="container-fluid pt-3">
@@ -247,39 +304,46 @@
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
                         <div class="input-group">
-                            <span class="input-group-text" id="dateInput-addon">Date</span>
-                            <input type="date" class="form-control" id="dateInput" aria-label="Date" aria-describedby="dateInput-addon">
-                        </div> 
-                        <div class="input-group">
-                            <span class="input-group-text" id="tempInput-addon">Temperature</span>
-                            <input type="number" class="form-control" id="tempInput" aria-label="Temperature" aria-describedby="tempInput-addon">
+                            <span class="input-group-text" id="dateInput-addon"><i class="bi bi-calendar-event me-2"></i><span class="d-none d-sm-inline">Date</span></span>
+                            <input type="date" class="form-control" id="dateInput" aria-label="Date"
+                                aria-describedby="dateInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="weightInput-addon">Weight</span>
-                            <input type="number" class="form-control" id="weightInput" aria-label="Weight" aria-describedby="weightInput-addon">
+                            <span class="input-group-text" id="tempInput-addon"><i class="bi bi-thermometer-half me-2"></i><span class="d-none d-sm-inline">Temp</span></span>
+                            <input type="number" class="form-control" id="tempInput" step="0.1" aria-label="Temperature"
+                                aria-describedby="tempInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="speedInput-addon">Speed</span>
-                            <input type="number" class="form-control" id="speedInput" aria-label="Speed" aria-describedby="speedInput-addon">
+                            <span class="input-group-text" id="weightInput-addon"><i class="bi bi-person-arms-up me-2"></i><span class="d-none d-sm-inline">Weight</span></span>
+                            <input type="number" class="form-control" id="weightInput" step="0.1" aria-label="Weight"
+                                aria-describedby="weightInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="flowInput-addon">Flow</span>
-                            <input type="number" class="form-control" id="flowInput" aria-label="Flow" aria-describedby="flowInput-addon">
+                            <span class="input-group-text" id="speedInput-addon"><i class="bi bi-speedometer2 me-2"></i><span class="d-none d-sm-inline">Speed</span></span>
+                            <input type="number" class="form-control" id="speedInput" step="10" aria-label="Speed"
+                                aria-describedby="speedInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="piInput-addon">PI</span>
-                            <input type="number" class="form-control" id="piInput" aria-label="PI" aria-describedby="piInput-addon">
+                            <span class="input-group-text" id="flowInput-addon"><i class="bi bi-water me-2"></i><span class="d-none d-sm-inline">Flow</span></span>
+                            <input type="number" class="form-control" id="flowInput" step="0.1" aria-label="Flow"
+                                aria-describedby="flowInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="powerInput-addon">Power</span>
-                            <input type="number" class="form-control" id="powerInput" aria-label="Power" aria-describedby="powerInput-addon">
+                            <span class="input-group-text" id="piInput-addon"><i class="bi bi-graph-up me-2"></i><span class="d-none d-sm-inline">PI</span></span>
+                            <input type="number" class="form-control" id="piInput" step="0.1" aria-label="PI"
+                                aria-describedby="piInput-addon">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text" id="powerInput-addon"><i class="bi bi-lightning-charge me-2"></i><span class="d-none d-sm-inline">Power</span></span>
+                            <input type="number" class="form-control" id="powerInput" step="0.1" aria-label="Power"
+                                aria-describedby="powerInput-addon">
                         </div>
                     </div>
                 </div>
                 <div class="mt-3 text-end">
-                    <button id="saveButton" class="btn btn-sm btn-outline-light">Save</button>
+                    <button id="saveButton" class="btn btn-sm btn-outline-light">Save Entry</button>
                 </div>
-            </div> 
+            </div>
 
             <div class="box2 col-12 col-lg-auto mb-4">
                 <div class="container-fluid px-0">
@@ -288,14 +352,15 @@
                             <h2>LVAD Data History</h2>
                         </div>
                         <div class="col-auto">
-                            <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2" title="Download Data">
-                                <i class="bi bi-file-arrow-down"></i>
+                            <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2"
+                                title="Download Data">
+                                <i class="bi bi-file-earmark-arrow-down"></i><span class="d-none d-md-inline ms-1">Download</span>
                             </button>
                             <button id="tabUploadButton" class="btn btn-sm btn-outline-light me-2" title="Import Data">
-                                <i class="bi bi-file-arrow-up"></i>
+                                <i class="bi bi-file-earmark-arrow-up"></i><span class="d-none d-md-inline ms-1">Import</span>
                             </button>
                             <button id="myBtn" class="btn btn-sm btn-outline-light" title="Information">
-                                <i class="bi bi-info-lg"></i>
+                                <i class="bi bi-info-lg"></i><span class="d-none d-md-inline ms-1">Info</span>
                             </button>
                         </div>
                     </div>
@@ -334,30 +399,33 @@
                         </div>
                     </div>
                 </div>
-                <input type="file" id="uploadInput" accept=".json" style="display: none;"> 
+                <input type="file" id="uploadInput" accept=".json" style="display: none;">
             </div>
         </div>
     </div>
-    
+
     <!-- Information Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="vadContactInfoModalContent">
                         <ul>
                             <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
-                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline</li>
+                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline
+                            </li>
                             <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
                             <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
                             <li>Increasing swelling in legs, hands, or abdomin</li>
                             <li>Temperature is 101.5°F or higher</li>
                             <li>Driveline is tugged or pulled</li>
-                            <li>Signs or symptoms of infection at the driveline site(this includes redness, tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li>
+                            <li>Signs or symptoms of infection at the driveline site(this includes redness,
+                                tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li>
                             <li>You have any alarms you can't resolve</li>
                             <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
                             <li>The equipment is damaged or is not working properly</li>
@@ -373,18 +441,21 @@
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content"> 
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p id="confirmationModalBodyText"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" id="confirmNoButton">No</button>
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"
+                        id="confirmNoButton">No</button>
                     <button type="button" class="btn btn-light" id="confirmYesButton">Yes</button>
                 </div>
             </div>
@@ -403,83 +474,112 @@
             const piInput = document.getElementById('piInput');
             const powerInput = document.getElementById('powerInput');
             const saveButton = document.getElementById('saveButton');
-            
+
             const modalElement = document.getElementById("myModal");
             const bootstrapModal = new bootstrap.Modal(modalElement);
             const myModalLabel = document.getElementById('myModalLabel');
             const vadContactInfoModalContent = document.getElementById('vadContactInfoModalContent');
             const generalAlertModalContent = document.getElementById('generalAlertModalContent');
             const modalAlertText = document.getElementById('modalAlertText');
-            const vadInfoBtn = document.getElementById("myBtn"); 
+            const vadInfoBtn = document.getElementById("myBtn");
 
             const confirmationModalElement = document.getElementById('confirmationModal');
             const bootstrapConfirmationModal = new bootstrap.Modal(confirmationModalElement);
             const confirmationModalLabel = document.getElementById('confirmationModalLabel');
             const confirmationModalBodyText = document.getElementById('confirmationModalBodyText');
             const confirmYesButton = document.getElementById('confirmYesButton');
-            
+
             let currentYesCallback = null;
 
-            const tabUploadButton = document.getElementById('tabUploadButton'); 
-            const tabDownloadButton = document.getElementById('tabDownloadButton'); 
+            const tabUploadButton = document.getElementById('tabUploadButton');
+            const tabDownloadButton = document.getElementById('tabDownloadButton');
             const uploadInput = document.getElementById('uploadInput');
             const headerIcon = document.querySelector('.header-icon');
 
-
             let chartInstances = {};
-            const chartConfigs = { 
-                temp: { canvasId: 'tempChart', label: 'Temperature', unit: '°F', color: 'rgba(54, 162, 235, 1)', precision: 1 },
-                weight: { canvasId: 'weightChart', label: 'Weight', unit: 'lbs', color: 'rgba(75, 192, 192, 1)', precision: 1 },
-                speed: { canvasId: 'speedChart', label: 'Speed', unit: 'rpm', color: 'rgba(255, 206, 86, 1)', precision: 0 },
-                flow: { canvasId: 'flowChart', label: 'Flow', unit: 'L/min', color: 'rgba(153, 102, 255, 1)', precision: 1 },
-                pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1 },
-                power: { canvasId: 'powerChart', label: 'Power', unit: 'Watts', color: 'rgba(255, 99, 132, 1)', precision: 1 }
+            // REMOVED min/max for input validation, kept yAxis options for chart display
+            const chartConfigs = {
+                temp:   { canvasId: 'tempChart',   label: 'Temperature', unit: '°F',    color: 'rgba(54, 162, 235, 1)',  precision: 1, yAxisMin: 95,   yAxisMax: 105, yAxisMinSuggest: 97 },
+                weight: { canvasId: 'weightChart', label: 'Weight',      unit: 'lbs',   color: 'rgba(75, 192, 192, 1)',  precision: 1, yAxisMinSuggest: 100 },
+                speed:  { canvasId: 'speedChart',  label: 'Speed',       unit: 'rpm',   color: 'rgba(255, 206, 86, 1)',  precision: 0, yAxisMinSuggest: 2500 },
+                flow:   { canvasId: 'flowChart',   label: 'Flow',        unit: 'L/min', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
+                pi:     { canvasId: 'piChart',     label: 'PI',          unit: '',      color: 'rgba(255, 159, 64, 1)',  precision: 1, yAxisMinSuggest: 1 },
+                power:  { canvasId: 'powerChart',  label: 'Power',       unit: 'Watts', color: 'rgba(255, 99, 132, 1)',  precision: 1, yAxisMinSuggest: 2 }
             };
 
-            function saveData() {
-                const data = {
-                    date: dateInput.value,
-                    temp: tempInput.value,
-                    weight: weightInput.value,
-                    speed: speedInput.value,
-                    flow: flowInput.value,
-                    pi: piInput.value,
-                    power: powerInput.value
+            const inputFieldsConfig = [
+                { id: 'dateInput', name: 'Date', type: 'date', required: true, configKey: null },
+                { id: 'tempInput', name: 'Temperature', type: 'number', required: true, configKey: 'temp' },
+                { id: 'weightInput', name: 'Weight', type: 'number', required: true, configKey: 'weight' },
+                { id: 'speedInput', name: 'Speed', type: 'number', required: true, configKey: 'speed' },
+                { id: 'flowInput', name: 'Flow', type: 'number', required: true, configKey: 'flow' },
+                { id: 'piInput', name: 'PI', type: 'number', required: true, configKey: 'pi' },
+                { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power' }
+            ];
+
+            function saveDataConfirmed(dataFromForm) {
+                const parsedData = {
+                    date: dataFromForm.date
                 };
-                if (!data.date) {
-                    displayModalWithMessage("Please enter a date.");
-                    return;
-                }
+
+                inputFieldsConfig.forEach(field => {
+                    if (field.type === 'number' && field.configKey) {
+                        const rawValue = dataFromForm[field.configKey];
+                        if (rawValue === null || String(rawValue).trim() === "") {
+                            parsedData[field.configKey] = null;
+                        } else {
+                            const val = parseFloat(rawValue);
+                            parsedData[field.configKey] = (isNaN(val) || !isFinite(val)) ? null : val;
+                        }
+                    }
+                });
+
                 let savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                const existingIndex = savedData.findIndex(item => item.date === data.date);
+                const existingIndex = savedData.findIndex(item => item.date === parsedData.date);
                 if (existingIndex !== -1) {
-                    savedData[existingIndex] = data;
+                    savedData[existingIndex] = parsedData;
                 } else {
-                    savedData.push(data);
+                    savedData.push(parsedData);
                 }
-                savedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                savedData.sort((a, b) => {
+                    const dateA = getLocalDateFromString(a.date);
+                    const dateB = getLocalDateFromString(b.date);
+                    if (isNaN(dateA.getTime())) return 1;
+                    if (isNaN(dateB.getTime())) return -1;
+                    return dateA - dateB;
+                });
                 localStorage.setItem('lvadData', JSON.stringify(savedData));
                 displayCharts();
+                displayModalWithMessage("Data saved successfully!", 'success');
+                clearInputFields();
             }
 
             function formatDateLabel(dateObj) {
+                if (!(dateObj instanceof Date) || isNaN(dateObj.getTime())) return "Invalid Date";
                 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
                 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                 return `${days[dateObj.getDay()]}, ${months[dateObj.getMonth()]} ${dateObj.getDate()}`;
             }
 
-            function getLocalDateFromString(dateString) { 
-                const [year, month, day] = dateString.split('-').map(Number);
-                return new Date(year, month - 1, day); 
-            }
-
-            function addDays(date, days) {
-                const result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result;
+            function getLocalDateFromString(dateString) {
+                if (!dateString || typeof dateString !== 'string') return new Date(NaN);
+                const parts = dateString.split('-');
+                if (parts.length !== 3) return new Date(NaN);
+                const [year, month, day] = parts.map(Number);
+                if (isNaN(year) || isNaN(month) || isNaN(day) || month < 1 || month > 12 || day < 1 || day > 31) return new Date(NaN);
+                const date = new Date(year, month - 1, day);
+                if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+                    return new Date(NaN);
+                }
+                return date;
             }
 
             function dateToYYYYMMDD(date) {
+                if (!(date instanceof Date) || isNaN(date.getTime())) {
+                     const today = new Date();
+                     console.warn("dateToYYYYMMDD received an invalid date. Defaulting to today.");
+                     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                }
                 const year = date.getFullYear();
                 const month = String(date.getMonth() + 1).padStart(2, '0');
                 const day = String(date.getDate()).padStart(2, '0');
@@ -488,38 +588,48 @@
 
             function displayCharts() {
                 let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                allSavedData.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
+                allSavedData.sort((a, b) => {
+                    const dateA = getLocalDateFromString(a.date);
+                    const dateB = getLocalDateFromString(b.date);
+                    if (isNaN(dateA.getTime())) return 1;
+                    if (isNaN(dateB.getTime())) return -1;
+                    return dateA - dateB;
+                });
+
 
                 let endDate7Day;
                 if (allSavedData.length > 0) {
-                    endDate7Day = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
+                    const lastValidDate = getLocalDateFromString(allSavedData[allSavedData.length - 1].date);
+                    endDate7Day = !isNaN(lastValidDate.getTime()) ? lastValidDate : new Date();
                 } else {
-                    endDate7Day = new Date(); 
+                    endDate7Day = new Date();
                 }
                 endDate7Day.setHours(0, 0, 0, 0);
 
-                const labels7Day = []; 
-                const datasets7DayRaw = {}; 
+                const labels7Day = [];
+                const datasets7DayRaw = {};
                 Object.keys(chartConfigs).forEach(key => {
                     datasets7DayRaw[key] = [];
                 });
 
                 const dataMap = new Map();
                 allSavedData.forEach(item => {
-                    dataMap.set(item.date, item);
+                    if (item && item.date && !isNaN(getLocalDateFromString(item.date).getTime())) {
+                        dataMap.set(item.date, item);
+                    }
                 });
 
-                for (let i = 6; i >= 0; i--) { 
+                for (let i = 6; i >= 0; i--) {
                     const targetDate = new Date(endDate7Day);
                     targetDate.setDate(endDate7Day.getDate() - i);
-                    targetDate.setHours(0,0,0,0); 
+                    targetDate.setHours(0, 0, 0, 0);
                     labels7Day.push(formatDateLabel(targetDate));
-                    const dateStringForLookup = dateToYYYYMMDD(targetDate); 
-                    
+                    const dateStringForLookup = dateToYYYYMMDD(targetDate);
+
                     Object.keys(chartConfigs).forEach(metricKey => {
                         const entry = dataMap.get(dateStringForLookup);
-                        let value = null; // Default to null for missing or invalid data
-                        if (entry && entry[metricKey] !== undefined && entry[metricKey] !== "" && !isNaN(parseFloat(entry[metricKey]))) {
+                        let value = null;
+                        if (entry && entry[metricKey] !== undefined && entry[metricKey] !== null && entry[metricKey] !== "" && isFinite(parseFloat(entry[metricKey]))) {
                             value = parseFloat(entry[metricKey]);
                         }
                         datasets7DayRaw[metricKey].push(value);
@@ -529,23 +639,15 @@
                 const datasets7DayFinal = {};
                 Object.keys(chartConfigs).forEach(metricKey => {
                     const rawData = datasets7DayRaw[metricKey];
-                    const knownValues = rawData.filter(val => val !== null);
-                    let averageForMetric = null; 
-
-                    if (knownValues.length > 0) {
-                        averageForMetric = knownValues.reduce((sum, val) => sum + val, 0) / knownValues.length;
-                        averageForMetric = parseFloat(averageForMetric.toFixed(chartConfigs[metricKey].precision));
-                    }
-
                     datasets7DayFinal[metricKey] = rawData.map(val => {
-                        if (val !== null) {
-                            return val; 
+                        if (val !== null && isFinite(val)) {
+                            return val;
                         } else {
-                            return averageForMetric; // This will be null if no known values
+                            return null;
                         }
                     });
                 });
-                
+
                 Object.keys(chartConfigs).forEach(key => {
                     const config = chartConfigs[key];
                     const ctx = document.getElementById(config.canvasId)?.getContext('2d');
@@ -556,13 +658,13 @@
                     if (chartInstances[config.canvasId]) {
                         chartInstances[config.canvasId].destroy();
                     }
-                    chartInstances[config.canvasId] = new Chart(ctx, { 
+                    chartInstances[config.canvasId] = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: labels7Day, 
+                            labels: labels7Day,
                             datasets: [{
                                 label: config.unit ? `${config.label} (${config.unit})` : config.label,
-                                data: datasets7DayFinal[key], 
+                                data: datasets7DayFinal[key],
                                 borderColor: config.color,
                                 backgroundColor: config.color.replace('1)', '0.2)'),
                                 tension: 0.1,
@@ -571,34 +673,37 @@
                                 pointBorderColor: config.color,
                                 pointHoverBackgroundColor: config.color,
                                 pointHoverBorderColor: 'white',
-                                spanGaps: false // Line will break if data points are null
+                                spanGaps: false
                             }]
                         },
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
                             scales: {
-                                y: { 
-                                    beginAtZero: true, 
+                                y: {
+                                    beginAtZero: config.yAxisMinSuggest !== undefined ? false : (config.yAxisMin !== undefined ? false : true),
+                                    min: config.yAxisMin,
+                                    max: config.yAxisMax,
+                                    suggestedMin: config.yAxisMinSuggest,
                                     title: {
-                                        display: !!config.unit, 
-                                        text: config.unit, 
+                                        display: !!config.unit,
+                                        text: config.unit,
                                         color: 'white',
                                         font: { size: 10 }
                                     },
                                     ticks: { color: 'white', font: { size: 10 } },
                                     grid: { color: 'rgba(255, 255, 255, 0.2)' }
                                 },
-                                x: { 
+                                x: {
                                     ticks: { color: 'white', font: { size: 10 } },
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' } 
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
                                 }
                             },
                             plugins: {
                                 legend: { display: false },
-                                title: { 
+                                title: {
                                     display: true,
-                                    text: config.label, 
+                                    text: config.label,
                                     color: 'white',
                                     font: { size: 14, weight: 'bold' },
                                     padding: { top: 10, bottom: 15 }
@@ -608,68 +713,74 @@
                                     titleColor: 'white',
                                     bodyColor: 'white',
                                     callbacks: {
-                                        label: function(context) {
+                                        label: function (context) {
                                             const currentChartConfig = Object.values(chartConfigs).find(c => c.label === context.chart.options.plugins.title.text);
                                             let tooltipLabelText = context.dataset.label || '';
-                                            if(tooltipLabelText) {
+                                            if (tooltipLabelText) {
                                                 tooltipLabelText = tooltipLabelText.split('(')[0].trim() + ': ';
-                                            } else { 
+                                            } else {
                                                 tooltipLabelText = (currentChartConfig?.label || '') + ': ';
                                             }
 
                                             if (context.parsed.y === null || context.parsed.y === undefined) {
                                                 return tooltipLabelText + 'N/A';
                                             }
-                                            if (context.parsed.y === 0) {
-                                                return tooltipLabelText + '-';
-                                            }
-                                            
                                             const precision = currentChartConfig ? currentChartConfig.precision : 0;
                                             const unit = currentChartConfig ? currentChartConfig.unit : '';
                                             return tooltipLabelText + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : '');
                                         }
                                     }
                                 },
-                                datalabels: { 
-                                    align: 'top', 
-                                    anchor: 'end', 
-                                    color: function(context) { 
+                                datalabels: {
+                                    align: 'top',
+                                    anchor: 'end',
+                                    color: function (context) {
                                         const value = context.dataset.data[context.dataIndex];
-                                        if (value === 0) return 'rgba(255, 255, 255, 0.6)'; // Fainter for '-'
-                                        if (value === null || value === undefined) return 'transparent'; // Hide if null
+                                        if (value === 0) return 'rgba(255, 255, 255, 0.6)';
+                                        if (value === null || value === undefined) return 'transparent';
                                         return 'white';
                                     },
                                     font: { size: 9, weight: 'normal' },
-                                    formatter: function(value, context) {
-                                        if (value === null || value === undefined) return ''; // No label for null
-                                        if (value === 0) return '-';
-                                        
+                                    formatter: function (value, context) {
+                                        if (value === null || value === undefined) return '';
+                                        if (value === 0 && context.chart.options.plugins.title.text !== chartConfigs.temp.label) return '-';
+
                                         const chartTitleText = context.chart.options.plugins.title.text;
                                         const metricCfg = Object.values(chartConfigs).find(c => c.label === chartTitleText);
                                         return value.toFixed(metricCfg ? metricCfg.precision : 0);
                                     },
-                                    offset: 4, 
+                                    offset: 4,
                                 }
                             }
                         }
                     });
                 });
             }
-            
 
-            function displayModalWithMessage(message) {
-                modalAlertText.innerHTML = (message === "Please enter a date.") ? `<i>${message}</i>` : message;
+            function displayModalWithMessage(message, type = 'alert') {
+                let titleIconHtml = '<i class="bi bi-exclamation-triangle-fill me-2"></i> Alert';
+                if (type === 'success') {
+                    titleIconHtml = '<i class="bi bi-check-circle-fill me-2"></i> Success';
+                } else if (type === 'info') {
+                    titleIconHtml = '<i class="bi bi-info-circle-fill me-2"></i> Information';
+                }
+                myModalLabel.innerHTML = titleIconHtml;
+
+                if (Array.isArray(message)) {
+                    modalAlertText.innerHTML = `<ul>${message.map(m => `<li>${m}</li>`).join('')}</ul>`;
+                } else {
+                    modalAlertText.innerHTML = message;
+                }
                 vadContactInfoModalContent.style.display = 'none';
                 generalAlertModalContent.style.display = 'block';
-                myModalLabel.innerHTML = '<i class="bi bi-exclamation-square me-2"></i> Alert';
                 bootstrapModal.show();
             }
 
             function displayVadInfoModal() {
-                myModalLabel.textContent = "Contact the VAD team when";
+                myModalLabel.innerHTML = '<i class="bi bi-info-circle-fill me-2"></i> Contact the VAD team when';
                 vadContactInfoModalContent.style.display = 'block';
                 generalAlertModalContent.style.display = 'none';
-                modalAlertText.textContent = ''; 
+                modalAlertText.textContent = '';
                 bootstrapModal.show();
             }
 
@@ -679,7 +790,7 @@
                 currentYesCallback = yesCallback;
                 bootstrapConfirmationModal.show();
             }
-            
+
             confirmYesButton.addEventListener('click', () => {
                 if (currentYesCallback) currentYesCallback();
                 bootstrapConfirmationModal.hide();
@@ -688,8 +799,8 @@
 
             function _executeDownload() {
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                if (savedData.length === 0) { 
-                    displayModalWithMessage("No data available to download.");
+                if (savedData.length === 0) {
+                    displayModalWithMessage("No data available to download.", 'info');
                     return;
                 }
                 const jsonData = JSON.stringify(savedData, null, 2);
@@ -697,56 +808,235 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'lvad_data_history.json';
+                const today = new Date();
+                const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+                a.download = `lvad_data_history_${dateStr}.json`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+                displayModalWithMessage("Data download initiated.", 'success');
             }
 
             function downloadJsonData() {
                 const savedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 if (savedData.length === 0) {
-                    displayModalWithMessage("No data available to download.");
+                    displayModalWithMessage("No data available to download.", 'info');
                     return;
                 }
                 showConfirmationModal("Confirm Download", "Are you sure you want to download the LVAD data history?", _executeDownload);
             }
 
+            function validateInput(value, fieldConfig) {
+                const { name, type, required } = fieldConfig;
+
+                if (required && (value === null || value === undefined || String(value).trim() === "")) {
+                    return `${name} is required.`;
+                }
+                if (!required && (value === null || String(value).trim() === "")) return null;
+
+
+                if (type === 'date') {
+                    if (isNaN(getLocalDateFromString(value).getTime())) {
+                        return `${name} must be a valid date (YYYY-MM-DD).`;
+                    }
+                } else if (type === 'number') {
+                    const numValue = parseFloat(value);
+                    if (isNaN(numValue) || !isFinite(numValue)) {
+                        return `${name} must be a valid number.`;
+                    }
+                    // Range checks removed here
+                }
+                return null;
+            }
+
+            function clearInputFields() {
+                inputFieldsConfig.forEach(field => {
+                    const inputElement = document.getElementById(field.id);
+                    if (field.id !== 'dateInput') {
+                        inputElement.value = '';
+                    } else {
+                        inputElement.value = dateToYYYYMMDD(new Date());
+                    }
+                });
+                if (tempInput) tempInput.focus();
+            }
+
+
+            saveButton.addEventListener('click', () => {
+                const validationErrors = [];
+                const dataToSave = {};
+
+                inputFieldsConfig.forEach(field => {
+                    const inputElement = document.getElementById(field.id);
+                    const value = inputElement.value;
+                    const error = validateInput(value, field);
+                    if (error) {
+                        validationErrors.push(error);
+                    }
+                    const dataKey = field.configKey || field.id.replace('Input', '');
+                    dataToSave[dataKey] = value;
+                });
+
+                if (validationErrors.length > 0) {
+                    displayModalWithMessage(validationErrors, 'alert');
+                    return;
+                }
+
+                showConfirmationModal(
+                    "Confirm Save",
+                    "Are you sure you want to save this log entry? If an entry for this date already exists, it will be overwritten.",
+                    () => saveDataConfirmed(dataToSave)
+                );
+            });
+
             function uploadJsonData(event) {
                 const file = event.target.files[0];
                 if (!file) return;
+
+                if (file.type !== "application/json") {
+                    displayModalWithMessage("Invalid file type. Please upload a .json file.", 'alert');
+                    event.target.value = null;
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function (e) {
+                    let importedRawData;
                     try {
-                        const importedData = JSON.parse(e.target.result);
-                        if (!Array.isArray(importedData) ||
-                            importedData.some(item => typeof item !== 'object' || item === null ||
-                                !['date', 'temp', 'weight', 'speed', 'flow', 'pi', 'power'].every(prop => Object.prototype.hasOwnProperty.call(item, prop))
-                            )) {
-                            displayModalWithMessage("Invalid file format: Each item must be an object with all required properties (date, temp, weight, speed, flow, pi, power).");
-                            return;
+                        importedRawData = JSON.parse(e.target.result);
+                    } catch (err) {
+                        console.error("JSON Parse Error:", err);
+                        displayModalWithMessage("Failed to parse JSON file. Ensure it's valid and not empty.", 'alert');
+                        event.target.value = null;
+                        return;
+                    }
+
+                    if (!Array.isArray(importedRawData)) {
+                        displayModalWithMessage("Invalid JSON format: Expected an array of log entries.", 'alert');
+                        event.target.value = null;
+                        return;
+                    }
+
+                    let existingData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                    const mergedDataMap = new Map(existingData.map(item => [item.date, item]));
+                    let importMessages = [];
+                    let validEntriesImported = 0;
+                    let entriesProcessed = 0;
+
+                    importedRawData.forEach((item, index) => {
+                        entriesProcessed++;
+                        let currentItemErrors = [];
+                        // Removed currentItemWarnings as range checks are gone
+                        let hasFatalErrorForItem = false;
+                        const validatedEntry = {};
+
+                        if (typeof item !== 'object' || item === null) {
+                            currentItemErrors.push(`Entry ${index + 1} is not a valid object.`);
+                            hasFatalErrorForItem = true;
+                        } else {
+                            for (const field of inputFieldsConfig) {
+                                const key = field.configKey || field.id.replace('Input', '');
+                                const value = item[key];
+
+                                if (!Object.prototype.hasOwnProperty.call(item, key)) {
+                                    if (field.required) {
+                                        currentItemErrors.push(`Entry ${index + 1}: Missing required property '${key}'.`);
+                                        hasFatalErrorForItem = true;
+                                    }
+                                    validatedEntry[key] = null;
+                                    continue;
+                                }
+                                
+                                if (field.type === 'date') {
+                                    if (typeof value !== 'string' || isNaN(getLocalDateFromString(value).getTime())) {
+                                        currentItemErrors.push(`Entry ${index + 1}: Property '${key}' has invalid date format or value (expected YYYY-MM-DD). Received: "${value}"`);
+                                        hasFatalErrorForItem = true;
+                                        validatedEntry[key] = null;
+                                    } else {
+                                        validatedEntry[key] = value;
+                                    }
+                                } else if (field.type === 'number') {
+                                    if (value === null || String(value).trim() === "") {
+                                        if (field.required) {
+                                            currentItemErrors.push(`Entry ${index + 1}: Required numeric property '${key}' is empty or null.`);
+                                            hasFatalErrorForItem = true;
+                                        }
+                                        validatedEntry[key] = null;
+                                    } else {
+                                        const numValue = parseFloat(value);
+                                        if (isNaN(numValue) || !isFinite(numValue)) {
+                                            currentItemErrors.push(`Entry ${index + 1}: Property '${key}' must be a valid number. Received: "${value}"`);
+                                            hasFatalErrorForItem = true;
+                                            validatedEntry[key] = null;
+                                        } else {
+                                            validatedEntry[key] = numValue;
+                                            // Range check warnings removed here
+                                        }
+                                    }
+                                } else {
+                                     validatedEntry[key] = value;
+                                }
+                            }
                         }
-                        let existingData = JSON.parse(localStorage.getItem('lvadData')) || [];
-                        const mergedDataMap = new Map(existingData.map(item => [item.date, item]));
-                        importedData.forEach(item => mergedDataMap.set(item.date, item)); 
+                        
+                        if (currentItemErrors.length > 0) {
+                            importMessages.push(...currentItemErrors);
+                        }
+                        // Removed pushing currentItemWarnings
+
+                        if (!hasFatalErrorForItem && validatedEntry.date) {
+                            mergedDataMap.set(validatedEntry.date, validatedEntry);
+                            validEntriesImported++;
+                        } else if (!hasFatalErrorForItem && !validatedEntry.date && !currentItemErrors.some(e => e.includes("date"))) {
+                             importMessages.push(`Entry ${index + 1} skipped: Missing or invalid date after validation.`);
+                        }
+                    });
+
+                    let finalModalMessage = [];
+                    let modalType = 'info';
+
+                    if (validEntriesImported > 0) {
+                        finalModalMessage.push(`Successfully imported and merged ${validEntriesImported} of ${entriesProcessed} entries.`);
+                        modalType = 'success';
                         const mergedArray = Array.from(mergedDataMap.values());
-                        mergedArray.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
+                        mergedArray.sort((a, b) => {
+                            const dateA = getLocalDateFromString(a.date);
+                            const dateB = getLocalDateFromString(b.date);
+                            if (isNaN(dateA.getTime())) return 1;
+                            if (isNaN(dateB.getTime())) return -1;
+                            return dateA - dateB;
+                        });
                         localStorage.setItem('lvadData', JSON.stringify(mergedArray));
                         displayCharts();
-                        displayModalWithMessage("Data successfully imported and merged.");
-                    } catch (err) {
-                        console.error("Import error:", err);
-                        displayModalWithMessage("Failed to read or parse JSON file. Ensure it's valid.");
-                    } finally {
-                        event.target.value = null; 
+                    } else if (entriesProcessed > 0) {
+                        finalModalMessage.push(`No valid entries were imported out of ${entriesProcessed} processed.`);
+                        modalType = 'alert';
+                    } else {
+                         finalModalMessage.push("The imported file was empty or contained no processable entries.");
+                         modalType = 'info';
                     }
+                    
+                    if (importMessages.length > 0) {
+                        const summary = (validEntriesImported > 0) ? "Import completed with the following messages:" : "Import encountered issues:";
+                        finalModalMessage.push(summary, ...importMessages);
+                        if (modalType !== 'alert' && importMessages.length > 0) modalType = 'alert'; // If any messages, make it an alert unless it was already a success
+                    }
+
+                    displayModalWithMessage(finalModalMessage.length === 1 ? finalModalMessage[0] : finalModalMessage, modalType);
+
+                };
+                reader.onerror = function() {
+                    console.error("FileReader error");
+                    displayModalWithMessage("Error reading the uploaded file.", 'alert');
                 };
                 reader.readAsText(file);
+                event.target.value = null;
             }
 
+
             if (headerIcon) {
-                let isFilled = false; 
+                let isFilled = false;
                 setInterval(() => {
                     if (isFilled) {
                         headerIcon.classList.remove('bi-heart-pulse-fill');
@@ -755,16 +1045,15 @@
                         headerIcon.classList.remove('bi-heart-pulse');
                         headerIcon.classList.add('bi-heart-pulse-fill');
                     }
-                    isFilled = !isFilled; 
-                }, 1000); 
+                    isFilled = !isFilled;
+                }, 1000);
             }
-            
+
             dateInput.value = dateToYYYYMMDD(new Date());
 
-            saveButton.addEventListener('click', saveData);
             if (tabUploadButton && uploadInput) {
                 tabUploadButton.addEventListener('click', () => {
-                    showConfirmationModal("Confirm Import", "Import data? Entries with the same date will be updated with the imported values.", () => uploadInput.click());
+                    showConfirmationModal("Confirm Import", "Import data? Entries with the same date will be updated. Invalid entries will be skipped.", () => uploadInput.click());
                 });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
@@ -772,8 +1061,10 @@
             if (tabDownloadButton) tabDownloadButton.addEventListener('click', downloadJsonData);
 
             displayCharts();
+            if (tempInput) tempInput.focus();
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
