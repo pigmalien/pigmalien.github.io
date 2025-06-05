@@ -120,24 +120,24 @@
         background-color: transparent;
         color: white;
     }
-    /* Placeholder CSS can be removed or left, as placeholders are gone */
-    /* .box1 .form-control::placeholder {
+    /* Styling for input placeholders */
+    .box1 .form-control::placeholder { /* Standard */
         color: rgba(255, 255, 255, 0.4);
-        opacity: 1; 
+        opacity: 1; /* Ensure placeholder is visible */
     }
-    .box1 .form-control:-ms-input-placeholder { 
+    .box1 .form-control:-ms-input-placeholder { /* IE 10-11 */
        color: rgba(255, 255, 255, 0.4);
     }
-    .box1 .form-control::-ms-input-placeholder { 
+    .box1 .form-control::-ms-input-placeholder { /* Microsoft Edge */
        color: rgba(255, 255, 255, 0.4);
-    } */
+    }
 
 
     .box1 .input-group-text {
         background-color: #0000;
         color: white;
-        min-width: 110px; /* Adjust as needed for icon + text */
-        justify-content: flex-start;
+        /* min-width removed to allow shrink-to-fit icon */
+        justify-content: flex-start; /* Icon will be at the start */
     }
      .box1 .input-group-text .bi {
         vertical-align: middle;
@@ -186,8 +186,6 @@
 .box1 input[type=number] {
     -moz-appearance: textfield; /* For Firefox */
     appearance: textfield;      /* Standard version */
-    /* Or, more commonly for removing default UI like spinners: */
-    /* appearance: none; */
 }
 
 
@@ -282,8 +280,8 @@
             height: 200px;
         }
          .box1 .input-group-text {
-            min-width: 50px; /* Allow smaller labels on small screens */
-            font-size: 0.9em;
+            /* min-width: 50px; */ /* Removed, will rely on padding and icon size */
+            font-size: 0.9em; /* This can stay to slightly reduce icon size on small screens */
         }
     }
 </style>
@@ -304,37 +302,37 @@
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
                         <div class="input-group">
-                            <span class="input-group-text" id="dateInput-addon"><i class="bi bi-calendar-event me-2"></i><span class="d-none d-sm-inline">Date</span></span>
+                            <span class="input-group-text" id="dateInput-addon"><i class="bi bi-calendar-event me-2"></i></span>
                             <input type="date" class="form-control" id="dateInput" aria-label="Date"
                                 aria-describedby="dateInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="tempInput-addon"><i class="bi bi-thermometer-half me-2"></i><span class="d-none d-sm-inline">Temp</span></span>
+                            <span class="input-group-text" id="tempInput-addon"><i class="bi bi-thermometer-half me-2"></i></span>
                             <input type="number" class="form-control" id="tempInput" step="0.1" aria-label="Temperature"
                                 aria-describedby="tempInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="weightInput-addon"><i class="bi bi-person-arms-up me-2"></i><span class="d-none d-sm-inline">Weight</span></span>
+                            <span class="input-group-text" id="weightInput-addon"><i class="bi bi-person-arms-up me-2"></i></span>
                             <input type="number" class="form-control" id="weightInput" step="0.1" aria-label="Weight"
                                 aria-describedby="weightInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="speedInput-addon"><i class="bi bi-speedometer2 me-2"></i><span class="d-none d-sm-inline">Speed</span></span>
+                            <span class="input-group-text" id="speedInput-addon"><i class="bi bi-speedometer2 me-2"></i></span>
                             <input type="number" class="form-control" id="speedInput" step="10" aria-label="Speed"
                                 aria-describedby="speedInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="flowInput-addon"><i class="bi bi-water me-2"></i><span class="d-none d-sm-inline">Flow</span></span>
+                            <span class="input-group-text" id="flowInput-addon"><i class="bi bi-water me-2"></i></span>
                             <input type="number" class="form-control" id="flowInput" step="0.1" aria-label="Flow"
                                 aria-describedby="flowInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="piInput-addon"><i class="bi bi-graph-up me-2"></i><span class="d-none d-sm-inline">PI</span></span>
+                            <span class="input-group-text" id="piInput-addon"><i class="bi bi-graph-up me-2"></i></span>
                             <input type="number" class="form-control" id="piInput" step="0.1" aria-label="PI"
                                 aria-describedby="piInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="powerInput-addon"><i class="bi bi-lightning-charge me-2"></i><span class="d-none d-sm-inline">Power</span></span>
+                            <span class="input-group-text" id="powerInput-addon"><i class="bi bi-lightning-charge me-2"></i></span>
                             <input type="number" class="form-control" id="powerInput" step="0.1" aria-label="Power"
                                 aria-describedby="powerInput-addon">
                         </div>
@@ -497,14 +495,13 @@
             const headerIcon = document.querySelector('.header-icon');
 
             let chartInstances = {};
-            // REMOVED min/max for input validation, kept yAxis options for chart display
             const chartConfigs = {
-                temp:   { canvasId: 'tempChart',   label: 'Temperature', unit: '°F',    color: 'rgba(54, 162, 235, 1)',  precision: 1, yAxisMin: 95,   yAxisMax: 105, yAxisMinSuggest: 97 },
-                weight: { canvasId: 'weightChart', label: 'Weight',      unit: 'lbs',   color: 'rgba(75, 192, 192, 1)',  precision: 1, yAxisMinSuggest: 100 },
-                speed:  { canvasId: 'speedChart',  label: 'Speed',       unit: 'rpm',   color: 'rgba(255, 206, 86, 1)',  precision: 0, yAxisMinSuggest: 2500 },
-                flow:   { canvasId: 'flowChart',   label: 'Flow',        unit: 'L/min', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
+                temp:   { canvasId: 'tempChart',   label: 'Temperature', unit: '',    color: 'rgba(54, 162, 235, 1)',  precision: 1, yAxisMin: 95,   yAxisMax: 105, yAxisMinSuggest: 97 },
+                weight: { canvasId: 'weightChart', label: 'Weight',      unit: '',   color: 'rgba(75, 192, 192, 1)',  precision: 1, yAxisMinSuggest: 100 },
+                speed:  { canvasId: 'speedChart',  label: 'Speed',       unit: '',   color: 'rgba(255, 206, 86, 1)',  precision: 0, yAxisMinSuggest: 2500 },
+                flow:   { canvasId: 'flowChart',   label: 'Flow',        unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
                 pi:     { canvasId: 'piChart',     label: 'PI',          unit: '',      color: 'rgba(255, 159, 64, 1)',  precision: 1, yAxisMinSuggest: 1 },
-                power:  { canvasId: 'powerChart',  label: 'Power',       unit: 'Watts', color: 'rgba(255, 99, 132, 1)',  precision: 1, yAxisMinSuggest: 2 }
+                power:  { canvasId: 'powerChart',  label: 'Power',       unit: '', color: 'rgba(255, 99, 132, 1)',  precision: 1, yAxisMinSuggest: 2 }
             };
 
             const inputFieldsConfig = [
@@ -516,6 +513,14 @@
                 { id: 'piInput', name: 'PI', type: 'number', required: true, configKey: 'pi' },
                 { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power' }
             ];
+
+            // Add placeholders to input fields
+            inputFieldsConfig.forEach(field => {
+                const inputElement = document.getElementById(field.id);
+                if (inputElement) {
+                    inputElement.placeholder = field.name;
+                }
+            });
 
             function saveDataConfirmed(dataFromForm) {
                 const parsedData = {
@@ -663,7 +668,7 @@
                         data: {
                             labels: labels7Day,
                             datasets: [{
-                                label: config.unit ? `${config.label} (${config.unit})` : config.label,
+                                label: config.unit ? `${config.label} (${config.unit})` : config.label, // Will now just be config.label
                                 data: datasets7DayFinal[key],
                                 borderColor: config.color,
                                 backgroundColor: config.color.replace('1)', '0.2)'),
@@ -686,8 +691,8 @@
                                     max: config.yAxisMax,
                                     suggestedMin: config.yAxisMinSuggest,
                                     title: {
-                                        display: !!config.unit,
-                                        text: config.unit,
+                                        display: !!config.unit, // Will be false as config.unit is ''
+                                        text: config.unit,      // Will be ''
                                         color: 'white',
                                         font: { size: 10 }
                                     },
@@ -726,8 +731,8 @@
                                                 return tooltipLabelText + 'N/A';
                                             }
                                             const precision = currentChartConfig ? currentChartConfig.precision : 0;
-                                            const unit = currentChartConfig ? currentChartConfig.unit : '';
-                                            return tooltipLabelText + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : '');
+                                            const unit = currentChartConfig ? currentChartConfig.unit : ''; // unit will be ''
+                                            return tooltipLabelText + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : ''); // unit part will be empty
                                         }
                                     }
                                 },
@@ -845,7 +850,6 @@
                     if (isNaN(numValue) || !isFinite(numValue)) {
                         return `${name} must be a valid number.`;
                     }
-                    // Range checks removed here
                 }
                 return null;
             }
@@ -927,7 +931,6 @@
                     importedRawData.forEach((item, index) => {
                         entriesProcessed++;
                         let currentItemErrors = [];
-                        // Removed currentItemWarnings as range checks are gone
                         let hasFatalErrorForItem = false;
                         const validatedEntry = {};
 
@@ -971,7 +974,6 @@
                                             validatedEntry[key] = null;
                                         } else {
                                             validatedEntry[key] = numValue;
-                                            // Range check warnings removed here
                                         }
                                     }
                                 } else {
@@ -983,7 +985,6 @@
                         if (currentItemErrors.length > 0) {
                             importMessages.push(...currentItemErrors);
                         }
-                        // Removed pushing currentItemWarnings
 
                         if (!hasFatalErrorForItem && validatedEntry.date) {
                             mergedDataMap.set(validatedEntry.date, validatedEntry);
@@ -1020,7 +1021,7 @@
                     if (importMessages.length > 0) {
                         const summary = (validEntriesImported > 0) ? "Import completed with the following messages:" : "Import encountered issues:";
                         finalModalMessage.push(summary, ...importMessages);
-                        if (modalType !== 'alert' && importMessages.length > 0) modalType = 'alert'; // If any messages, make it an alert unless it was already a success
+                        if (modalType !== 'alert' && importMessages.length > 0) modalType = 'alert'; 
                     }
 
                     displayModalWithMessage(finalModalMessage.length === 1 ? finalModalMessage[0] : finalModalMessage, modalType);
