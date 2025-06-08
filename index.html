@@ -100,6 +100,11 @@
         }
     }
 
+    /* Added to push content boxes further down */
+    .container-fluid.pt-3 {
+        margin-top: 40px; /* Adjust this value as needed */
+    }
+
     .box1 {
         padding: 20px;
         background-color: rgba(255, 255, 255, 0.15);
@@ -165,15 +170,23 @@
         margin-bottom: 1rem;
     }
 
-    .input-group .form-control:focus {
-        border-color: #007bff; /* A slightly more visible focus color */
-        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.35);
+    /* Focus style for input fields in box1 */
+    .box1 .input-group .form-control:focus {
         background-color: rgba(0,0,0,0.1); /* Keep background consistent on focus */
         color: white;
+        border: 2px solid #376670; /* Apply full border on focus */
+        box-shadow: none; /* Remove the glow */
     }
 
-    .input-group .form-control {
-        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    /* Focus style for the icon part when the input group is focused in box1 */
+    .box1 .input-group:focus-within .input-group-text {
+        border: 2px solid #376670; /* Apply full border on focus to match input */
+    }
+
+    /* Transitions for input fields and icons in box1 */
+    .box1 .input-group .form-control,
+    .box1 .input-group .input-group-text {
+        transition: border-bottom-width 0.15s ease-in-out, border-bottom-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
     }
 
     /* Hide spinners on number inputs */
@@ -497,21 +510,21 @@
             let chartInstances = {};
             const chartConfigs = {
                 temp:   { canvasId: 'tempChart',   label: 'Temperature', unit: '',    color: 'rgba(54, 162, 235, 1)',  precision: 1, yAxisMin: 95,   yAxisMax: 105, yAxisMinSuggest: 97 },
-                weight: { canvasId: 'weightChart', label: 'Weight',      unit: '',   color: 'rgba(75, 192, 192, 1)',  precision: 1, yAxisMinSuggest: 100 },
-                speed:  { canvasId: 'speedChart',  label: 'Speed',       unit: '',   color: 'rgba(255, 206, 86, 1)',  precision: 0, yAxisMinSuggest: 2500 },
-                flow:   { canvasId: 'flowChart',   label: 'Flow',        unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
-                pi:     { canvasId: 'piChart',     label: 'PI',          unit: '',      color: 'rgba(255, 159, 64, 1)',  precision: 1, yAxisMinSuggest: 1 },
-                power:  { canvasId: 'powerChart',  label: 'Power',       unit: '', color: 'rgba(255, 99, 132, 1)',  precision: 1, yAxisMinSuggest: 2 }
+                weight: { canvasId: 'weightChart', label: 'Weight',      unit: '',    color: 'rgba(75, 192, 192, 1)',  precision: 1, yAxisMinSuggest: 100 },
+                speed:  { canvasId: 'speedChart',  label: 'Speed',       unit: '',    color: 'rgba(255, 206, 86, 1)',  precision: 0, yAxisMinSuggest: 2500 },
+                flow:   { canvasId: 'flowChart',   label: 'Flow',        unit: '',    color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
+                pi:     { canvasId: 'piChart',     label: 'PI',          unit: '',    color: 'rgba(255, 159, 64, 1)',  precision: 1, yAxisMinSuggest: 1 },
+                power:  { canvasId: 'powerChart',  label: 'Power',       unit: '',    color: 'rgba(255, 99, 132, 1)',  precision: 1, yAxisMinSuggest: 2 }
             };
-
+ 
             const inputFieldsConfig = [
-                { id: 'dateInput', name: 'Date', type: 'date', required: true, configKey: null },
-                { id: 'tempInput', name: 'Temperature', type: 'number', required: true, configKey: 'temp' },
-                { id: 'weightInput', name: 'Weight', type: 'number', required: true, configKey: 'weight' },
-                { id: 'speedInput', name: 'Speed', type: 'number', required: true, configKey: 'speed' },
-                { id: 'flowInput', name: 'Flow', type: 'number', required: true, configKey: 'flow' },
-                { id: 'piInput', name: 'PI', type: 'number', required: true, configKey: 'pi' },
-                { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power' }
+                { id: 'dateInput',   name: 'Date',        type: 'date',   required: true, configKey: null,     iconClass: 'bi-calendar-event' },
+                { id: 'tempInput',   name: 'Temperature', type: 'number', required: true, configKey: 'temp',   iconClass: 'bi-thermometer-half' },
+                { id: 'weightInput', name: 'Weight',      type: 'number', required: true, configKey: 'weight', iconClass: 'bi-person-arms-up' },
+                { id: 'speedInput',  name: 'Speed',       type: 'number', required: true, configKey: 'speed',  iconClass: 'bi-speedometer2' },
+                { id: 'flowInput',   name: 'Flow',        type: 'number', required: true, configKey: 'flow',   iconClass: 'bi-water' },
+                { id: 'piInput',     name: 'PI',          type: 'number', required: true, configKey: 'pi',     iconClass: 'bi-graph-up' },
+                { id: 'powerInput',  name: 'Power',       type: 'number', required: true, configKey: 'power',  iconClass: 'bi-lightning-charge' }
             ];
 
             // Add placeholders to input fields
@@ -772,7 +785,10 @@
                 myModalLabel.innerHTML = titleIconHtml;
 
                 if (Array.isArray(message)) {
-                    modalAlertText.innerHTML = `<ul>${message.map(m => `<li>${m}</li>`).join('')}</ul>`;
+                    modalAlertText.innerHTML = message.map(errObj => {
+                        const iconHtml = errObj.iconClass ? `<i class="bi ${errObj.iconClass} me-2"></i>` : '';
+                        return `${iconHtml}${errObj.message}`;
+                    }).join('<br>');
                 } else {
                     modalAlertText.innerHTML = message;
                 }
@@ -876,7 +892,7 @@
                     const value = inputElement.value;
                     const error = validateInput(value, field);
                     if (error) {
-                        validationErrors.push(error);
+                        validationErrors.push({ message: error, iconClass: field.iconClass });
                     }
                     const dataKey = field.configKey || field.id.replace('Input', '');
                     dataToSave[dataKey] = value;
