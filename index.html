@@ -101,16 +101,19 @@
     }
 
     /* Added to push content boxes further down */
-    .container-fluid.pt-3 {
-        margin-top: 40px; /* Adjust this value as needed */
+    .container.pt-3 {
+        /* Changed selector to match HTML */
+        margin-top: 40px;
+        /* This margin will now apply */
     }
 
     .box1 {
         padding: 20px;
-        background-color: rgba(255, 255, 255, 0.15);
+        background-color: rgba(50, 50, 50, 0.15);
         backdrop-filter: grayscale(.8) blur(5px);
-        border-radius: 6px 0px 0px 6px;
+        border-radius: 6px 6px 6px 6px;
         box-sizing: border-box;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Added drop shadow */
         animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
         opacity: 0;
     }
@@ -125,16 +128,23 @@
         background-color: transparent;
         color: white;
     }
+
     /* Styling for input placeholders */
-    .box1 .form-control::placeholder { /* Standard */
+    .box1 .form-control::placeholder {
+        /* Standard */
         color: rgba(255, 255, 255, 0.4);
-        opacity: 1; /* Ensure placeholder is visible */
+        opacity: 1;
+        /* Ensure placeholder is visible */
     }
-    .box1 .form-control:-ms-input-placeholder { /* IE 10-11 */
-       color: rgba(255, 255, 255, 0.4);
+
+    .box1 .form-control:-ms-input-placeholder {
+        /* IE 10-11 */
+        color: rgba(255, 255, 255, 0.4);
     }
-    .box1 .form-control::-ms-input-placeholder { /* Microsoft Edge */
-       color: rgba(255, 255, 255, 0.4);
+
+    .box1 .form-control::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: rgba(255, 255, 255, 0.4);
     }
 
 
@@ -142,45 +152,45 @@
         background-color: #0000;
         color: white;
         /* min-width removed to allow shrink-to-fit icon */
-        justify-content: flex-start; /* Icon will be at the start */
+        justify-content: flex-start;
+        /* Icon will be at the start */
     }
-     .box1 .input-group-text .bi {
+
+    .box1 .input-group-text .bi {
         vertical-align: middle;
     }
 
 
     .box1 .input-fields-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        /* Stack inputs vertically */
         gap: 1rem;
         margin-bottom: 1rem;
     }
 
-    .box1 .input-fields-container .input-group {
-        flex: 1 1 280px; /* Adjusted for potentially wider input groups with icons */
-    }
-
     .box1 .inset-input-area {
         padding: 0.3rem;
-        background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
-            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+        /* background-color, border-radius, and box-shadow removed to eliminate inset look */
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
     /* Focus style for input fields in box1 */
     .box1 .input-group .form-control:focus {
-        background-color: rgba(0,0,0,0.1); /* Keep background consistent on focus */
+        background-color: rgba(0, 0, 0, 0.1);
+        /* Keep background consistent on focus */
         color: white;
-        border: 2px solid #376670; /* Apply full border on focus */
-        box-shadow: none; /* Remove the glow */
+        border: 2px solid #376670;
+        /* Apply full border on focus */
+        box-shadow: none;
+        /* Remove the glow */
     }
 
     /* Focus style for the icon part when the input group is focused in box1 */
     .box1 .input-group:focus-within .input-group-text {
-        border: 2px solid #376670; /* Apply full border on focus to match input */
+        border: 2px solid #376670;
+        /* Apply full border on focus to match input */
     }
 
     /* Transitions for input fields and icons in box1 */
@@ -196,37 +206,33 @@
         margin: 0;
     }
 
-.box1 input[type=number] {
-    -moz-appearance: textfield; /* For Firefox */
-    appearance: textfield;      /* Standard version */
-}
+    .box1 input[type=number] {
+        -moz-appearance: textfield;
+        /* For Firefox */
+        appearance: textfield;
+        /* Standard version */
+    }
 
 
     .box2 {
         word-wrap: break-word;
         padding: 20px;
-        background-color: rgba(255, 255, 255, 0.15);
+        background-color: rgba(50, 50, 50, 0.15);
         backdrop-filter: grayscale(.8) blur(5px);
-        border-radius: 0px 6px 6px 0px;
+        border-radius: 6px 6px 6px 6px;
         box-sizing: border-box;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Added drop shadow */
         animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
         opacity: 0;
-    }
-
-    .box2 .charts-container-inset {
-        padding: 0.3rem;
-        background-color: rgba(0, 0, 0, 0.15);
-        border-radius: 4px;
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
-            inset -2px -2px 5px rgba(255, 255, 255, 0.05);
-        margin-top: 0rem;
     }
 
     .chart-container {
         position: relative;
         height: 250px;
         width: 100%;
-        margin-bottom: 1rem;
+        /* Inset styles removed. box-sizing can also be removed if no padding/border is planned here. */
+        /* border-radius: 4px; */
+        /* This was part of the inset style, can be removed or kept based on preference */
     }
 
 
@@ -251,7 +257,8 @@
         border-top: none;
     }
 
-    #myModalLabel .bi { /* General icon styling for modal title */
+    #myModalLabel .bi {
+        /* General icon styling for modal title */
         font-size: 1.5em;
         vertical-align: middle;
     }
@@ -260,8 +267,10 @@
     #myModal .modal-body {
         padding: 10px;
     }
+
     #myModal .modal-body ul {
-        padding-left: 20px; /* Indent bullet points if message is an array */
+        padding-left: 20px;
+        /* Indent bullet points if message is an array */
     }
 
 
@@ -272,6 +281,90 @@
     .box1 h2,
     .box2 h2 {
         font-weight: 700;
+    }
+
+    .chart-display-box {
+        background-color: rgba(255, 255, 255, 0);
+        /* Transparent background */
+        /* backdrop-filter: grayscale(.8) blur(5px); */
+        /* Backdrop filter removed for full transparency */
+        /* border-radius: 4px; */
+        /* Border radius removed */
+        box-sizing: border-box;
+        animation-name: fadeInSlideUp;
+        animation-duration: 0.7s;
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+        opacity: 0;
+        /* Initial state for animation */
+        width: 100%;
+        /* Ensure it fills the column */
+        /* Margin bottom will be handled by the parent .col- div */
+    }
+
+    /* Custom styles for nav-tabs in box2 (navigational style, placed below content) */
+    .box2 .nav-tabs {
+        /* The UL element */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        /* Line below the tabs */
+        margin-bottom: 0;
+        /* Remove default margin if any, spacing handled by tab-content */
+        /* justify-content-end is on the ul via HTML */
+    }
+
+    .box2 .nav-tabs .nav-item {
+        margin-bottom: -1px;
+        /* Pulls the nav-link down to cover the ul's border-bottom */
+        margin-right: 2px;
+        /* Spacing between tab items */
+    }
+
+    .box2 .nav-tabs .nav-link {
+        color: rgba(255, 255, 255, 0.7);
+        background-color: transparent;
+        /* Inactive tabs are transparent */
+        border: 1px solid transparent;
+        /* All borders transparent initially for inactive tabs */
+        border-top-left-radius: 0.25rem;
+        /* Rounded top corners */
+        border-top-right-radius: 0.25rem;
+        border-bottom-left-radius: 0;
+        /* Sharp bottom corners */
+        border-bottom-right-radius: 0;
+        padding: 0.5rem 1rem;
+        position: relative;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    }
+
+    .box2 .nav-tabs .nav-link:hover:not(.active) {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.05);
+        /* Slight highlight on hover */
+        /* For inactive hover, top and side borders get a hint, bottom border matches ul's border */
+        border-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.2);
+        /* (top, sides, bottom) */
+    }
+
+    .box2 .nav-tabs .nav-link.active {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.15);
+        /* Match chart-display-box background */
+        /* Active tab: top and side borders visible, bottom border matches its background (appears merged) */
+        border-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0);
+        /* (border-top-color, border-right-color & border-left-color, border-bottom-color) */
+    }
+
+    /* Add some top padding to the tab content if tabs are above */
+    .box2 .tab-content {
+        padding-top: 0.75rem;
+    }
+
+    .chart-section-title {
+        color: white;
+        font-size: 1.15rem;
+        /* Slightly smaller than box titles */
+        font-weight: bold;
+        /* text-center and mb-2 will be applied via Bootstrap classes */
     }
 
     @media (max-width: 991.98px) {
@@ -291,10 +384,14 @@
 
         .chart-container {
             height: 200px;
+            /* This height will also include the padding due to box-sizing */
         }
-         .box1 .input-group-text {
-            /* min-width: 50px; */ /* Removed, will rely on padding and icon size */
-            font-size: 0.9em; /* This can stay to slightly reduce icon size on small screens */
+
+        .box1 .input-group-text {
+            /* min-width: 50px; */
+            /* Removed, will rely on padding and icon size */
+            font-size: 0.9em;
+            /* This can stay to slightly reduce icon size on small screens */
         }
     }
 </style>
@@ -308,29 +405,33 @@
         <i class="bi bi-heart-pulse header-icon"></i>
     </div>
 
-    <div class="container-fluid pt-3">
+    <div class="container pt-3">
         <div class="row justify-content-center">
             <div class="box1 col-12 col-lg-auto mb-4">
-                <h2 class="mb-3">New LVAD Log Entry</h2>
+                <h2 class="mb-3">New Log Entry</h2>
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
                         <div class="input-group">
-                            <span class="input-group-text" id="dateInput-addon"><i class="bi bi-calendar-event me-2"></i></span>
+                            <span class="input-group-text" id="dateInput-addon"><i
+                                    class="bi bi-calendar-event me-2"></i></span>
                             <input type="date" class="form-control" id="dateInput" aria-label="Date"
                                 aria-describedby="dateInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="tempInput-addon"><i class="bi bi-thermometer-half me-2"></i></span>
+                            <span class="input-group-text" id="tempInput-addon"><i
+                                    class="bi bi-thermometer-half me-2"></i></span>
                             <input type="number" class="form-control" id="tempInput" step="0.1" aria-label="Temperature"
                                 aria-describedby="tempInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="weightInput-addon"><i class="bi bi-person-arms-up me-2"></i></span>
+                            <span class="input-group-text" id="weightInput-addon"><i
+                                    class="bi bi-person-arms-up me-2"></i></span>
                             <input type="number" class="form-control" id="weightInput" step="0.1" aria-label="Weight"
                                 aria-describedby="weightInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="speedInput-addon"><i class="bi bi-speedometer2 me-2"></i></span>
+                            <span class="input-group-text" id="speedInput-addon"><i
+                                    class="bi bi-speedometer2 me-2"></i></span>
                             <input type="number" class="form-control" id="speedInput" step="10" aria-label="Speed"
                                 aria-describedby="speedInput-addon">
                         </div>
@@ -345,69 +446,259 @@
                                 aria-describedby="piInput-addon">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-text" id="powerInput-addon"><i class="bi bi-lightning-charge me-2"></i></span>
+                            <span class="input-group-text" id="powerInput-addon"><i
+                                    class="bi bi-lightning-charge me-2"></i></span>
                             <input type="number" class="form-control" id="powerInput" step="0.1" aria-label="Power"
                                 aria-describedby="powerInput-addon">
                         </div>
                     </div>
                 </div>
                 <div class="mt-3 text-end">
-                    <button id="saveButton" class="btn btn-sm btn-outline-light">Save Entry</button>
+                    <button id="saveButton" class="btn btn-sm btn-outline-light"><i class="bi bi-save me-1"></i>
+                        Save</button>
                 </div>
             </div>
 
-            <div class="box2 col-12 col-lg-auto mb-4">
+            <div class="box2 col-auto mb-4">
                 <div class="container-fluid px-0">
                     <div class="row align-items-center mb-3">
                         <div class="col">
-                            <h2>LVAD Data History</h2>
+                            <h2>Metric Graphs</h2>
                         </div>
                         <div class="col-auto">
-                            <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2"
-                                title="Download Data">
-                                <i class="bi bi-file-earmark-arrow-down"></i><span class="d-none d-md-inline ms-1">Download</span>
-                            </button>
-                            <button id="tabUploadButton" class="btn btn-sm btn-outline-light me-2" title="Import Data">
-                                <i class="bi bi-file-earmark-arrow-up"></i><span class="d-none d-md-inline ms-1">Import</span>
-                            </button>
                             <button id="myBtn" class="btn btn-sm btn-outline-light" title="Information">
                                 <i class="bi bi-info-lg"></i><span class="d-none d-md-inline ms-1">Info</span>
                             </button>
                         </div>
                     </div>
-                    <div class="charts-container-inset">
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="chart-container">
-                                    <canvas id="tempChart"></canvas>
+                    <div class="row mt-3">
+                        <!-- Temperature Chart with Tabs -->
+                        <div class="col-12 mb-4">
+                            <h3 class="chart-section-title text-center mb-2">Temperature</h3>
+                            <!-- Tab Navigation for Temperature Chart -->
+                            <ul class="nav nav-tabs justify-content-end" id="tempChartTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="temp-seven-day-tab" data-bs-toggle="tab"
+                                        data-bs-target="#temp-seven-day-pane" type="button" role="tab"
+                                        aria-controls="temp-seven-day-pane" aria-selected="true">Past Seven
+                                        Days</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="temp-all-time-tab" data-bs-toggle="tab"
+                                        data-bs-target="#temp-all-time-pane" type="button" role="tab"
+                                        aria-controls="temp-all-time-pane" aria-selected="false">All Time</button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content (Temperature Chart) -->
+                            <div class="tab-content" id="tempChartTabContent">
+                                <div class="tab-pane fade show active" id="temp-seven-day-pane" role="tabpanel"
+                                    aria-labelledby="temp-seven-day-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.5s;">
+                                        <div class="chart-container">
+                                            <canvas id="tempChart"></canvas>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="chart-container">
-                                    <canvas id="weightChart"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="chart-container">
-                                    <canvas id="speedChart"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="chart-container">
-                                    <canvas id="flowChart"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="chart-container">
-                                    <canvas id="piChart"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="chart-container">
-                                    <canvas id="powerChart"></canvas>
+                                <!-- New Tab Pane for All Time Temperature Data -->
+                                <div class="tab-pane fade" id="temp-all-time-pane" role="tabpanel"
+                                    aria-labelledby="temp-all-time-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.5s;">
+                                        <div class="chart-container">
+                                            <canvas id="tempChartAllTime"></canvas>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 mb-4">
+                            <h3 class="chart-section-title text-center mb-2">Weight</h3>
+                            <!-- Tab Navigation for Weight Chart -->
+                            <ul class="nav nav-tabs justify-content-end" id="weightChartTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="weight-seven-day-tab" data-bs-toggle="tab"
+                                        data-bs-target="#weight-seven-day-pane" type="button" role="tab"
+                                        aria-controls="weight-seven-day-pane" aria-selected="true">Past Seven
+                                        Days</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="weight-all-time-tab" data-bs-toggle="tab"
+                                        data-bs-target="#weight-all-time-pane" type="button" role="tab"
+                                        aria-controls="weight-all-time-pane" aria-selected="false">All Time</button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content (Weight Chart) -->
+                            <div class="tab-content" id="weightChartTabContent">
+                                <div class="tab-pane fade show active" id="weight-seven-day-pane" role="tabpanel"
+                                    aria-labelledby="weight-seven-day-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.55s;">
+                                        <div class="chart-container">
+                                            <canvas id="weightChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="weight-all-time-pane" role="tabpanel"
+                                    aria-labelledby="weight-all-time-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.55s;">
+                                        <div class="chart-container">
+                                            <canvas id="weightChartAllTime"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <h3 class="chart-section-title text-center mb-2">Speed</h3>
+                            <!-- Tab Navigation for Speed Chart -->
+                            <ul class="nav nav-tabs justify-content-end" id="speedChartTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="speed-seven-day-tab" data-bs-toggle="tab"
+                                        data-bs-target="#speed-seven-day-pane" type="button" role="tab"
+                                        aria-controls="speed-seven-day-pane" aria-selected="true">Past Seven
+                                        Days</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="speed-all-time-tab" data-bs-toggle="tab"
+                                        data-bs-target="#speed-all-time-pane" type="button" role="tab"
+                                        aria-controls="speed-all-time-pane" aria-selected="false">All Time</button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content (Speed Chart) -->
+                            <div class="tab-content" id="speedChartTabContent">
+                                <div class="tab-pane fade show active" id="speed-seven-day-pane" role="tabpanel"
+                                    aria-labelledby="speed-seven-day-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.6s;">
+                                        <div class="chart-container">
+                                            <canvas id="speedChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="speed-all-time-pane" role="tabpanel"
+                                    aria-labelledby="speed-all-time-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.6s;">
+                                        <div class="chart-container">
+                                            <canvas id="speedChartAllTime"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <h3 class="chart-section-title text-center mb-2">Flow</h3>
+                            <!-- Tab Navigation for Flow Chart -->
+                            <ul class="nav nav-tabs justify-content-end" id="flowChartTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="flow-seven-day-tab" data-bs-toggle="tab"
+                                        data-bs-target="#flow-seven-day-pane" type="button" role="tab"
+                                        aria-controls="flow-seven-day-pane" aria-selected="true">Past Seven
+                                        Days</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="flow-all-time-tab" data-bs-toggle="tab"
+                                        data-bs-target="#flow-all-time-pane" type="button" role="tab"
+                                        aria-controls="flow-all-time-pane" aria-selected="false">All Time</button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content (Flow Chart) -->
+                            <div class="tab-content" id="flowChartTabContent">
+                                <div class="tab-pane fade show active" id="flow-seven-day-pane" role="tabpanel"
+                                    aria-labelledby="flow-seven-day-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.65s;">
+                                        <div class="chart-container">
+                                            <canvas id="flowChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="flow-all-time-pane" role="tabpanel"
+                                    aria-labelledby="flow-all-time-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.65s;">
+                                        <div class="chart-container">
+                                            <canvas id="flowChartAllTime"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <h3 class="chart-section-title text-center mb-2">PI</h3>
+                            <!-- Tab Navigation for PI Chart -->
+                            <ul class="nav nav-tabs justify-content-end" id="piChartTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="pi-seven-day-tab" data-bs-toggle="tab"
+                                        data-bs-target="#pi-seven-day-pane" type="button" role="tab"
+                                        aria-controls="pi-seven-day-pane" aria-selected="true">Past Seven Days</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pi-all-time-tab" data-bs-toggle="tab"
+                                        data-bs-target="#pi-all-time-pane" type="button" role="tab"
+                                        aria-controls="pi-all-time-pane" aria-selected="false">All Time</button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content (PI Chart) -->
+                            <div class="tab-content" id="piChartTabContent">
+                                <div class="tab-pane fade show active" id="pi-seven-day-pane" role="tabpanel"
+                                    aria-labelledby="pi-seven-day-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.7s;">
+                                        <div class="chart-container">
+                                            <canvas id="piChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pi-all-time-pane" role="tabpanel"
+                                    aria-labelledby="pi-all-time-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.7s;">
+                                        <div class="chart-container">
+                                            <canvas id="piChartAllTime"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <h3 class="chart-section-title text-center mb-2">Power</h3>
+                            <!-- Tab Navigation for Power Chart -->
+                            <ul class="nav nav-tabs justify-content-end" id="powerChartTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="power-seven-day-tab" data-bs-toggle="tab"
+                                        data-bs-target="#power-seven-day-pane" type="button" role="tab"
+                                        aria-controls="power-seven-day-pane" aria-selected="true">Past Seven
+                                        Days</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="power-all-time-tab" data-bs-toggle="tab"
+                                        data-bs-target="#power-all-time-pane" type="button" role="tab"
+                                        aria-controls="power-all-time-pane" aria-selected="false">All Time</button>
+                                </li>
+                            </ul>
+                            <!-- Tab Content (Power Chart) -->
+                            <div class="tab-content" id="powerChartTabContent">
+                                <div class="tab-pane fade show active" id="power-seven-day-pane" role="tabpanel"
+                                    aria-labelledby="power-seven-day-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.75s;">
+                                        <div class="chart-container">
+                                            <canvas id="powerChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="power-all-time-pane" role="tabpanel"
+                                    aria-labelledby="power-all-time-tab" tabindex="0">
+                                    <div class="chart-display-box" style="animation-delay: 0.75s;">
+                                        <div class="chart-container">
+                                            <canvas id="powerChartAllTime"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-end">
+                        <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2" title="Download Data">
+                            <i class="bi bi-file-earmark-arrow-down"></i><span class="d-none d-md-inline ms-1">
+                                Download</span>
+                        </button>
+                        <button id="tabUploadButton" class="btn btn-sm btn-outline-light" title="Import Data">
+                            <i class="bi bi-file-earmark-arrow-up"></i><span class="d-none d-md-inline ms-1">
+                                Import</span>
+                        </button>
                     </div>
                 </div>
                 <input type="file" id="uploadInput" accept=".json" style="display: none;">
@@ -509,22 +800,22 @@
 
             let chartInstances = {};
             const chartConfigs = {
-                temp:   { canvasId: 'tempChart',   label: 'Temperature', unit: '',    color: 'rgba(54, 162, 235, 1)',  precision: 1, yAxisMin: 95,   yAxisMax: 105, yAxisMinSuggest: 97 },
-                weight: { canvasId: 'weightChart', label: 'Weight',      unit: '',    color: 'rgba(75, 192, 192, 1)',  precision: 1, yAxisMinSuggest: 100 },
-                speed:  { canvasId: 'speedChart',  label: 'Speed',       unit: '',    color: 'rgba(255, 206, 86, 1)',  precision: 0, yAxisMinSuggest: 2500 },
-                flow:   { canvasId: 'flowChart',   label: 'Flow',        unit: '',    color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
-                pi:     { canvasId: 'piChart',     label: 'PI',          unit: '',    color: 'rgba(255, 159, 64, 1)',  precision: 1, yAxisMinSuggest: 1 },
-                power:  { canvasId: 'powerChart',  label: 'Power',       unit: '',    color: 'rgba(255, 99, 132, 1)',  precision: 1, yAxisMinSuggest: 2 }
+                temp: { canvasId: 'tempChart', label: 'Temperature', unit: '', color: 'rgba(54, 162, 235, 1)', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
+                weight: { canvasId: 'weightChart', label: 'Weight', unit: '', color: 'rgba(75, 192, 192, 1)', precision: 1, yAxisMinSuggest: 100 },
+                speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0, yAxisMinSuggest: 2500 },
+                flow: { canvasId: 'flowChart', label: 'Flow', unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
+                pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1, yAxisMinSuggest: 1 },
+                power: { canvasId: 'powerChart', label: 'Power', unit: '', color: 'rgba(255, 99, 132, 1)', precision: 1, yAxisMinSuggest: 2 }
             };
- 
+
             const inputFieldsConfig = [
-                { id: 'dateInput',   name: 'Date',        type: 'date',   required: true, configKey: null,     iconClass: 'bi-calendar-event' },
-                { id: 'tempInput',   name: 'Temperature', type: 'number', required: true, configKey: 'temp',   iconClass: 'bi-thermometer-half' },
-                { id: 'weightInput', name: 'Weight',      type: 'number', required: true, configKey: 'weight', iconClass: 'bi-person-arms-up' },
-                { id: 'speedInput',  name: 'Speed',       type: 'number', required: true, configKey: 'speed',  iconClass: 'bi-speedometer2' },
-                { id: 'flowInput',   name: 'Flow',        type: 'number', required: true, configKey: 'flow',   iconClass: 'bi-water' },
-                { id: 'piInput',     name: 'PI',          type: 'number', required: true, configKey: 'pi',     iconClass: 'bi-graph-up' },
-                { id: 'powerInput',  name: 'Power',       type: 'number', required: true, configKey: 'power',  iconClass: 'bi-lightning-charge' }
+                { id: 'dateInput', name: 'Date', type: 'date', required: true, configKey: null, iconClass: 'bi-calendar-event' },
+                { id: 'tempInput', name: 'Temperature', type: 'number', required: true, configKey: 'temp', iconClass: 'bi-thermometer-half' },
+                { id: 'weightInput', name: 'Weight', type: 'number', required: true, configKey: 'weight', iconClass: 'bi-person-arms-up' },
+                { id: 'speedInput', name: 'Speed', type: 'number', required: true, configKey: 'speed', iconClass: 'bi-speedometer2' },
+                { id: 'flowInput', name: 'Flow', type: 'number', required: true, configKey: 'flow', iconClass: 'bi-water' },
+                { id: 'piInput', name: 'PI', type: 'number', required: true, configKey: 'pi', iconClass: 'bi-graph-up' },
+                { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power', iconClass: 'bi-lightning-charge' }
             ];
 
             // Add placeholders to input fields
@@ -594,9 +885,9 @@
 
             function dateToYYYYMMDD(date) {
                 if (!(date instanceof Date) || isNaN(date.getTime())) {
-                     const today = new Date();
-                     console.warn("dateToYYYYMMDD received an invalid date. Defaulting to today.");
-                     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                    const today = new Date();
+                    console.warn("dateToYYYYMMDD received an invalid date. Defaulting to today.");
+                    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                 }
                 const year = date.getFullYear();
                 const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -654,6 +945,15 @@
                     });
                 }
 
+                // Prepare data for "All Time" Temperature Chart
+                const allTimeTempLabels = [];
+                const allTimeTempData = [];
+                const allTimeDataStore = {}; // Store for all metrics
+
+                Object.keys(chartConfigs).forEach(metricKey => {
+                    allTimeDataStore[metricKey] = { labels: [], data: [] };
+                });
+
                 const datasets7DayFinal = {};
                 Object.keys(chartConfigs).forEach(metricKey => {
                     const rawData = datasets7DayRaw[metricKey];
@@ -664,6 +964,19 @@
                             return null;
                         }
                     });
+                });
+
+                allSavedData.forEach(item => {
+                    const dateObj = getLocalDateFromString(item.date);
+                    if (item && item.date && !isNaN(dateObj.getTime())) {
+                        const formattedDate = formatDateLabel(dateObj);
+                        Object.keys(chartConfigs).forEach(metricKey => {
+                            if (item[metricKey] !== undefined && item[metricKey] !== null && item[metricKey] !== "" && isFinite(parseFloat(item[metricKey]))) {
+                                allTimeDataStore[metricKey].labels.push(formattedDate);
+                                allTimeDataStore[metricKey].data.push(parseFloat(item[metricKey]));
+                            }
+                        });
+                    }
                 });
 
                 Object.keys(chartConfigs).forEach(key => {
@@ -720,11 +1033,11 @@
                             plugins: {
                                 legend: { display: false },
                                 title: {
-                                    display: true,
-                                    text: config.label,
-                                    color: 'white',
-                                    font: { size: 14, weight: 'bold' },
-                                    padding: { top: 10, bottom: 15 }
+                                    display: false, // Set to false, title handled by HTML
+                                    // text: config.label, // No longer needed
+                                    // color: 'white',
+                                    // font: { size: 14, weight: 'bold' },
+                                    // padding: { top: 10, bottom: 15 }
                                 },
                                 tooltip: {
                                     backgroundColor: 'rgba(0,0,0,0.7)',
@@ -732,7 +1045,8 @@
                                     bodyColor: 'white',
                                     callbacks: {
                                         label: function (context) {
-                                            const currentChartConfig = Object.values(chartConfigs).find(c => c.label === context.chart.options.plugins.title.text);
+                                            // Find config by canvasId as title is no longer in chart options
+                                            const currentChartConfig = Object.values(chartConfigs).find(c => c.canvasId === context.chart.canvas.id);
                                             let tooltipLabelText = context.dataset.label || '';
                                             if (tooltipLabelText) {
                                                 tooltipLabelText = tooltipLabelText.split('(')[0].trim() + ': ';
@@ -764,14 +1078,92 @@
                                         if (value === 0 && context.chart.options.plugins.title.text !== chartConfigs.temp.label) return '-';
 
                                         const chartTitleText = context.chart.options.plugins.title.text;
-                                        const metricCfg = Object.values(chartConfigs).find(c => c.label === chartTitleText);
-                                        return value.toFixed(metricCfg ? metricCfg.precision : 0);
+                                        const metricCfg = Object.values(chartConfigs).find(c => c.canvasId === context.chart.canvas.id); // Find by canvasId
+                                        return value.toFixed(metricCfg ? metricCfg.precision : 1); // Default precision if not found
                                     },
                                     offset: 4,
                                 }
                             }
                         }
                     });
+                });
+
+                // Render "All Time" Charts for all metrics
+                Object.keys(chartConfigs).forEach(metricKey => {
+                    const allTimeCanvasId = chartConfigs[metricKey].canvasId + 'AllTime';
+                    const allTimeCtx = document.getElementById(allTimeCanvasId)?.getContext('2d');
+
+                    if (allTimeCtx) {
+                        if (chartInstances[allTimeCanvasId]) {
+                            chartInstances[allTimeCanvasId].destroy();
+                        }
+                        const currentMetricConfig = chartConfigs[metricKey];
+                        const labelsForChart = allTimeDataStore[metricKey].labels;
+                        const dataForChart = allTimeDataStore[metricKey].data;
+
+                        chartInstances[allTimeCanvasId] = new Chart(allTimeCtx, {
+                            type: 'line',
+                            data: {
+                                labels: labelsForChart,
+                                datasets: [{
+                                    label: currentMetricConfig.label,
+                                    data: dataForChart,
+                                    borderColor: currentMetricConfig.color,
+                                    backgroundColor: currentMetricConfig.color.replace('1)', '0.2)'),
+                                    tension: 0.1,
+                                    fill: false,
+                                    pointBackgroundColor: 'white',
+                                    pointBorderColor: currentMetricConfig.color,
+                                    pointHoverBackgroundColor: currentMetricConfig.color,
+                                    pointHoverBorderColor: 'white',
+                                    spanGaps: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: currentMetricConfig.yAxisMinSuggest !== undefined ? false : (currentMetricConfig.yAxisMin !== undefined ? false : true),
+                                        min: currentMetricConfig.yAxisMin,
+                                        max: currentMetricConfig.yAxisMax,
+                                        suggestedMin: currentMetricConfig.yAxisMinSuggest,
+                                        ticks: { color: 'white', font: { size: 10 } },
+                                        grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                                    },
+                                    x: {
+                                        ticks: { color: 'white', font: { size: 10 }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 },
+                                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                    }
+                                },
+                                plugins: {
+                                    legend: { display: false },
+                                    title: {
+                                        display: false, // Set to false, title handled by HTML
+                                        // text: `${currentMetricConfig.label} (All Time)`, // No longer needed
+                                        // color: 'white',
+                                        // font: { size: 14, weight: 'bold' },
+                                        // padding: { top: 10, bottom: 15 }
+                                    },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(0,0,0,0.7)',
+                                        titleColor: 'white',
+                                        bodyColor: 'white',
+                                        callbacks: {
+                                            label: function (context) {
+                                                let tooltipLabelText = currentMetricConfig.label + ': ';
+                                                if (context.parsed.y === null || context.parsed.y === undefined) return tooltipLabelText + 'N/A';
+                                                return tooltipLabelText + context.parsed.y.toFixed(currentMetricConfig.precision);
+                                            }
+                                        }
+                                    },
+                                    datalabels: { display: false } // Keep datalabels off for all-time views
+                                }
+                            }
+                        });
+                    } else {
+                        console.error(`Canvas with ID ${allTimeCanvasId} not found for All Time ${metricKey} chart.`);
+                    }
                 });
             }
 
@@ -780,7 +1172,7 @@
                 if (type === 'success') {
                     titleIconHtml = '<i class="bi bi-check-circle-fill me-2"></i> Success';
                 } else if (type === 'info') {
-                    titleIconHtml = '<i class="bi bi-info-circle-fill me-2"></i> Information';
+                    titleIconHtml = '<i class="bi bi-info-square-fill me-2"></i> Information';
                 }
                 myModalLabel.innerHTML = titleIconHtml;
 
@@ -798,7 +1190,7 @@
             }
 
             function displayVadInfoModal() {
-                myModalLabel.innerHTML = '<i class="bi bi-info-circle-fill me-2"></i> Contact the VAD team when';
+                myModalLabel.innerHTML = '<i class="bi bi-info-square-fill me-2"></i> Contact the VAD team when';
                 vadContactInfoModalContent.style.display = 'block';
                 generalAlertModalContent.style.display = 'none';
                 modalAlertText.textContent = '';
@@ -806,7 +1198,7 @@
             }
 
             function showConfirmationModal(title, message, yesCallback) {
-                confirmationModalLabel.textContent = title;
+                confirmationModalLabel.innerHTML = title; // Use innerHTML to allow icon
                 confirmationModalBodyText.textContent = message;
                 currentYesCallback = yesCallback;
                 bootstrapConfirmationModal.show();
@@ -845,7 +1237,7 @@
                     displayModalWithMessage("No data available to download.", 'info');
                     return;
                 }
-                showConfirmationModal("Confirm Download", "Are you sure you want to download the LVAD data history?", _executeDownload);
+                showConfirmationModal('<i class="bi bi-arrow-down-square me-2"></i>Confirm Download', "Are you sure you want to download the LVAD data history?", _executeDownload);
             }
 
             function validateInput(value, fieldConfig) {
@@ -966,7 +1358,7 @@
                                     validatedEntry[key] = null;
                                     continue;
                                 }
-                                
+
                                 if (field.type === 'date') {
                                     if (typeof value !== 'string' || isNaN(getLocalDateFromString(value).getTime())) {
                                         currentItemErrors.push(`Entry ${index + 1}: Property '${key}' has invalid date format or value (expected YYYY-MM-DD). Received: "${value}"`);
@@ -993,11 +1385,11 @@
                                         }
                                     }
                                 } else {
-                                     validatedEntry[key] = value;
+                                    validatedEntry[key] = value;
                                 }
                             }
                         }
-                        
+
                         if (currentItemErrors.length > 0) {
                             importMessages.push(...currentItemErrors);
                         }
@@ -1006,7 +1398,7 @@
                             mergedDataMap.set(validatedEntry.date, validatedEntry);
                             validEntriesImported++;
                         } else if (!hasFatalErrorForItem && !validatedEntry.date && !currentItemErrors.some(e => e.includes("date"))) {
-                             importMessages.push(`Entry ${index + 1} skipped: Missing or invalid date after validation.`);
+                            importMessages.push(`Entry ${index + 1} skipped: Missing or invalid date after validation.`);
                         }
                     });
 
@@ -1030,20 +1422,20 @@
                         finalModalMessage.push(`No valid entries were imported out of ${entriesProcessed} processed.`);
                         modalType = 'alert';
                     } else {
-                         finalModalMessage.push("The imported file was empty or contained no processable entries.");
-                         modalType = 'info';
+                        finalModalMessage.push("The imported file was empty or contained no processable entries.");
+                        modalType = 'info';
                     }
-                    
+
                     if (importMessages.length > 0) {
                         const summary = (validEntriesImported > 0) ? "Import completed with the following messages:" : "Import encountered issues:";
                         finalModalMessage.push(summary, ...importMessages);
-                        if (modalType !== 'alert' && importMessages.length > 0) modalType = 'alert'; 
+                        if (modalType !== 'alert' && importMessages.length > 0) modalType = 'alert';
                     }
 
                     displayModalWithMessage(finalModalMessage.length === 1 ? finalModalMessage[0] : finalModalMessage, modalType);
 
                 };
-                reader.onerror = function() {
+                reader.onerror = function () {
                     console.error("FileReader error");
                     displayModalWithMessage("Error reading the uploaded file.", 'alert');
                 };
@@ -1070,7 +1462,7 @@
 
             if (tabUploadButton && uploadInput) {
                 tabUploadButton.addEventListener('click', () => {
-                    showConfirmationModal("Confirm Import", "Import data? Entries with the same date will be updated. Invalid entries will be skipped.", () => uploadInput.click());
+                    showConfirmationModal('<i class="bi bi-arrow-up-square me-2"></i>Confirm Import', "Import data? Entries with the same date will be updated. Invalid entries will be skipped.", () => uploadInput.click());
                 });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
