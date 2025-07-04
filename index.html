@@ -113,7 +113,8 @@
         backdrop-filter: grayscale(.8) blur(5px);
         border-radius: 6px 6px 6px 6px;
         box-sizing: border-box;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Added drop shadow */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        /* Added drop shadow */
         animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
         opacity: 0;
     }
@@ -181,7 +182,7 @@
         background-color: rgba(0, 0, 0, 0.1);
         /* Keep background consistent on focus */
         color: white;
-        border: 2px solid #376670;
+        border: 1px solid rgba(255, 255, 255, 0.4);
         /* Apply full border on focus */
         box-shadow: none;
         /* Remove the glow */
@@ -189,7 +190,7 @@
 
     /* Focus style for the icon part when the input group is focused in box1 */
     .box1 .input-group:focus-within .input-group-text {
-        border: 2px solid #376670;
+        border: 1px solid rgba(255, 255, 255, 0.4);
         /* Apply full border on focus to match input */
     }
 
@@ -221,7 +222,8 @@
         backdrop-filter: grayscale(.8) blur(5px);
         border-radius: 6px 6px 6px 6px;
         box-sizing: border-box;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Added drop shadow */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        /* Added drop shadow */
         animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
         opacity: 0;
     }
@@ -302,62 +304,53 @@
         /* Margin bottom will be handled by the parent .col- div */
     }
 
-    /* Custom styles for nav-tabs in box2 (navigational style, placed below content) */
+    /* --- START: BORDERLESS TAB STYLES --- */
+    /* Custom styles for nav-tabs in box2 for a clean, borderless look */
     .box2 .nav-tabs {
-        /* The UL element */
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        /* Line below the tabs */
-        margin-bottom: 0;
-        /* Remove default margin if any, spacing handled by tab-content */
-        /* justify-content-end is on the ul via HTML */
+        border-bottom: none;
+        /* Remove the line under the tabs */
     }
 
     .box2 .nav-tabs .nav-item {
-        margin-bottom: -1px;
-        /* Pulls the nav-link down to cover the ul's border-bottom */
-        margin-right: 2px;
-        /* Spacing between tab items */
+        /* margin-bottom is no longer needed as there's no border to overlap */
+        margin-bottom: 1.0px;
     }
 
     .box2 .nav-tabs .nav-link {
         color: rgba(255, 255, 255, 0.7);
         background-color: transparent;
-        /* Inactive tabs are transparent */
-        border: 1px solid transparent;
-        /* All borders transparent initially for inactive tabs */
-        border-top-left-radius: 0.25rem;
-        /* Rounded top corners */
-        border-top-right-radius: 0.25rem;
-        border-bottom-left-radius: 0;
-        /* Sharp bottom corners */
-        border-bottom-right-radius: 0;
+        border: none;
+        /* Remove all borders from tab links */
+        border-radius: 0.25rem 0.25rem 0 0;
+        /* Keep top corners slightly rounded */
         padding: 0.5rem 1rem;
-        position: relative;
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     }
 
     .box2 .nav-tabs .nav-link:hover:not(.active) {
         color: white;
         background-color: rgba(255, 255, 255, 0.05);
         /* Slight highlight on hover */
-        /* For inactive hover, top and side borders get a hint, bottom border matches ul's border */
-        border-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.2);
-        /* (top, sides, bottom) */
     }
 
     .box2 .nav-tabs .nav-link.active {
         color: white;
-        background-color: rgba(0, 0, 0, 0.15);
-        /* Match chart-display-box background */
-        /* Active tab: top and side borders visible, bottom border matches its background (appears merged) */
-        border-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0);
-        /* (border-top-color, border-right-color & border-left-color, border-bottom-color) */
+        background-color: rgba(0, 0, 0, 0.2);
+        /* Give active tab a subtle background to stand out */
     }
 
-    /* Add some top padding to the tab content if tabs are above */
+    /* Style the tab content pane for a borderless look */
     .box2 .tab-content {
-        padding-top: 0.75rem;
+        background-color: rgba(0, 0, 0, 0.2);
+        /* Match active tab background for a unified look */
+        border: none;
+        /* Remove border from the content area */
+        padding: 1rem;
+        /* Round corners to match the container, keeping top-right sharp to meet the tabs */
+        border-radius: 0.25rem 0 0.25rem 0.25rem;
     }
+
+    /* --- END: BORDERLESS TAB STYLES --- */
 
     .chart-section-title {
         color: white;
@@ -803,9 +796,9 @@
                 temp: { canvasId: 'tempChart', label: 'Temperature', unit: '', color: 'rgba(54, 162, 235, 1)', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
                 weight: { canvasId: 'weightChart', label: 'Weight', unit: '', color: 'rgba(75, 192, 192, 1)', precision: 1, yAxisMinSuggest: 100 },
                 speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0, yAxisMinSuggest: 2500 },
-                flow: { canvasId: 'flowChart', label: 'Flow', unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMinSuggest: 2 },
-                pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1, yAxisMinSuggest: 1 },
-                power: { canvasId: 'powerChart', label: 'Power', unit: '', color: 'rgba(255, 99, 132, 1)', precision: 1, yAxisMinSuggest: 2 }
+                flow: { canvasId: 'flowChart', label: 'Flow', unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 },
+                pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 },
+                power: { canvasId: 'powerChart', label: 'Power', unit: '', color: 'rgba(255, 99, 132, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 }
             };
 
             const inputFieldsConfig = [
@@ -1116,8 +1109,6 @@
                                     pointBorderColor: currentMetricConfig.color,
                                     pointHoverBackgroundColor: currentMetricConfig.color,
                                     pointHoverBorderColor: 'white',
-                                    pointRadius: 0, // Remove points
-                                    pointHoverRadius: 0, // Remove points on hover
                                     spanGaps: false
                                 }]
                             },
