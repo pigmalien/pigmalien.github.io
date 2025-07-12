@@ -795,7 +795,7 @@
             const chartConfigs = {
                 temp: { canvasId: 'tempChart', label: 'Temperature', unit: '', color: 'rgba(54, 162, 235, 1)', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
                 weight: { canvasId: 'weightChart', label: 'Weight', unit: '', color: 'rgba(75, 192, 192, 1)', precision: 1, yAxisMinSuggest: 100 },
-                speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0, yAxisMinSuggest: 2500 },
+                speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0, yAxisMin: 2400, yAxisMax: 10000 },
                 flow: { canvasId: 'flowChart', label: 'Flow', unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 },
                 pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 },
                 power: { canvasId: 'powerChart', label: 'Power', unit: '', color: 'rgba(255, 99, 132, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 }
@@ -1105,8 +1105,8 @@
                                     backgroundColor: currentMetricConfig.color.replace('1)', '0.2)'),
                                     tension: 0.1,
                                     fill: false,
-                                    pointBackgroundColor: 'white',
-                                    pointBorderColor: currentMetricConfig.color,
+                                    pointRadius: 0,
+                                    pointHoverRadius: 5,
                                     pointHoverBackgroundColor: currentMetricConfig.color,
                                     pointHoverBorderColor: 'white',
                                     spanGaps: false
@@ -1180,6 +1180,12 @@
                 vadContactInfoModalContent.style.display = 'none';
                 generalAlertModalContent.style.display = 'block';
                 bootstrapModal.show();
+
+                if (type === 'success' && message === "Data saved successfully!") {
+                    setTimeout(() => {
+                        bootstrapModal.hide();
+                    }, 3000);
+                }
             }
 
             function displayVadInfoModal() {
