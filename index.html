@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My LVAD Log</title>
+    <!-- Google Fonts: Baloo Thambi 2 and Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CSS -->
@@ -16,16 +18,27 @@
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <style>
+    /* New Color Palette: */
+    /* Darkest Brown: #582F0E */
+    /* Medium Brown: #7F4F24 */
+    /* Light Brown: #936639 */
+    /* Tan: #A68A64 */
+    /* Light Beige: #B6AD90 */
+    /* Light Green-Gray: #C2C5AA */
+    /* Medium Green-Gray: #A4AC86 */
+    /* Dark Green-Gray: #656D4A */
+    /* Darkest Green-Gray: #414833 */
+    /* Very Dark Green-Gray: #333D29 */
+
     body {
-        color: rgb(255, 255, 255);
-        background-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.25) 50%, #000000 100%), url("forestbackground.jpg");
+        font-family: 'Poppins', sans-serif; /* Poppins for body text */
+        color: #C2C5AA; /* Light Green-Gray for general text */
+        background-color: #414833; /* Darkest Green-Gray as the base for Neumorphism */
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
         min-height: 100vh;
-        background-color: rgb(0, 0, 0);
-        padding-top: 80px;
-        /* For fixed header */
+        padding-top: 80px; /* For fixed header */
     }
 
     .header {
@@ -36,9 +49,11 @@
         padding: 10px 20px;
         box-sizing: border-box;
         z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.61);
-        backdrop-filter: grayscale(.8) blur(5px);
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        background-color: #414833; /* Match body for seamless neumorphism */
+        backdrop-filter: none;
+        /* Neumorphic shadow for a raised effect */
+        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4),
+                    -6px -6px 12px rgba(255, 255, 255, 0.05); /* Adjusted light shadow for new palette */
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -50,10 +65,12 @@
     }
 
     .header h1 {
+        font-family: 'Baloo Thambi 2', cursive; /* Baloo Thambi 2 for header title */
         font-size: 2em;
         padding-bottom: calc(0.19em + 2px);
         margin-bottom: 4px;
         position: relative;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .header h1::after {
@@ -64,7 +81,7 @@
         width: 100%;
         height: 2px;
         background-image: repeating-linear-gradient(to right,
-                white 0, white 7px,
+                #C2C5AA 0, #C2C5AA 7px, /* Light Green-Gray for dashed line */
                 transparent 7px, transparent 14px);
         background-size: 14px 100%;
         background-position: -14px 0;
@@ -78,14 +95,17 @@
     }
 
     .header p {
+        font-family: 'Poppins', sans-serif; /* Poppins for header paragraph */
         margin: 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
     .header-icon {
         font-size: 2rem;
         margin-top: 11px;
-        color: white;
+        color: #C2C5AA; /* Light Green-Gray for icon */
         transition: opacity 0.1s ease-in-out;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     @keyframes fadeInSlideUp {
@@ -100,21 +120,18 @@
         }
     }
 
-    /* Added to push content boxes further down */
     .container.pt-3 {
-        /* Changed selector to match HTML */
         margin-top: 40px;
-        /* This margin will now apply */
     }
 
-    .box1 {
+    .box1, .box2 {
         padding: 20px;
-        background-color: rgba(50, 50, 50, 0.15);
-        backdrop-filter: grayscale(.8) blur(5px);
-        border-radius: 6px 6px 6px 6px;
+        background-color: #414833; /* Match body background for seamless neumorphism */
+        border-radius: 20px;
         box-sizing: border-box;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-        /* Added drop shadow */
+        /* Neumorphic convex shadow */
+        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4),
+                    -8px -8px 16px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
         animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
         opacity: 0;
     }
@@ -122,82 +139,109 @@
     .box1 .input-group,
     .box1 .form-control,
     .box1 .input-group-text {
-        border-radius: 0;
+        border-radius: 10px;
+        border: none;
     }
 
     .box1 .form-control {
-        background-color: transparent;
-        color: white;
+        font-family: 'Poppins', sans-serif; /* Poppins for input text */
+        background-color: #414833; /* Match background */
+        color: #C2C5AA; /* Light Green-Gray for input text */
+        /* Inset shadow for input fields */
+        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
+                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
     }
 
     /* Styling for input placeholders */
     .box1 .form-control::placeholder {
-        /* Standard */
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(194, 197, 170, 0.6); /* Adjusted placeholder color based on #C2C5AA */
         opacity: 1;
-        /* Ensure placeholder is visible */
     }
 
     .box1 .form-control:-ms-input-placeholder {
-        /* IE 10-11 */
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(194, 197, 170, 0.6);
     }
 
     .box1 .form-control::-ms-input-placeholder {
-        /* Microsoft Edge */
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(194, 197, 170, 0.6);
     }
 
-
     .box1 .input-group-text {
-        background-color: #0000;
-        color: white;
-        /* min-width removed to allow shrink-to-fit icon */
+        background-color: #414833; /* Match background */
+        color: #C2C5AA; /* Light Green-Gray for icon text */
+        /* Inset shadow for input addons */
+        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
+                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
         justify-content: flex-start;
-        /* Icon will be at the start */
     }
 
     .box1 .input-group-text .bi {
         vertical-align: middle;
     }
 
+    /* Custom icon color for temperature - using a blue from the palette if available, or a close match */
+    #tempInput-addon .bi {
+        color: #7F4F24; /* Medium Brown for temperature icon */
+    }
+
+    /* Custom icon color for weight - using a green from the palette if available, or a close match */
+    #weightInput-addon .bi {
+        color: #656D4A; /* Dark Green-Gray for weight icon */
+    }
+
+    /* Custom icon color for speed - using a yellow/orange from the palette if available, or a close match */
+    #speedInput-addon .bi {
+        color: #A68A64; /* Tan for speed icon */
+    }
+
+    /* Custom icon color for flow - using a purple/blue from the palette if available, or a close match */
+    #flowInput-addon .bi {
+        color: #936639; /* Light Brown for flow icon */
+    }
+
+    /* Custom icon color for PI - using an orange/red from the palette if available, or a close match */
+    #piInput-addon .bi {
+        color: #582F0E; /* Darkest Brown for PI icon */
+    }
+
+    /* Custom icon color for power - using a red/pink from the palette if available, or a close match */
+    #powerInput-addon .bi {
+        color: #B6AD90; /* Light Beige for power icon */
+    }
 
     .box1 .input-fields-container {
         display: flex;
         flex-direction: column;
-        /* Stack inputs vertically */
         gap: 1rem;
         margin-bottom: 1rem;
     }
 
     .box1 .inset-input-area {
         padding: 0.3rem;
-        /* background-color, border-radius, and box-shadow removed to eliminate inset look */
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
     /* Focus style for input fields in box1 */
     .box1 .input-group .form-control:focus {
-        background-color: rgba(0, 0, 0, 0.1);
-        /* Keep background consistent on focus */
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        /* Apply full border on focus */
-        box-shadow: none;
-        /* Remove the glow */
+        background-color: #414833;
+        color: #C2C5AA;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.6),
+                    inset -2px -2px 5px rgba(255, 255, 255, 0.1),
+                    0 0 0 0.25rem rgba(127, 79, 36, 0.25); /* Subtle focus ring matching temp icon color */
+        outline: none;
     }
 
     /* Focus style for the icon part when the input group is focused in box1 */
     .box1 .input-group:focus-within .input-group-text {
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        /* Apply full border on focus to match input */
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.6),
+                    inset -2px -2px 5px rgba(255, 255, 255, 0.1);
     }
 
     /* Transitions for input fields and icons in box1 */
     .box1 .input-group .form-control,
     .box1 .input-group .input-group-text {
-        transition: border-bottom-width 0.15s ease-in-out, border-bottom-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+        transition: all 0.2s ease-in-out;
     }
 
     /* Hide spinners on number inputs */
@@ -209,45 +253,154 @@
 
     .box1 input[type=number] {
         -moz-appearance: textfield;
-        /* For Firefox */
         appearance: textfield;
-        /* Standard version */
     }
 
-
-    .box2 {
-        word-wrap: break-word;
-        padding: 20px;
-        background-color: rgba(50, 50, 50, 0.15);
-        backdrop-filter: grayscale(.8) blur(5px);
-        border-radius: 6px 6px 6px 6px;
-        box-sizing: border-box;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-        /* Added drop shadow */
-        animation: fadeInSlideUp 0.7s 0.4s ease-out forwards;
-        opacity: 0;
+    /* Consolidated button styling for neumorphic effect */
+    .box1 button.btn,
+    .box2 button.btn { /* Apply to buttons in both boxes */
+        font-family: 'Poppins', sans-serif;
+        border: none;
+        background-color: #414833; /* Match body for seamless neumorphism */
+        color: #C2C5AA; /* Light Green-Gray for button text */
+        border-radius: 15px;
+        /* Convex shadow for button */
+        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4),
+                    -6px -6px 12px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
+        transition: all 0.2s ease-in-out;
     }
+
+    .box1 button.btn:hover,
+    .box2 button.btn:hover {
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3),
+                    -4px -4px 8px rgba(255, 255, 255, 0.03); /* Slightly less prominent on hover */
+        color: rgba(194, 197, 170, 0.8); /* Adjusted hover color */
+    }
+
+    .box1 button.btn:active,
+    .box2 button.btn:active {
+        /* Inset shadow on click for a pressed effect */
+        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
+                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
+        color: rgba(194, 197, 170, 0.6); /* Adjusted active color */
+    }
+
+    /* Custom switch styling based on uiverse.io/cbolson/slippery-treefrog-30 */
+    .unit-toggle-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 2em; /* Ensures vertical alignment with the switch */
+    }
+
+    .unit-toggle-checkbox {
+        display: none; /* Hidden checkbox */
+    }
+
+    .unit-toggle-label {
+        position: relative;
+        display: block;
+        width: 8em; /* Increased width for text */
+        height: 2em;
+        border-radius: 1em;
+        background-color: #414833; /* Inactive background color */
+        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
+                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Inset shadow for track */
+        cursor: pointer;
+        overflow: hidden; /* Crucial for sliding background */
+        transition: box-shadow 0.3s ease; /* Smooth shadow transition on focus */
+    }
+
+    .unit-toggle-text {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.8em;
+        color: rgba(194, 197, 170, 0.6); /* Inactive text color */
+        transition: color 0.3s ease;
+        z-index: 2; /* Ensure text is above the sliding background */
+        width: 50%; /* Each text takes half the width */
+        text-align: center;
+        pointer-events: none; /* Allow clicks to pass through to the label */
+    }
+
+    .unit-toggle-text.imperial {
+        left: 0;
+    }
+
+    .unit-toggle-text.metric {
+        right: 0;
+    }
+
+    .unit-toggle-background-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 50%; /* Covers one side */
+        border-radius: 1em; /* Matches label border-radius */
+        background-color: #A68A64; /* Active background color (Tan) */
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2),
+                    -2px -2px 4px rgba(255, 255, 255, 0.02); /* Subtle convex shadow for the slider */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        z-index: 1; /* Behind the text */
+    }
+
+    /* When the checkbox is checked (Metric active) */
+    .unit-toggle-checkbox:checked + .unit-toggle-label .unit-toggle-background-slider {
+        transform: translateX(100%); /* Slide to cover the right side (Metric) */
+        background-color: #936639; /* Light Brown for metric active state */
+    }
+
+    .unit-toggle-checkbox:checked + .unit-toggle-label .unit-toggle-text.imperial {
+        color: rgba(194, 197, 170, 0.3); /* Dim Imperial text */
+    }
+
+    .unit-toggle-checkbox:checked + .unit-toggle-label .unit-toggle-text.metric {
+        color: #C2C5AA; /* Highlight Metric text */
+    }
+
+    /* When unchecked (Imperial active) */
+    .unit-toggle-checkbox:not(:checked) + .unit-toggle-label .unit-toggle-text.imperial {
+        color: #C2C5AA; /* Highlight Imperial text */
+    }
+
+    .unit-toggle-checkbox:not(:checked) + .unit-toggle-label .unit-toggle-text.metric {
+        color: rgba(194, 197, 170, 0.3); /* Dim Metric text */
+    }
+
+    /* Focus styles for accessibility */
+    .unit-toggle-checkbox:focus + .unit-toggle-label {
+        outline: none;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
+                    inset -2px -2px 5px rgba(255, 255, 255, 0.05),
+                    0 0 0 0.25rem rgba(166, 138, 100, 0.25); /* Focus ring on the track */
+    }
+
+    .unit-toggle-checkbox:focus + .unit-toggle-label .unit-toggle-background-slider {
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2),
+                    -2px -2px 4px rgba(255, 255, 255, 0.02),
+                    0 0 0 0.15rem rgba(166, 138, 100, 0.25); /* Focus ring on slider */
+    }
+
 
     .chart-container {
         position: relative;
         height: 250px;
         width: 100%;
-        /* Inset styles removed. box-sizing can also be removed if no padding/border is planned here. */
-        /* border-radius: 4px; */
-        /* This was part of the inset style, can be removed or kept based on preference */
     }
-
 
     #myModal .modal-content,
     #confirmationModal .modal-content {
-        background-color: #ffffff1a;
-        background-image: linear-gradient(to right, rgba(5, 71, 42, 0.3), rgba(139, 172, 216, 0.37));
+        background-color: #414833; /* Neumorphic background for modals */
         border: none;
-        backdrop-filter: grayscale(.8) blur(5px);
-        border-radius: 5px;
+        border-radius: 20px;
         box-sizing: border-box;
-        box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
-        color: white;
+        /* Neumorphic shadow */
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5),
+                    -10px -10px 20px rgba(255, 255, 255, 0.1); /* Adjusted light shadow */
+        color: #C2C5AA; /* Light Green-Gray for modal text */
     }
 
     #myModal .modal-header,
@@ -260,111 +413,116 @@
     }
 
     #myModalLabel .bi {
-        /* General icon styling for modal title */
         font-size: 1.5em;
         vertical-align: middle;
     }
 
-
     #myModal .modal-body {
+        font-family: 'Poppins', sans-serif; /* Poppins for modal body text */
         padding: 10px;
     }
 
     #myModal .modal-body ul {
         padding-left: 20px;
-        /* Indent bullet points if message is an array */
     }
 
-
     #confirmationModal .modal-body {
+        font-family: 'Poppins', sans-serif; /* Poppins for confirmation modal body text */
         padding: 1rem;
     }
 
     .box1 h2,
     .box2 h2 {
+        font-family: 'Baloo Thambi 2', cursive; /* Baloo Thambi 2 for box titles */
         font-weight: 700;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
     .chart-display-box {
-        background-color: rgba(255, 255, 255, 0);
-        /* Transparent background */
-        /* backdrop-filter: grayscale(.8) blur(5px); */
-        /* Backdrop filter removed for full transparency */
-        /* border-radius: 4px; */
-        /* Border radius removed */
-        box-sizing: border-box;
+        background-color: #414833; /* Match box background */
+        border-radius: 15px;
+        box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
+                    inset -5px -5px 10px rgba(255, 255, 255, 0.04); /* Adjusted light shadow */
         animation-name: fadeInSlideUp;
         animation-duration: 0.7s;
         animation-timing-function: ease-out;
         animation-fill-mode: forwards;
         opacity: 0;
-        /* Initial state for animation */
         width: 100%;
-        /* Ensure it fills the column */
-        /* Margin bottom will be handled by the parent .col- div */
+        padding: 15px;
     }
 
     /* --- START: BORDERLESS TAB STYLES --- */
-    /* Custom styles for nav-tabs in box2 for a clean, borderless look */
     .box2 .nav-tabs {
         border-bottom: none;
-        /* Remove the line under the tabs */
+        margin-bottom: 1rem;
     }
 
     .box2 .nav-tabs .nav-item {
-        /* margin-bottom is no longer needed as there's no border to overlap */
-        margin-bottom: 1.0px;
+        margin-bottom: 0;
     }
 
     .box2 .nav-tabs .nav-link {
-        color: rgba(255, 255, 255, 0.7);
-        background-color: transparent;
+        font-family: 'Poppins', sans-serif; /* Poppins for tab links */
+        color: rgba(194, 197, 170, 0.7); /* Adjusted tab text color */
+        background-color: #414833; /* Match background */
         border: none;
-        /* Remove all borders from tab links */
-        border-radius: 0.25rem 0.25rem 0 0;
-        /* Keep top corners slightly rounded */
+        border-radius: 10px;
         padding: 0.5rem 1rem;
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3),
+                    -4px -4px 8px rgba(255, 255, 255, 0.04); /* Adjusted light shadow */
+        margin-right: 10px;
     }
 
     .box2 .nav-tabs .nav-link:hover:not(.active) {
-        color: white;
-        background-color: rgba(255, 255, 255, 0.05);
-        /* Slight highlight on hover */
+        color: #C2C5AA; /* Light Green-Gray on hover */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2),
+                    -2px -2px 5px rgba(255, 255, 255, 0.02); /* Subtle hover effect */
     }
 
     .box2 .nav-tabs .nav-link.active {
-        color: white;
-        background-color: rgba(0, 0, 0, 0.2);
-        /* Give active tab a subtle background to stand out */
+        color: #C2C5AA; /* Light Green-Gray for active tab */
+        background-color: #414833; /* Match background */
+        /* Inset shadow for active tab */
+        box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4),
+                    inset -3px -3px 6px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
     }
 
-    /* Style the tab content pane for a borderless look */
     .box2 .tab-content {
-        background-color: rgba(0, 0, 0, 0.2);
-        /* Match active tab background for a unified look */
+        background-color: #414833; /* Match active tab background for a unified look */
         border: none;
-        /* Remove border from the content area */
         padding: 1rem;
-        /* Round corners to match the container, keeping top-right sharp to meet the tabs */
-        border-radius: 0.25rem 0 0.25rem 0.25rem;
+        border-radius: 15px;
+        box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
+                    inset -5px -5px 10px rgba(255, 255, 255, 0.04); /* Adjusted light shadow */
     }
 
     /* --- END: BORDERLESS TAB STYLES --- */
 
     .chart-section-title {
-        color: white;
+        font-family: 'Baloo Thambi 2', cursive; /* Baloo Thambi 2 for chart section titles */
+        color: #C2C5AA; /* Light Green-Gray for chart titles */
         font-size: 1.15rem;
-        /* Slightly smaller than box titles */
         font-weight: bold;
-        /* text-center and mb-2 will be applied via Bootstrap classes */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Blinking animation for warning */
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    .blink-red {
+        animation: blink 1s step-end infinite;
+        color: #FF6B6B !important; /* A warning red color */
     }
 
     @media (max-width: 991.98px) {
-
         .box1,
         .box2 {
-            border-radius: 6px;
+            border-radius: 15px;
             margin-left: 0;
             margin-right: 0;
         }
@@ -377,14 +535,10 @@
 
         .chart-container {
             height: 200px;
-            /* This height will also include the padding due to box-sizing */
         }
 
         .box1 .input-group-text {
-            /* min-width: 50px; */
-            /* Removed, will rely on padding and icon size */
             font-size: 0.9em;
-            /* This can stay to slightly reduce icon size on small screens */
         }
     }
 </style>
@@ -401,6 +555,18 @@
     <div class="container pt-3">
         <div class="row justify-content-center">
             <div class="box1 col-12 col-lg-auto mb-4">
+                <div class="row mb-3">
+                    <div class="col-12 text-end">
+                        <div class="unit-toggle-wrapper">
+                            <input type="checkbox" id="unitToggle" class="unit-toggle-checkbox" hidden>
+                            <label for="unitToggle" class="unit-toggle-label">
+                                <span class="unit-toggle-text imperial">Imperial</span>
+                                <span class="unit-toggle-text metric">Metric</span>
+                                <span class="unit-toggle-background-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <h2 class="mb-3">New Log Entry</h2>
                 <div class="inset-input-area">
                     <div class="input-fields-container ">
@@ -791,14 +957,20 @@
             const uploadInput = document.getElementById('uploadInput');
             const headerIcon = document.querySelector('.header-icon');
 
+            // Unit toggle elements
+            const unitToggle = document.getElementById('unitToggle');
+            let unitPreference = localStorage.getItem('unitPreference') || 'imperial'; // 'imperial' or 'metric'
+
+            let blinkIntervals = {};
             let chartInstances = {};
+            // Updated chart configs with base units (Imperial)
             const chartConfigs = {
-                temp: { canvasId: 'tempChart', label: 'Temperature', unit: '', color: 'rgba(54, 162, 235, 1)', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
-                weight: { canvasId: 'weightChart', label: 'Weight', unit: '', color: 'rgba(75, 192, 192, 1)', precision: 1, yAxisMinSuggest: 100 },
-                speed: { canvasId: 'speedChart', label: 'Speed', unit: '', color: 'rgba(255, 206, 86, 1)', precision: 0, yAxisMin: 2400, yAxisMax: 10000 },
-                flow: { canvasId: 'flowChart', label: 'Flow', unit: '', color: 'rgba(153, 102, 255, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 },
-                pi: { canvasId: 'piChart', label: 'PI', unit: '', color: 'rgba(255, 159, 64, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 },
-                power: { canvasId: 'powerChart', label: 'Power', unit: '', color: 'rgba(255, 99, 132, 1)', precision: 1, yAxisMin: 1, yAxisMax: 10 }
+                temp: { canvasId: 'tempChart', label: 'Temperature', baseUnit: '°F', color: '#7F4F24', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
+                weight: { canvasId: 'weightChart', label: 'Weight', baseUnit: 'lbs', color: '#656D4A', precision: 1, yAxisMinSuggest: 100 },
+                speed: { canvasId: 'speedChart', label: 'Speed', baseUnit: 'RPM', color: '#A68A64', precision: 0, yAxisMin: 2400, yAxisMax: 10000 },
+                flow: { canvasId: 'flowChart', label: 'Flow', baseUnit: 'L/min', color: '#936639', precision: 1, yAxisMin: 1, yAxisMax: 10 },
+                pi: { canvasId: 'piChart', label: 'PI', baseUnit: '', color: '#582F0E', precision: 1, yAxisMin: 1, yAxisMax: 10 },
+                power: { canvasId: 'powerChart', label: 'Power', baseUnit: 'Watts', color: '#B6AD90', precision: 1, yAxisMin: 1, yAxisMax: 10 }
             };
 
             const inputFieldsConfig = [
@@ -811,6 +983,12 @@
                 { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power', iconClass: 'bi-lightning-charge' }
             ];
 
+            // Unit Conversion Functions
+            function celsiusToFahrenheit(c) { return (c * 9 / 5) + 32; }
+            function fahrenheitToCelsius(f) { return (f - 32) * 5 / 9; }
+            function kgToLbs(kg) { return kg * 2.20462; }
+            function lbsToKg(lbs) { return lbs / 2.20462; }
+
             // Add placeholders to input fields
             inputFieldsConfig.forEach(field => {
                 const inputElement = document.getElementById(field.id);
@@ -819,6 +997,285 @@
                 }
             });
 
+            /**
+             * Checks the temperature input and applies/removes a blinking class
+             * if it's above the alert threshold.
+             */
+            function checkTemperatureForBlink() {
+                const tempValue = parseFloat(tempInput.value);
+
+                if (isNaN(tempValue)) {
+                    tempInput.classList.remove('blink-red');
+                    return;
+                }
+
+                let tempInFahrenheit = tempValue;
+                if (unitPreference === 'metric') {
+                    tempInFahrenheit = celsiusToFahrenheit(tempValue);
+                }
+
+                if (tempInFahrenheit >= 101.5) {
+                    tempInput.classList.add('blink-red');
+                } else {
+                    tempInput.classList.remove('blink-red');
+                }
+            }
+
+            /**
+             * Checks the weight input and applies/removes a blinking class
+             * if it meets the alert criteria for weight gain.
+             */
+            function checkWeightForBlink() {
+                const currentWeightValue = parseFloat(weightInput.value);
+                const currentEntryDate = getLocalDateFromString(dateInput.value);
+
+                weightInput.classList.remove('blink-red'); // Reset blink state
+
+                if (isNaN(currentWeightValue) || isNaN(currentEntryDate.getTime())) {
+                    return;
+                }
+
+                let currentWeightLbs = currentWeightValue;
+                if (unitPreference === 'metric') {
+                    currentWeightLbs = kgToLbs(currentWeightValue);
+                }
+
+                const allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                // Sort data to ensure correct comparisons
+                allSavedData.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
+
+                // Find previous day's weight
+                let previousDayWeightLbs = null;
+                for (let i = allSavedData.length - 1; i >= 0; i--) {
+                    const entryDate = getLocalDateFromString(allSavedData[i].date);
+                    if (entryDate < currentEntryDate && allSavedData[i].weight !== null && allSavedData[i].weight !== undefined) {
+                        previousDayWeightLbs = allSavedData[i].weight;
+                        break;
+                    }
+                }
+
+                // Find weight from 7 days ago
+                let sevenDaysAgoWeightLbs = null;
+                const sevenDaysAgoTargetDate = new Date(currentEntryDate);
+                sevenDaysAgoTargetDate.setDate(currentEntryDate.getDate() - 7);
+                sevenDaysAgoTargetDate.setHours(0, 0, 0, 0); // Normalize time
+
+                for (let i = allSavedData.length - 1; i >= 0; i--) {
+                    const entryDate = getLocalDateFromString(allSavedData[i].date);
+                    if (entryDate <= sevenDaysAgoTargetDate && allSavedData[i].weight !== null && allSavedData[i].weight !== undefined) {
+                        sevenDaysAgoWeightLbs = allSavedData[i].weight;
+                        break;
+                    }
+                }
+
+                let shouldBlink = false;
+
+                // Check for 2 to 3 lbs gain from previous day
+                if (previousDayWeightLbs !== null && !isNaN(previousDayWeightLbs)) {
+                    const gainFromPreviousDay = currentWeightLbs - previousDayWeightLbs;
+                    if (gainFromPreviousDay >= 2 && gainFromPreviousDay <= 3) {
+                        shouldBlink = true;
+                    }
+                }
+
+                // Check for 5 lbs gain in 1 week
+                if (!shouldBlink && sevenDaysAgoWeightLbs !== null && !isNaN(sevenDaysAgoWeightLbs)) {
+                    const gainFromSevenDaysAgo = currentWeightLbs - sevenDaysAgoWeightLbs;
+                    if (gainFromSevenDaysAgo >= 5) {
+                        shouldBlink = true;
+                    }
+                }
+
+                if (shouldBlink) {
+                    weightInput.classList.add('blink-red');
+                } else {
+                    weightInput.classList.remove('blink-red');
+                }
+            }
+
+            /**
+             * Checks the flow input and applies/removes a blinking class
+             * if it increases by 2.0 Lpm or more from the first recorded reading.
+             */
+            function checkFlowForBlink() {
+                const currentFlowValue = parseFloat(flowInput.value);
+                flowInput.classList.remove('blink-red'); // Reset blink state
+
+                if (isNaN(currentFlowValue)) {
+                    return;
+                }
+
+                const allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                // Sort data by date to find the absolute first entry
+                allSavedData.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
+
+                let firstRecordedFlow = null;
+                for (const entry of allSavedData) {
+                    if (entry.flow !== null && entry.flow !== undefined && isFinite(entry.flow)) {
+                        firstRecordedFlow = entry.flow;
+                        break; // Found the first valid flow, exit loop
+                    }
+                }
+
+                if (firstRecordedFlow !== null && !isNaN(firstRecordedFlow)) {
+                    const flowIncrease = currentFlowValue - firstRecordedFlow;
+                    if (flowIncrease >= 2.0) {
+                        flowInput.classList.add('blink-red');
+                    }
+                }
+            }
+
+
+            /**
+             * Checks the PI input and applies/removes a blinking class
+             * if it meets the alert criteria (less than 2, greater than 8, or change of 4 from baseline).
+             */
+            function checkPiForBlink() {
+                const currentPiValue = parseFloat(piInput.value);
+                piInput.classList.remove('blink-red'); // Reset blink state
+
+                if (isNaN(currentPiValue)) {
+                    return;
+                }
+
+                let shouldBlink = false;
+
+                // Condition 1: PI is less than 2
+                if (currentPiValue < 2) {
+                    shouldBlink = true;
+                }
+
+                // Condition 2: PI is greater than 8
+                if (currentPiValue > 8) {
+                    shouldBlink = true;
+                }
+
+                // Conditions 3 & 4: Increased or decreased by 4 from first recorded baseline
+                if (!shouldBlink) { // Only check if not already blinking from conditions 1 or 2
+                    const allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                    allSavedData.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
+
+                    let firstRecordedPi = null;
+                    for (const entry of allSavedData) {
+                        if (entry.pi !== null && entry.pi !== undefined && isFinite(entry.pi)) {
+                            firstRecordedPi = entry.pi;
+                            break; // Found the first valid PI, exit loop
+                        }
+                    }
+
+                    if (firstRecordedPi !== null && !isNaN(firstRecordedPi)) {
+                        const piChange = currentPiValue - firstRecordedPi;
+                        if (Math.abs(piChange) >= 4) {
+                            shouldBlink = true;
+                        }
+                    }
+                }
+
+                if (shouldBlink) {
+                    piInput.classList.add('blink-red');
+                } else {
+                    piInput.classList.remove('blink-red');
+                }
+            }
+
+            /**
+             * Checks the Power input and applies/removes a blinking class
+             * if it meets the alert criteria (greater than 8, or increased by 2 from baseline).
+             */
+            function checkPowerForBlink() {
+                const currentPowerValue = parseFloat(powerInput.value);
+                powerInput.classList.remove('blink-red'); // Reset blink state
+
+                if (isNaN(currentPowerValue)) {
+                    return;
+                }
+
+                let shouldBlink = false;
+
+                // Condition 1: Power is greater than 8
+                if (currentPowerValue > 8) {
+                    shouldBlink = true;
+                }
+
+                // Condition 2: Increased by 2 or more from first recorded baseline
+                if (!shouldBlink) { // Only check if not already blinking from condition 1
+                    const allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
+                    allSavedData.sort((a, b) => getLocalDateFromString(a.date) - getLocalDateFromString(b.date));
+
+                    let firstRecordedPower = null;
+                    for (const entry of allSavedData) {
+                        if (entry.power !== null && entry.power !== undefined && isFinite(entry.power)) {
+                            firstRecordedPower = entry.power;
+                            break; // Found the first valid Power, exit loop
+                        }
+                    }
+
+                    if (firstRecordedPower !== null && !isNaN(firstRecordedPower)) {
+                        const powerIncrease = currentPowerValue - firstRecordedPower;
+                        if (powerIncrease >= 2) {
+                            shouldBlink = true;
+                        }
+                    }
+                }
+
+                if (shouldBlink) {
+                    powerInput.classList.add('blink-red');
+                } else {
+                    powerInput.classList.remove('blink-red');
+                }
+            }
+
+
+            /**
+             * Updates the input field placeholders and values based on the current unit preference.
+             * Converts existing input values if the unit system changes.
+             */
+            function updateInputUnits() {
+                const tempAddon = document.getElementById('tempInput-addon');
+                const weightAddon = document.getElementById('weightInput-addon');
+
+                if (unitPreference === 'metric') {
+                    tempInput.placeholder = 'Temperature (°C)';
+                    if (tempInput.value) {
+                        const currentVal = parseFloat(tempInput.value);
+                        if (!isNaN(currentVal)) tempInput.value = fahrenheitToCelsius(currentVal).toFixed(1);
+                    }
+                    tempAddon.innerHTML = '<i class="bi bi-thermometer-half me-2"></i>';
+
+                    weightInput.placeholder = 'Weight (kg)';
+                    if (weightInput.value) {
+                        const currentVal = parseFloat(weightInput.value);
+                        if (!isNaN(currentVal)) weightInput.value = lbsToKg(currentVal).toFixed(1);
+                    }
+                    weightAddon.innerHTML = '<i class="bi bi-person-arms-up me-2"></i>';
+                } else { // imperial
+                    tempInput.placeholder = 'Temperature (°F)';
+                    if (tempInput.value) {
+                        const currentVal = parseFloat(tempInput.value);
+                        if (!isNaN(currentVal)) tempInput.value = celsiusToFahrenheit(currentVal).toFixed(1);
+                    }
+                    tempAddon.innerHTML = '<i class="bi bi-thermometer-half me-2"></i>';
+
+                    weightInput.placeholder = 'Weight (lbs)';
+                    if (weightInput.value) {
+                        const currentVal = parseFloat(weightInput.value);
+                        if (!isNaN(currentVal)) weightInput.value = kgToLbs(currentVal).toFixed(1);
+                    }
+                    weightAddon.innerHTML = '<i class="bi bi-person-arms-up me-2"></i>';
+                }
+                checkTemperatureForBlink(); // Check temperature for blinking after unit change
+                checkWeightForBlink(); // Check weight for blinking after unit change
+                checkFlowForBlink(); // Check flow for blinking after unit change
+                checkPiForBlink(); // Check PI for blinking after unit change
+                checkPowerForBlink(); // Check Power for blinking after unit change
+            }
+
+
+            /**
+             * Saves the form data to local storage.
+             * Converts temperature and weight to imperial units before saving if currently in metric mode.
+             * @param {object} dataFromForm - The raw data from the input fields.
+             */
             function saveDataConfirmed(dataFromForm) {
                 const parsedData = {
                     date: dataFromForm.date
@@ -827,12 +1284,23 @@
                 inputFieldsConfig.forEach(field => {
                     if (field.type === 'number' && field.configKey) {
                         const rawValue = dataFromForm[field.configKey];
-                        if (rawValue === null || String(rawValue).trim() === "") {
-                            parsedData[field.configKey] = null;
-                        } else {
-                            const val = parseFloat(rawValue);
-                            parsedData[field.configKey] = (isNaN(val) || !isFinite(val)) ? null : val;
+                        let val = null;
+
+                        if (rawValue !== null && String(rawValue).trim() !== "") {
+                            const numVal = parseFloat(rawValue);
+                            if (!isNaN(numVal) && isFinite(numVal)) {
+                                val = numVal;
+                                // Convert to base (imperial) if current display is metric
+                                if (unitPreference === 'metric') {
+                                    if (field.configKey === 'temp') {
+                                        val = celsiusToFahrenheit(val);
+                                    } else if (field.configKey === 'weight') {
+                                        val = kgToLbs(val);
+                                    }
+                                }
+                            }
                         }
+                        parsedData[field.configKey] = val;
                     }
                 });
 
@@ -854,6 +1322,11 @@
                 displayCharts();
                 displayModalWithMessage("Data saved successfully!", 'success');
                 clearInputFields();
+                checkTemperatureForBlink(); // Re-check temperature after saving and clearing inputs
+                checkWeightForBlink(); // Re-check weight after saving and clearing inputs
+                checkFlowForBlink(); // Re-check flow after saving and clearing inputs
+                checkPiForBlink(); // Re-check PI after saving and clearing inputs
+                checkPowerForBlink(); // Re-check Power after saving and clearing inputs
             }
 
             function formatDateLabel(dateObj) {
@@ -879,7 +1352,6 @@
             function dateToYYYYMMDD(date) {
                 if (!(date instanceof Date) || isNaN(date.getTime())) {
                     const today = new Date();
-                    console.warn("dateToYYYYMMDD received an invalid date. Defaulting to today.");
                     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                 }
                 const year = date.getFullYear();
@@ -888,7 +1360,17 @@
                 return `${year}-${month}-${day}`;
             }
 
+            /**
+             * Displays and updates all charts based on current data and unit preference.
+             * Handles data conversion for display purposes.
+             */
             function displayCharts() {
+                // Clear any existing blink interval for the flow chart before redrawing
+                if (blinkIntervals.flow) {
+                    clearInterval(blinkIntervals.flow);
+                    delete blinkIntervals.flow;
+                }
+
                 let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 allSavedData.sort((a, b) => {
                     const dateA = getLocalDateFromString(a.date);
@@ -898,6 +1380,16 @@
                     return dateA - dateB;
                 });
 
+                const firstFlowEntry = allSavedData.find(d => d.flow !== null && d.flow !== undefined && isFinite(d.flow));
+                const lastFlowEntry = allSavedData.length > 0 ? allSavedData[allSavedData.length - 1] : null;
+
+                let shouldBlinkFlow = false;
+                // Ensure there are at least two distinct entries to compare
+                if (firstFlowEntry && lastFlowEntry && lastFlowEntry.date !== firstFlowEntry.date && lastFlowEntry.flow !== null && isFinite(lastFlowEntry.flow)) {
+                    if (lastFlowEntry.flow >= firstFlowEntry.flow + 2) { // Changed to >= 2.0 increase
+                        shouldBlinkFlow = true;
+                    }
+                }
 
                 let endDate7Day;
                 if (allSavedData.length > 0) {
@@ -938,25 +1430,9 @@
                     });
                 }
 
-                // Prepare data for "All Time" Temperature Chart
-                const allTimeTempLabels = [];
-                const allTimeTempData = [];
                 const allTimeDataStore = {}; // Store for all metrics
-
                 Object.keys(chartConfigs).forEach(metricKey => {
                     allTimeDataStore[metricKey] = { labels: [], data: [] };
-                });
-
-                const datasets7DayFinal = {};
-                Object.keys(chartConfigs).forEach(metricKey => {
-                    const rawData = datasets7DayRaw[metricKey];
-                    datasets7DayFinal[metricKey] = rawData.map(val => {
-                        if (val !== null && isFinite(val)) {
-                            return val;
-                        } else {
-                            return null;
-                        }
-                    });
                 });
 
                 allSavedData.forEach(item => {
@@ -972,31 +1448,53 @@
                     }
                 });
 
+                // Render 7-Day Charts
                 Object.keys(chartConfigs).forEach(key => {
                     const config = chartConfigs[key];
                     const ctx = document.getElementById(config.canvasId)?.getContext('2d');
                     if (!ctx) {
-                        console.error(`Canvas with ID ${config.canvasId} not found for 7-day chart.`);
                         return;
                     }
                     if (chartInstances[config.canvasId]) {
                         chartInstances[config.canvasId].destroy();
                     }
+
+                    let displayData = datasets7DayRaw[key];
+                    let displayUnit = config.baseUnit;
+                    let displayYAxisMin = config.yAxisMin;
+                    let displayYAxisMax = config.yAxisMax;
+                    let displayYAxisMinSuggest = config.yAxisMinSuggest;
+
+                    // Apply conversions for display if metric is selected
+                    if (unitPreference === 'metric') {
+                        if (key === 'temp') {
+                            displayUnit = '°C';
+                            displayData = displayData.map(val => val !== null ? fahrenheitToCelsius(val) : null);
+                            displayYAxisMin = config.yAxisMin !== undefined ? fahrenheitToCelsius(config.yAxisMin) : undefined;
+                            displayYAxisMax = config.yAxisMax !== undefined ? fahrenheitToCelsius(config.yAxisMax) : undefined;
+                            displayYAxisMinSuggest = config.yAxisMinSuggest !== undefined ? fahrenheitToCelsius(config.yAxisMinSuggest) : undefined;
+                        } else if (key === 'weight') {
+                            displayUnit = 'kg';
+                            displayData = displayData.map(val => val !== null ? lbsToKg(val) : null);
+                            displayYAxisMinSuggest = config.yAxisMinSuggest !== undefined ? lbsToKg(config.yAxisMinSuggest) : undefined;
+                        }
+                    }
+
                     chartInstances[config.canvasId] = new Chart(ctx, {
                         type: 'line',
                         data: {
                             labels: labels7Day,
                             datasets: [{
-                                label: config.unit ? `${config.label} (${config.unit})` : config.label, // Will now just be config.label
-                                data: datasets7DayFinal[key],
+                                label: config.label,
+                                data: displayData,
                                 borderColor: config.color,
-                                backgroundColor: config.color.replace('1)', '0.2)'),
+                                backgroundColor: config.color + '33', /* Add transparency for fill */
                                 tension: 0.1,
                                 fill: false,
-                                pointBackgroundColor: 'white',
+                                pointBackgroundColor: '#C2C5AA', /* Light Green-Gray for points */
                                 pointBorderColor: config.color,
                                 pointHoverBackgroundColor: config.color,
-                                pointHoverBorderColor: 'white',
+                                pointHoverBorderColor: '#C2C5AA', /* Light Green-Gray on hover */
                                 spanGaps: false
                             }]
                         },
@@ -1005,54 +1503,43 @@
                             maintainAspectRatio: false,
                             scales: {
                                 y: {
-                                    beginAtZero: config.yAxisMinSuggest !== undefined ? false : (config.yAxisMin !== undefined ? false : true),
-                                    min: config.yAxisMin,
-                                    max: config.yAxisMax,
-                                    suggestedMin: config.yAxisMinSuggest,
+                                    beginAtZero: displayYAxisMinSuggest !== undefined ? false : (displayYAxisMin !== undefined ? false : true),
+                                    min: displayYAxisMin,
+                                    max: displayYAxisMax,
+                                    suggestedMin: displayYAxisMinSuggest,
                                     title: {
-                                        display: !!config.unit, // Will be false as config.unit is ''
-                                        text: config.unit,      // Will be ''
-                                        color: 'white',
-                                        font: { size: 10 }
+                                        display: !!displayUnit,
+                                        text: displayUnit,
+                                        color: '#C2C5AA', /* Light Green-Gray for axis title */
+                                        font: { size: 10, family: 'Poppins' } /* Poppins for axis title */
                                     },
-                                    ticks: { color: 'white', font: { size: 10 } },
-                                    grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                                    ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' } }, /* Poppins for ticks */
+                                    grid: { color: 'rgba(194, 197, 170, 0.2)' } /* Adjusted grid color */
                                 },
                                 x: {
-                                    ticks: { color: 'white', font: { size: 10 } },
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                    ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' } }, /* Poppins for ticks */
+                                    grid: { color: 'rgba(194, 197, 170, 0.1)' } /* Adjusted grid color */
                                 }
                             },
                             plugins: {
                                 legend: { display: false },
                                 title: {
-                                    display: false, // Set to false, title handled by HTML
-                                    // text: config.label, // No longer needed
-                                    // color: 'white',
-                                    // font: { size: 14, weight: 'bold' },
-                                    // padding: { top: 10, bottom: 15 }
+                                    display: false,
                                 },
                                 tooltip: {
-                                    backgroundColor: 'rgba(0,0,0,0.7)',
-                                    titleColor: 'white',
-                                    bodyColor: 'white',
+                                    backgroundColor: '#333D29', /* Very Dark Green-Gray for tooltip background */
+                                    titleColor: '#C2C5AA', /* Light Green-Gray for title */
+                                    bodyColor: '#C2C5AA', /* Light Green-Gray for body text */
+                                    bodyFont: { family: 'Poppins' }, /* Poppins for tooltip body */
+                                    titleFont: { family: 'Poppins' }, /* Poppins for tooltip title */
                                     callbacks: {
                                         label: function (context) {
-                                            // Find config by canvasId as title is no longer in chart options
-                                            const currentChartConfig = Object.values(chartConfigs).find(c => c.canvasId === context.chart.canvas.id);
-                                            let tooltipLabelText = context.dataset.label || '';
-                                            if (tooltipLabelText) {
-                                                tooltipLabelText = tooltipLabelText.split('(')[0].trim() + ': ';
-                                            } else {
-                                                tooltipLabelText = (currentChartConfig?.label || '') + ': ';
-                                            }
-
+                                            let tooltipLabelText = config.label + ': '; // Use original label
                                             if (context.parsed.y === null || context.parsed.y === undefined) {
                                                 return tooltipLabelText + 'N/A';
                                             }
-                                            const precision = currentChartConfig ? currentChartConfig.precision : 0;
-                                            const unit = currentChartConfig ? currentChartConfig.unit : ''; // unit will be ''
-                                            return tooltipLabelText + context.parsed.y.toFixed(precision) + (unit ? ' ' + unit : ''); // unit part will be empty
+                                            // Use dynamic displayUnit and precision
+                                            return tooltipLabelText + context.parsed.y.toFixed(config.precision) + (displayUnit ? ' ' + displayUnit : '');
                                         }
                                     }
                                 },
@@ -1061,18 +1548,17 @@
                                     anchor: 'end',
                                     color: function (context) {
                                         const value = context.dataset.data[context.dataIndex];
-                                        if (value === 0) return 'rgba(255, 255, 255, 0.6)';
+                                        if (value === 0) return 'rgba(194, 197, 170, 0.6)'; /* Adjusted datalabel color */
                                         if (value === null || value === undefined) return 'transparent';
-                                        return 'white';
+                                        return '#C2C5AA'; /* Light Green-Gray for datalabels */
                                     },
-                                    font: { size: 9, weight: 'normal' },
+                                    font: { size: 9, weight: 'normal', family: 'Poppins' }, /* Poppins for datalabels */
                                     formatter: function (value, context) {
                                         if (value === null || value === undefined) return '';
-                                        if (value === 0 && context.chart.options.plugins.title.text !== chartConfigs.temp.label) return '-';
+                                        if (value === 0 && config.label !== chartConfigs.temp.label) return '-'; // Use original config label
 
-                                        const chartTitleText = context.chart.options.plugins.title.text;
-                                        const metricCfg = Object.values(chartConfigs).find(c => c.canvasId === context.chart.canvas.id); // Find by canvasId
-                                        return value.toFixed(metricCfg ? metricCfg.precision : 1); // Default precision if not found
+                                        // Use dynamic precision
+                                        return value.toFixed(config.precision);
                                     },
                                     offset: 4,
                                 }
@@ -1090,25 +1576,45 @@
                         if (chartInstances[allTimeCanvasId]) {
                             chartInstances[allTimeCanvasId].destroy();
                         }
-                        const currentMetricConfig = chartConfigs[metricKey];
-                        const labelsForChart = allTimeDataStore[metricKey].labels;
-                        const dataForChart = allTimeDataStore[metricKey].data;
+                        const config = chartConfigs[metricKey];
+
+                        let displayData = allTimeDataStore[metricKey].data;
+                        let labelsForChart = allTimeDataStore[metricKey].labels;
+                        let displayUnit = config.baseUnit;
+                        let displayYAxisMin = config.yAxisMin;
+                        let displayYAxisMax = config.yAxisMax;
+                        let displayYAxisMinSuggest = config.yAxisMinSuggest;
+
+                        // Apply conversions for display if metric is selected
+                        if (unitPreference === 'metric') {
+                            if (metricKey === 'temp') {
+                                displayUnit = '°C';
+                                displayData = displayData.map(val => val !== null ? fahrenheitToCelsius(val) : null);
+                                displayYAxisMin = config.yAxisMin !== undefined ? fahrenheitToCelsius(config.yAxisMin) : undefined;
+                                displayYAxisMax = config.yAxisMax !== undefined ? fahrenheitToCelsius(config.yAxisMax) : undefined;
+                                displayYAxisMinSuggest = config.yAxisMinSuggest !== undefined ? fahrenheitToCelsius(config.yAxisMinSuggest) : undefined;
+                            } else if (metricKey === 'weight') {
+                                displayUnit = 'kg';
+                                displayData = displayData.map(val => val !== null ? lbsToKg(val) : null);
+                                displayYAxisMinSuggest = config.yAxisMinSuggest !== undefined ? lbsToKg(config.yAxisMinSuggest) : undefined;
+                            }
+                        }
 
                         chartInstances[allTimeCanvasId] = new Chart(allTimeCtx, {
                             type: 'line',
                             data: {
                                 labels: labelsForChart,
                                 datasets: [{
-                                    label: currentMetricConfig.label,
-                                    data: dataForChart,
-                                    borderColor: currentMetricConfig.color,
-                                    backgroundColor: currentMetricConfig.color.replace('1)', '0.2)'),
+                                    label: config.label, // Use original label
+                                    data: displayData,
+                                    borderColor: config.color,
+                                    backgroundColor: config.color + '33', /* Add transparency for fill */
                                     tension: 0.1,
                                     fill: false,
                                     pointRadius: 0,
                                     pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: currentMetricConfig.color,
-                                    pointHoverBorderColor: 'white',
+                                    pointHoverBackgroundColor: config.color,
+                                    pointHoverBorderColor: '#C2C5AA', /* Light Green-Gray on hover */
                                     spanGaps: false
                                 }]
                             },
@@ -1117,47 +1623,93 @@
                                 maintainAspectRatio: false,
                                 scales: {
                                     y: {
-                                        beginAtZero: currentMetricConfig.yAxisMinSuggest !== undefined ? false : (currentMetricConfig.yAxisMin !== undefined ? false : true),
-                                        min: currentMetricConfig.yAxisMin,
-                                        max: currentMetricConfig.yAxisMax,
-                                        suggestedMin: currentMetricConfig.yAxisMinSuggest,
-                                        ticks: { color: 'white', font: { size: 10 } },
-                                        grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                                        beginAtZero: displayYAxisMinSuggest !== undefined ? false : (displayYAxisMin !== undefined ? false : true),
+                                        min: displayYAxisMin,
+                                        max: displayYAxisMax,
+                                        suggestedMin: displayYAxisMinSuggest,
+                                        ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' } }, /* Poppins for ticks */
+                                        grid: { color: 'rgba(194, 197, 170, 0.2)' } /* Adjusted grid color */
                                     },
                                     x: {
-                                        ticks: { color: 'white', font: { size: 10 }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 },
-                                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                        ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 }, /* Poppins for ticks */
+                                        grid: { color: 'rgba(194, 197, 170, 0.1)' } /* Adjusted grid color */
                                     }
                                 },
                                 plugins: {
                                     legend: { display: false },
                                     title: {
-                                        display: false, // Set to false, title handled by HTML
-                                        // text: `${currentMetricConfig.label} (All Time)`, // No longer needed
-                                        // color: 'white',
-                                        // font: { size: 14, weight: 'bold' },
-                                        // padding: { top: 10, bottom: 15 }
+                                        display: false,
                                     },
                                     tooltip: {
-                                        backgroundColor: 'rgba(0,0,0,0.7)',
-                                        titleColor: 'white',
-                                        bodyColor: 'white',
+                                        backgroundColor: '#333D29', /* Very Dark Green-Gray for tooltip background */
+                                        titleColor: '#C2C5AA', /* Light Green-Gray for title */
+                                        bodyColor: '#C2C5AA', /* Light Green-Gray for body text */
+                                        bodyFont: { family: 'Poppins' }, /* Poppins for tooltip body */
+                                        titleFont: { family: 'Poppins' }, /* Poppins for tooltip title */
                                         callbacks: {
                                             label: function (context) {
-                                                let tooltipLabelText = currentMetricConfig.label + ': ';
+                                                let tooltipLabelText = config.label + ': '; // Use original label
                                                 if (context.parsed.y === null || context.parsed.y === undefined) return tooltipLabelText + 'N/A';
-                                                return tooltipLabelText + context.parsed.y.toFixed(currentMetricConfig.precision);
+                                                // Use dynamic displayUnit and precision
+                                                return tooltipLabelText + context.parsed.y.toFixed(config.precision) + (displayUnit ? ' ' + displayUnit : '');
                                             }
                                         }
                                     },
-                                    datalabels: { display: false } // Keep datalabels off for all-time views
+                                    datalabels: { display: false }
                                 }
                             }
                         });
                     } else {
-                        console.error(`Canvas with ID ${allTimeCanvasId} not found for All Time ${metricKey} chart.`);
+                        // console.error(`Canvas with ID ${allTimeCanvasId} not found for All Time ${metricKey} chart.`);
                     }
                 });
+
+                if (shouldBlinkFlow) {
+                    const flowChart7Day = chartInstances.flowChart;
+                    const flowChartAllTime = chartInstances.flowChartAllTime;
+
+                    const findLastDataPointIndex = (chart) => {
+                        if (!chart) return -1;
+                        const data = chart.data.datasets[0].data;
+                        for (let i = data.length - 1; i >= 0; i--) {
+                            if (data[i] !== null && data[i] !== undefined) {
+                                return i;
+                            }
+                        }
+                        return -1;
+                    };
+
+                    const lastIndex7Day = findLastDataPointIndex(flowChart7Day);
+                    const lastIndexAllTime = findLastDataPointIndex(flowChartAllTime);
+
+                    if (flowChart7Day && lastIndex7Day > -1) {
+                        const dataset = flowChart7Day.data.datasets[0];
+                        if (!Array.isArray(dataset.pointRadius)) {
+                            dataset.pointRadius = new Array(dataset.data.length).fill(3);
+                        }
+                    }
+                    if (flowChartAllTime && lastIndexAllTime > -1) {
+                        const dataset = flowChartAllTime.data.datasets[0];
+                        if (!Array.isArray(dataset.pointRadius)) {
+                            dataset.pointRadius = new Array(dataset.data.length).fill(0);
+                        }
+                    }
+
+                    let isBlinkOn = true;
+                    blinkIntervals.flow = setInterval(() => {
+                        if (flowChart7Day && lastIndex7Day > -1) {
+                            const dataset = flowChart7Day.data.datasets[0];
+                            dataset.pointRadius[lastIndex7Day] = isBlinkOn ? 8 : 3;
+                            flowChart7Day.update('none');
+                        }
+                        if (flowChartAllTime && lastIndexAllTime > -1) {
+                            const dataset = flowChartAllTime.data.datasets[0];
+                            dataset.pointRadius[lastIndexAllTime] = isBlinkOn ? 8 : 0;
+                            flowChartAllTime.update('none');
+                        }
+                        isBlinkOn = !isBlinkOn;
+                    }, 500);
+                }
             }
 
             function displayModalWithMessage(message, type = 'alert') {
@@ -1197,7 +1749,7 @@
             }
 
             function showConfirmationModal(title, message, yesCallback) {
-                confirmationModalLabel.innerHTML = title; // Use innerHTML to allow icon
+                confirmationModalLabel.innerHTML = title;
                 confirmationModalBodyText.textContent = message;
                 currentYesCallback = yesCallback;
                 bootstrapConfirmationModal.show();
@@ -1317,7 +1869,7 @@
                     try {
                         importedRawData = JSON.parse(e.target.result);
                     } catch (err) {
-                        console.error("JSON Parse Error:", err);
+                        // console.error("JSON Parse Error:", err);
                         displayModalWithMessage("Failed to parse JSON file. Ensure it's valid and not empty.", 'alert');
                         event.target.value = null;
                         return;
@@ -1432,10 +1984,14 @@
                     }
 
                     displayModalWithMessage(finalModalMessage.length === 1 ? finalModalMessage[0] : finalModalMessage, modalType);
-
+                    checkTemperatureForBlink(); // Re-check temperature after importing data
+                    checkWeightForBlink(); // Re-check weight after importing data
+                    checkFlowForBlink(); // Re-check flow after importing data
+                    checkPiForBlink(); // Re-check PI after importing data
+                    checkPowerForBlink(); // Re-check Power after importing data
                 };
                 reader.onerror = function () {
-                    console.error("FileReader error");
+                    // console.error("FileReader error");
                     displayModalWithMessage("Error reading the uploaded file.", 'alert');
                 };
                 reader.readAsText(file);
@@ -1457,6 +2013,47 @@
                 }, 1000);
             }
 
+            // Initialize unit toggle and display
+            unitToggle.checked = (unitPreference === 'metric');
+            updateInputUnits(); // Set initial input units and labels
+
+            // Add event listener for temperature input
+            if (tempInput) {
+                tempInput.addEventListener('input', checkTemperatureForBlink);
+            }
+            // Add event listener for weight input
+            if (weightInput) {
+                weightInput.addEventListener('input', checkWeightForBlink);
+            }
+            // Add event listener for flow input
+            if (flowInput) {
+                flowInput.addEventListener('input', checkFlowForBlink);
+            }
+            // Add event listener for PI input
+            if (piInput) {
+                piInput.addEventListener('input', checkPiForBlink);
+            }
+            // Add event listener for Power input
+            if (powerInput) {
+                powerInput.addEventListener('input', checkPowerForBlink);
+            }
+
+            // The native behavior of <label for="..."> handles the click and toggles the checkbox.
+            // The change event listener below will then correctly fire.
+
+            // Existing change listener for the switch itself
+            unitToggle.addEventListener('change', () => {
+                unitPreference = unitToggle.checked ? 'metric' : 'imperial';
+                localStorage.setItem('unitPreference', unitPreference);
+                updateInputUnits(); // Update current input values and placeholders
+                displayCharts(); // Redraw charts with new units
+                checkTemperatureForBlink(); // Re-check temperature after unit change
+                checkWeightForBlink(); // Re-check weight after unit change
+                checkFlowForBlink(); // Re-check flow after unit change
+                checkPiForBlink(); // Re-check PI after unit change
+                checkPowerForBlink(); // Re-check Power after unit change
+            });
+
             dateInput.value = dateToYYYYMMDD(new Date());
 
             if (tabUploadButton && uploadInput) {
@@ -1468,7 +2065,14 @@
             if (vadInfoBtn) vadInfoBtn.onclick = displayVadInfoModal;
             if (tabDownloadButton) tabDownloadButton.addEventListener('click', downloadJsonData);
 
+            // Initial display calls
             displayCharts();
+            // Initial check for all blinking alerts on load
+            checkTemperatureForBlink();
+            checkWeightForBlink();
+            checkFlowForBlink();
+            checkPiForBlink();
+            checkPowerForBlink();
             if (tempInput) tempInput.focus();
         });
     </script>
