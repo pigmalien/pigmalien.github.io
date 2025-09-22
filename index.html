@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My LVAD Log</title>
-    <!-- Google Fonts: Baloo Thambi 2 and Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Baloo Thambi 2, Short Stack, and Permanent Marker -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;700&family=Permanent+Marker&family=Short+Stack&display=swap" rel="stylesheet">
+    <!-- Doodle CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/doodle.css/doodle.css">
+    <!-- Hand-drawn Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <!-- chartjs-plugin-datalabels -->
@@ -18,494 +19,168 @@
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <style>
-    /* New Color Palette: */
-    /* Darkest Brown: #582F0E */
-    /* Medium Brown: #7F4F24 */
-    /* Light Brown: #936639 */
-    /* Tan: #A68A64 */
-    /* Light Beige: #B6AD90 */
-    /* Light Green-Gray: #C2C5AA */
-    /* Medium Green-Gray: #A4AC86 */
-    /* Dark Green-Gray: #656D4A */
-    /* Darkest Green-Gray: #414833 */
-    /* Very Dark Green-Gray: #333D29 */
-
     body {
-        font-family: 'Poppins', sans-serif; /* Poppins for body text */
-        color: #C2C5AA; /* Light Green-Gray for general text */
-        background-color: #414833; /* Darkest Green-Gray as the base for Neumorphism */
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
+        font-family: 'Comic Sans MS', cursive; /* Comic Sans for body text */
         min-height: 100vh;
-        padding-top: 80px; /* For fixed header */
+        font-size: 1.1rem; /* Increase base font size for better legibility */
     }
 
     .header {
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 100%;
         padding: 10px 20px;
         box-sizing: border-box;
-        z-index: 1000;
-        background-color: #414833; /* Match body for seamless neumorphism */
-        backdrop-filter: none;
-        /* Neumorphic shadow for a raised effect */
-        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4),
-                    -6px -6px 12px rgba(255, 255, 255, 0.05); /* Adjusted light shadow for new palette */
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .header-text-container {
-        flex-grow: 1;
-        margin-right: 5px;
+        background-color: white;
+        /* Padding for left/right only, top/bottom handled by inner content */
+        padding: 0 20px;
     }
 
     .header h1 {
-        font-family: 'Baloo Thambi 2', cursive; /* Baloo Thambi 2 for header title */
         font-size: 2em;
         padding-bottom: calc(0.19em + 2px);
         margin-bottom: 4px;
         position: relative;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .header h1::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 2px;
-        background-image: repeating-linear-gradient(to right,
-                #C2C5AA 0, #C2C5AA 7px, /* Light Green-Gray for dashed line */
-                transparent 7px, transparent 14px);
-        background-size: 14px 100%;
-        background-position: -14px 0;
-        animation: animateDashBorder 2s linear infinite;
-    }
-
-    @keyframes animateDashBorder {
-        to {
-            background-position: 0 0;
-        }
     }
 
     .header p {
-        font-family: 'Poppins', sans-serif; /* Poppins for header paragraph */
         margin: 0;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0; /* Restore top/bottom padding */
+    }
+
+    /* doodle.css gives <hr> a large margin, so we reset it here */
+    .header hr {
+        margin: 0;
+        margin-bottom: 2px; /* Small margin to ensure it's visible */
     }
 
     .header-icon {
-        font-size: 2rem;
+        width: 4.25rem;
+        height: 4.25rem;
         margin-top: 11px;
-        color: #C2C5AA; /* Light Green-Gray for icon */
-        transition: opacity 0.1s ease-in-out;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        color: #d00; /* A nice red color for the heart */
     }
 
-    @keyframes fadeInSlideUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .container.pt-3 {
-        margin-top: 40px;
-    }
-
-    .box1, .box2 {
-        padding: 20px;
-        background-color: #414833; /* Match body background for seamless neumorphism */
-        border-radius: 20px;
-        box-sizing: border-box;
-        /* Neumorphic convex shadow */
-        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4),
-                    -8px -8px 16px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
-        animation: fadeInSlideUp 0.7s 0.2s ease-out forwards;
-        opacity: 0;
-    }
-
-    .box1 .input-group,
-    .box1 .form-control,
-    .box1 .input-group-text {
-        border-radius: 10px;
-        border: none;
-    }
-
-    .box1 .form-control {
-        font-family: 'Poppins', sans-serif; /* Poppins for input text */
-        background-color: #414833; /* Match background */
-        color: #C2C5AA; /* Light Green-Gray for input text */
-        /* Inset shadow for input fields */
-        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
-    }
-
-    /* Styling for input placeholders */
-    .box1 .form-control::placeholder {
-        color: rgba(194, 197, 170, 0.6); /* Adjusted placeholder color based on #C2C5AA */
-        opacity: 1;
-    }
-
-    .box1 .form-control:-ms-input-placeholder {
-        color: rgba(194, 197, 170, 0.6);
-    }
-
-    .box1 .form-control::-ms-input-placeholder {
-        color: rgba(194, 197, 170, 0.6);
-    }
-
-    .box1 .input-group-text {
-        background-color: #414833; /* Match background */
-        color: #C2C5AA; /* Light Green-Gray for icon text */
-        /* Inset shadow for input addons */
-        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
-        justify-content: flex-start;
-    }
-
-    .box1 .input-group-text .bi {
-        vertical-align: middle;
-    }
-
-    /* Custom icon color for temperature - using a blue from the palette if available, or a close match */
-    #tempInput-addon .bi {
-        color: #7F4F24; /* Medium Brown for temperature icon */
-    }
-
-    /* Custom icon color for weight - using a green from the palette if available, or a close match */
-    #weightInput-addon .bi {
-        color: #656D4A; /* Dark Green-Gray for weight icon */
-    }
-
-    /* Custom icon color for speed - using a yellow/orange from the palette if available, or a close match */
-    #speedInput-addon .bi {
-        color: #A68A64; /* Tan for speed icon */
-    }
-
-    /* Custom icon color for flow - using a purple/blue from the palette if available, or a close match */
-    #flowInput-addon .bi {
-        color: #936639; /* Light Brown for flow icon */
-    }
-
-    /* Custom icon color for PI - using an orange/red from the palette if available, or a close match */
-    #piInput-addon .bi {
-        color: #582F0E; /* Darkest Brown for PI icon */
-    }
-
-    /* Custom icon color for power - using a red/pink from the palette if available, or a close match */
-    #powerInput-addon .bi {
-        color: #B6AD90; /* Light Beige for power icon */
-    }
-
-    .box1 .input-fields-container {
+    .main-content {
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+
+    .main-content > .card {
+        flex: 1 1 400px; /* Flex properties for responsive columns */
+        max-width: 900px;
+        min-height: 70vh;
+        padding: 20px;
+    }
+
+    .input-with-icon {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         margin-bottom: 1rem;
     }
 
-    .box1 .inset-input-area {
-        padding: 0.3rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+    .input-with-icon .ti {
+        font-size: 1.5rem;
     }
 
-    /* Focus style for input fields in box1 */
-    .box1 .input-group .form-control:focus {
-        background-color: #414833;
-        color: #C2C5AA;
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.6),
-                    inset -2px -2px 5px rgba(255, 255, 255, 0.1),
-                    0 0 0 0.25rem rgba(127, 79, 36, 0.25); /* Subtle focus ring matching temp icon color */
-        outline: none;
+    .input-with-icon input {
+        flex-grow: 1;
+        padding: 0.5rem; /* Make input fields taller */
     }
 
-    /* Focus style for the icon part when the input group is focused in box1 */
-    .box1 .input-group:focus-within .input-group-text {
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.6),
-                    inset -2px -2px 5px rgba(255, 255, 255, 0.1);
-    }
-
-    /* Transitions for input fields and icons in box1 */
-    .box1 .input-group .form-control,
-    .box1 .input-group .input-group-text {
-        transition: all 0.2s ease-in-out;
-    }
-
-    /* Hide spinners on number inputs */
-    .box1 input[type=number]::-webkit-inner-spin-button,
-    .box1 input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    .box1 input[type=number] {
-        -moz-appearance: textfield;
-        appearance: textfield;
-    }
-
-    /* Consolidated button styling for neumorphic effect */
-    .box1 button.btn,
-    .box2 button.btn { /* Apply to buttons in both boxes */
-        font-family: 'Poppins', sans-serif;
-        border: none;
-        background-color: #414833; /* Match body for seamless neumorphism */
-        color: #C2C5AA; /* Light Green-Gray for button text */
-        border-radius: 15px;
-        /* Convex shadow for button */
-        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4),
-                    -6px -6px 12px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
-        transition: all 0.2s ease-in-out;
-    }
-
-    .box1 button.btn:hover,
-    .box2 button.btn:hover {
-        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3),
-                    -4px -4px 8px rgba(255, 255, 255, 0.03); /* Slightly less prominent on hover */
-        color: rgba(194, 197, 170, 0.8); /* Adjusted hover color */
-    }
-
-    .box1 button.btn:active,
-    .box2 button.btn:active {
-        /* Inset shadow on click for a pressed effect */
-        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
-        color: rgba(194, 197, 170, 0.6); /* Adjusted active color */
-    }
-
-    /* Custom switch styling based on uiverse.io/cbolson/slippery-treefrog-30 */
     .unit-toggle-wrapper {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        height: 2em; /* Ensures vertical alignment with the switch */
+        margin-bottom: 1.5rem; /* Increase margin for more space */
+        gap: 0.5rem;
     }
-
-    .unit-toggle-checkbox {
-        display: none; /* Hidden checkbox */
-    }
-
-    .unit-toggle-label {
-        position: relative;
-        display: block;
-        width: 8em; /* Increased width for text */
-        height: 2em;
-        border-radius: 1em;
-        background-color: #414833; /* Inactive background color */
-        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-                    inset -4px -4px 8px rgba(255, 255, 255, 0.05); /* Inset shadow for track */
-        cursor: pointer;
-        overflow: hidden; /* Crucial for sliding background */
-        transition: box-shadow 0.3s ease; /* Smooth shadow transition on focus */
-    }
-
-    .unit-toggle-text {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        font-family: 'Poppins', sans-serif;
-        font-size: 0.8em;
-        color: rgba(194, 197, 170, 0.6); /* Inactive text color */
-        transition: color 0.3s ease;
-        z-index: 2; /* Ensure text is above the sliding background */
-        width: 50%; /* Each text takes half the width */
-        text-align: center;
-        pointer-events: none; /* Allow clicks to pass through to the label */
-    }
-
-    .unit-toggle-text.imperial {
-        left: 0;
-    }
-
-    .unit-toggle-text.metric {
-        right: 0;
-    }
-
-    .unit-toggle-background-slider {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 50%; /* Covers one side */
-        border-radius: 1em; /* Matches label border-radius */
-        background-color: #A68A64; /* Active background color (Tan) */
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2),
-                    -2px -2px 4px rgba(255, 255, 255, 0.02); /* Subtle convex shadow for the slider */
-        transition: transform 0.3s ease, background-color 0.3s ease;
-        z-index: 1; /* Behind the text */
-    }
-
-    /* When the checkbox is checked (Metric active) */
-    .unit-toggle-checkbox:checked + .unit-toggle-label .unit-toggle-background-slider {
-        transform: translateX(100%); /* Slide to cover the right side (Metric) */
-        background-color: #936639; /* Light Brown for metric active state */
-    }
-
-    .unit-toggle-checkbox:checked + .unit-toggle-label .unit-toggle-text.imperial {
-        color: rgba(194, 197, 170, 0.3); /* Dim Imperial text */
-    }
-
-    .unit-toggle-checkbox:checked + .unit-toggle-label .unit-toggle-text.metric {
-        color: #C2C5AA; /* Highlight Metric text */
-    }
-
-    /* When unchecked (Imperial active) */
-    .unit-toggle-checkbox:not(:checked) + .unit-toggle-label .unit-toggle-text.imperial {
-        color: #C2C5AA; /* Highlight Imperial text */
-    }
-
-    .unit-toggle-checkbox:not(:checked) + .unit-toggle-label .unit-toggle-text.metric {
-        color: rgba(194, 197, 170, 0.3); /* Dim Metric text */
-    }
-
-    /* Focus styles for accessibility */
-    .unit-toggle-checkbox:focus + .unit-toggle-label {
-        outline: none;
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4),
-                    inset -2px -2px 5px rgba(255, 255, 255, 0.05),
-                    0 0 0 0.25rem rgba(166, 138, 100, 0.25); /* Focus ring on the track */
-    }
-
-    .unit-toggle-checkbox:focus + .unit-toggle-label .unit-toggle-background-slider {
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2),
-                    -2px -2px 4px rgba(255, 255, 255, 0.02),
-                    0 0 0 0.15rem rgba(166, 138, 100, 0.25); /* Focus ring on slider */
-    }
-
 
     .chart-container {
         position: relative;
-        height: 250px;
+        height: 300px; /* Make charts taller */
         width: 100%;
     }
 
-    #myModal .modal-content,
-    #confirmationModal .modal-content {
-        background-color: #414833; /* Neumorphic background for modals */
-        border: none;
-        border-radius: 20px;
-        box-sizing: border-box;
-        /* Neumorphic shadow */
-        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5),
-                    -10px -10px 20px rgba(255, 255, 255, 0.1); /* Adjusted light shadow */
-        color: #C2C5AA; /* Light Green-Gray for modal text */
+    /* Modal styles for post-it effect */
+    .modal {
+        position: fixed; /* Make it a full-screen overlay */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0; /* Override doodle.css padding */
+        z-index: 100; /* Ensure it's on top */
+        display: flex;
+        align-items: center;
+        justify-content: flex-end; /* Align to the right */
+        opacity: 0;
+        pointer-events: none; /* Don't interact when hidden */
+        transition: opacity 0.4s ease;
+        background-color: rgba(0,0,0,0.4); /* Semi-transparent overlay */
     }
 
-    #myModal .modal-header,
-    #confirmationModal .modal-header {
-        border-bottom: none;
+    .modal.modal--visible {
+        opacity: 1;
+        pointer-events: auto; /* Interact when visible */
     }
 
-    #confirmationModal .modal-footer {
-        border-top: none;
+    .modal-content {
+        max-width: 500px;
+        margin: 2rem;
+        padding: 25px;
+        background-color: #ffffa0;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translateX(100%) rotate(5deg);
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        border: 1px solid #ccc;
     }
 
-    #myModalLabel .bi {
-        font-size: 1.5em;
-        vertical-align: middle;
+    .modal.modal--visible .modal-content {
+        transform: translateX(0) rotate(2deg);
     }
 
-    #myModal .modal-body {
-        font-family: 'Poppins', sans-serif; /* Poppins for modal body text */
-        padding: 10px;
+    .modal.modal--visible .modal-content:hover {
+        transform: rotate(0deg) scale(1.02);
+        box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    #myModal .modal-body ul {
+    .modal-content ul {
         padding-left: 20px;
     }
 
-    #confirmationModal .modal-body {
-        font-family: 'Poppins', sans-serif; /* Poppins for confirmation modal body text */
-        padding: 1rem;
+    h1, h2, h3, h5 {
+        font-family: 'Permanent Marker', cursive;
     }
 
-    .box1 h2,
-    .box2 h2 {
-        font-family: 'Baloo Thambi 2', cursive; /* Baloo Thambi 2 for box titles */
-        font-weight: 700;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    .modal-content h5 {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
     }
 
-    .chart-display-box {
-        background-color: #414833; /* Match box background */
-        border-radius: 15px;
-        box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
-                    inset -5px -5px 10px rgba(255, 255, 255, 0.04); /* Adjusted light shadow */
-        animation-name: fadeInSlideUp;
-        animation-duration: 0.7s;
-        animation-timing-function: ease-out;
-        animation-fill-mode: forwards;
-        opacity: 0;
-        width: 100%;
-        padding: 15px;
+    .main-content h2 {
+        font-size: 1.8rem; /* Increase heading size */
     }
 
-    /* --- START: BORDERLESS TAB STYLES --- */
-    .box2 .nav-tabs {
-        border-bottom: none;
-        margin-bottom: 1rem;
+    .main-content h3 {
+        font-size: 1.4rem; /* Increase subheading size */
     }
 
-    .box2 .nav-tabs .nav-item {
-        margin-bottom: 0;
-    }
-
-    .box2 .nav-tabs .nav-link {
-        font-family: 'Poppins', sans-serif; /* Poppins for tab links */
-        color: rgba(194, 197, 170, 0.7); /* Adjusted tab text color */
-        background-color: #414833; /* Match background */
-        border: none;
-        border-radius: 10px;
-        padding: 0.5rem 1rem;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3),
-                    -4px -4px 8px rgba(255, 255, 255, 0.04); /* Adjusted light shadow */
-        margin-right: 10px;
-    }
-
-    .box2 .nav-tabs .nav-link:hover:not(.active) {
-        color: #C2C5AA; /* Light Green-Gray on hover */
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2),
-                    -2px -2px 5px rgba(255, 255, 255, 0.02); /* Subtle hover effect */
-    }
-
-    .box2 .nav-tabs .nav-link.active {
-        color: #C2C5AA; /* Light Green-Gray for active tab */
-        background-color: #414833; /* Match background */
-        /* Inset shadow for active tab */
-        box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4),
-                    inset -3px -3px 6px rgba(255, 255, 255, 0.05); /* Adjusted light shadow */
-    }
-
-    .box2 .tab-content {
-        background-color: #414833; /* Match active tab background for a unified look */
-        border: none;
-        padding: 1rem;
-        border-radius: 15px;
-        box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
-                    inset -5px -5px 10px rgba(255, 255, 255, 0.04); /* Adjusted light shadow */
-    }
-
-    /* --- END: BORDERLESS TAB STYLES --- */
-
-    .chart-section-title {
-        font-family: 'Baloo Thambi 2', cursive; /* Baloo Thambi 2 for chart section titles */
-        color: #C2C5AA; /* Light Green-Gray for chart titles */
-        font-size: 1.15rem;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    /* Add some space between icons and text in buttons/modals */
+    .modal-content i.ti, button i.ti {
+        margin-right: 0.5em;
     }
 
     /* Blinking animation for warning */
@@ -516,409 +191,278 @@
 
     .blink-red {
         animation: blink 1s step-end infinite;
-        color: #FF6B6B !important; /* A warning red color */
+        color: #d00 !important;
+        border-color: #d00 !important;
     }
 
-    @media (max-width: 991.98px) {
-        .box1,
-        .box2 {
-            border-radius: 15px;
-            margin-left: 0;
-            margin-right: 0;
+    /* Responsive styles for mobile devices */
+    @media (max-width: 600px) {
+        .header {
+            padding: 0 10px; /* Reduce horizontal padding */
         }
-    }
 
-    @media (max-width: 575.98px) {
         .header h1 {
-            font-size: 1.6em;
+            font-size: 1.6em; /* Reduce heading size */
         }
 
-        .chart-container {
-            height: 200px;
+        .header p {
+            font-size: 0.9rem; /* Adjust paragraph font size */
         }
 
-        .box1 .input-group-text {
-            font-size: 0.9em;
+        .header-icon {
+            width: 3.25rem;      /* Reduce icon size */
+            height: 3.25rem;
         }
     }
 </style>
 
-<body>
+<body class="doodle">
     <div class="header">
-        <div class="header-text-container">
-            <h1> Daily LVAD Log</h1>
-            <p>Keep track of your vital stats</p>
+        <div class="header-content">
+            <div>
+                <h1> Daily LVAD Log</h1>
+                <p>Keep track of your vital stats</p>
+            </div>
+            <!-- Replaced with heart-beat-svgrepo-com.svg -->
+            <svg class="header-icon" viewBox="0 -7 159 159" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_heartbeat)">
+                    <path d="M7.53812 84.1961C3.38461 77.0046 0.897177 68.973 0.258796 60.6932C-1.25078 40.8061 4.93316 23.9507 20.7588 11.2709C27.8496 5.59958 36.6751 2.53957 45.7548 2.60408C50.4632 2.54527 55.1674 2.91269 59.8096 3.70204C68.1042 5.16501 75.8614 8.02986 81.7311 14.6707C84.8723 12.6813 87.8665 10.7361 90.9093 8.86944C97.8284 4.61886 105.638 2.03071 113.726 1.30839C125.181 0.23856 134.86 4.46995 143.187 12.0566C154.904 22.7325 158.691 36.3136 157.502 51.6948C156.811 59.8731 154.632 67.8566 151.074 75.2522C150.746 75.9512 150.488 76.6836 150.14 77.5434C150.949 77.9261 151.73 78.3685 152.474 78.866C154.246 80.2443 154.073 82.0912 152.049 83.1407C151.255 83.5621 150.387 83.8266 149.493 83.9198C146.766 84.1488 145.194 85.7201 143.683 87.8926C134.404 101.164 123.407 113.148 110.98 123.532C104.456 129.019 97.6637 134.193 90.887 139.368C88.5937 140.98 86.2007 142.443 83.7224 143.752C82.5725 144.481 81.2441 144.881 79.8822 144.907C78.5203 144.933 77.1774 144.583 76.0006 143.897C73.1941 142.289 70.572 140.357 67.8909 138.534C64.6455 136.327 61.4977 133.967 58.1773 131.882C43.4563 122.637 29.9108 111.974 18.3081 98.9709C16.0693 96.4617 14.0175 93.7753 12.0314 91.0594C11.6946 90.4877 11.2053 90.0217 10.6184 89.7126C10.0315 89.4035 9.37009 89.2637 8.70837 89.3096C7.02525 89.3096 5.34455 89.1836 3.68021 88.9329C2.32094 88.7727 1.24387 88.0462 1.29506 86.5838C1.35019 84.9988 2.43914 84.2335 4.00582 84.2013C5.00148 84.1797 6.00229 84.1961 7.53812 84.1961ZM72.6592 79.0767C75.7932 76.9107 79.1983 76.7926 82.734 77.231C85.5109 77.6307 88.3102 77.8591 91.1147 77.9136C106.608 77.9071 122.1 77.764 137.593 77.7561C139.665 77.7561 140.809 76.9429 141.806 75.1964C147.676 64.9232 150.82 53.9906 150.218 42.084C149.474 27.382 142.276 16.9404 129.234 10.421C124.97 8.32711 120.207 7.46337 115.479 7.92688C108.852 8.42038 102.4 10.2903 96.5348 13.4171C92.8855 15.3862 89.3695 17.6046 85.7813 19.6898C82.39 21.6588 80.1532 21.4193 77.371 18.6706C74.6413 15.8119 71.21 13.7175 67.4196 12.5961C63.2107 11.4553 58.9531 10.2299 54.6403 9.78228C41.4328 8.41119 29.5905 11.605 20.4234 21.752C6.0496 37.6649 3.55552 60.9136 13.0941 79.5453C13.7432 80.814 14.5525 82.0006 15.2134 83.1013C20.8474 82.441 21.7222 81.8917 24.6292 77.7587C25.9059 75.7818 27.3441 73.9139 28.9289 72.1746C31.5582 69.5145 34.5387 70.0087 36.4329 73.2635C37.2037 74.7816 37.8952 76.3391 38.5049 77.9294C39.0398 76.385 39.4237 75.3815 39.7368 74.3569C40.6603 71.3581 41.3311 68.253 42.5388 65.3781C43.442 63.1034 44.762 61.0173 46.4308 59.227C49.1493 56.4704 52.4749 57.1962 53.9747 60.7503C54.9186 63.0246 55.5574 65.4139 55.8748 67.8559C56.7024 74.0813 57.2677 80.3414 57.9693 86.5838C58.1401 87.5382 58.3622 88.4826 58.6347 89.4127C59.5943 86.3233 60.1916 83.6861 61.247 81.2472C62.0147 79.5151 63.1102 77.9478 64.4729 76.6311C66.4076 74.7639 68.4993 74.9279 70.4709 76.7178C71.2067 77.3885 71.8328 78.1775 72.6592 79.0767ZM50.2257 64.4232L49.2045 64.3109C48.7175 65.659 48.1662 66.9889 47.7553 68.36C46.5976 72.2245 45.5991 76.1402 44.3331 79.968C43.6937 81.9974 42.7829 83.9309 41.6257 85.7168C40.0636 88.0357 37.3596 88.0206 35.7089 85.7562C34.8669 84.4416 34.2047 83.0206 33.7399 81.53C33.2943 80.3342 33.0718 79.0543 32.6458 77.4063C30.5862 80.0539 29.127 82.7121 26.9539 84.5072C24.7132 86.3587 21.7787 87.3701 18.7832 88.9401C21.5582 92.1516 24.2965 95.7004 27.418 98.862C37.7404 109.359 49.399 118.453 62.0936 125.91C66.4358 128.456 70.572 131.354 74.915 133.9C77.2037 135.241 79.7949 135.786 82.2397 134.151C85.2202 132.157 88.1435 130.073 91.0347 127.955C104.581 118.115 116.963 106.767 127.944 94.1284C130.481 91.1894 132.878 88.1295 135.645 84.752C134.95 84.5951 134.248 84.4763 133.54 84.3963C115.83 83.8056 98.0581 84.7454 80.4236 82.1903C79.2101 82.1194 77.9991 82.3629 76.907 82.8979C75.3141 83.5726 73.71 85.3676 72.3546 85.1517C70.8241 84.9082 69.5639 82.9661 67.9946 81.5957C67.5141 82.9851 66.8959 84.4179 66.5296 85.9111C65.8365 88.7419 65.4061 91.6396 64.6389 94.4474C64.1677 96.4046 63.4161 98.2837 62.4074 100.026C60.548 102.992 56.9854 102.817 55.3944 99.7224C54.3593 97.8584 53.6348 95.8375 53.2494 93.7405C52.4021 87.8696 51.8383 81.9567 51.2318 76.0529C50.8334 72.1812 50.5565 68.2996 50.2257 64.4232Z" fill="currentColor"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_heartbeat">
+                        <rect width="158.177" height="144.394" fill="white" transform="translate(0.0294189 0.543457)"/>
+                    </clipPath>
+                </defs>
+            </svg>
         </div>
-        <i class="bi bi-heart-pulse header-icon"></i>
+        <hr>
     </div>
 
-    <div class="container pt-3">
-        <div class="row justify-content-center">
-            <div class="box1 col-12 col-lg-auto mb-4">
-                <div class="row mb-3">
-                    <div class="col-12 text-end">
-                        <div class="unit-toggle-wrapper">
-                            <input type="checkbox" id="unitToggle" class="unit-toggle-checkbox" hidden>
-                            <label for="unitToggle" class="unit-toggle-label">
-                                <span class="unit-toggle-text imperial">Imperial</span>
-                                <span class="unit-toggle-text metric">Metric</span>
-                                <span class="unit-toggle-background-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+    <main class="main-content">
+        <div class="card">
+            <div class="unit-toggle-wrapper">
+                <span>Imperial</span>
+                <label class="switch">
+                    <input type="checkbox" id="unitToggle">
+                    <span></span>
+                </label>
+                <span>Metric</span>
+            </div>
+            <div>
                 <h2 class="mb-3">New Log Entry</h2>
-                <div class="inset-input-area">
-                    <div class="input-fields-container ">
-                        <div class="input-group">
-                            <span class="input-group-text" id="dateInput-addon"><i
-                                    class="bi bi-calendar-event me-2"></i></span>
-                            <input type="date" class="form-control" id="dateInput" aria-label="Date"
-                                aria-describedby="dateInput-addon">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text" id="tempInput-addon"><i
-                                    class="bi bi-thermometer-half me-2"></i></span>
-                            <input type="number" class="form-control" id="tempInput" step="0.1" aria-label="Temperature"
-                                aria-describedby="tempInput-addon">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text" id="weightInput-addon"><i
-                                    class="bi bi-person-arms-up me-2"></i></span>
-                            <input type="number" class="form-control" id="weightInput" step="0.1" aria-label="Weight"
-                                aria-describedby="weightInput-addon">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text" id="speedInput-addon"><i
-                                    class="bi bi-speedometer2 me-2"></i></span>
-                            <input type="number" class="form-control" id="speedInput" step="10" aria-label="Speed"
-                                aria-describedby="speedInput-addon">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text" id="flowInput-addon"><i class="bi bi-water me-2"></i></span>
-                            <input type="number" class="form-control" id="flowInput" step="0.1" aria-label="Flow"
-                                aria-describedby="flowInput-addon">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text" id="piInput-addon"><i class="bi bi-graph-up me-2"></i></span>
-                            <input type="number" class="form-control" id="piInput" step="0.1" aria-label="PI"
-                                aria-describedby="piInput-addon">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text" id="powerInput-addon"><i
-                                    class="bi bi-lightning-charge me-2"></i></span>
-                            <input type="number" class="form-control" id="powerInput" step="0.1" aria-label="Power"
-                                aria-describedby="powerInput-addon">
-                        </div>
+                <div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-calendar"></i>
+                        <input type="date" id="dateInput" aria-label="Date">
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-thermometer"></i>
+                        <input type="number" id="tempInput" step="0.1" aria-label="Temperature">
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-weight"></i>
+                        <input type="number" id="weightInput" step="0.1" aria-label="Weight">
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-gauge"></i>
+                        <input type="number" id="speedInput" step="10" aria-label="Speed">
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-activity"></i>
+                        <input type="number" id="flowInput" step="0.1" aria-label="Flow">
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-chart-line"></i>
+                        <input type="number" id="piInput" step="0.1" aria-label="PI">
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="ti ti-bolt"></i>
+                        <input type="number" id="powerInput" step="0.1" aria-label="Power">
                     </div>
                 </div>
-                <div class="mt-3 text-end">
-                    <button id="saveButton" class="btn btn-sm btn-outline-light"><i class="bi bi-save me-1"></i>
+                <div class="text-end">
+                    <button id="saveButton"><i class="ti ti-device-floppy"></i>
                         Save</button>
                 </div>
             </div>
 
-            <div class="box2 col-auto mb-4">
-                <div class="container-fluid px-0">
-                    <div class="row align-items-center mb-3">
-                        <div class="col">
-                            <h2>Metric Graphs</h2>
-                        </div>
-                        <div class="col-auto">
-                            <button id="myBtn" class="btn btn-sm btn-outline-light" title="Information">
-                                <i class="bi bi-info-lg"></i><span class="d-none d-md-inline ms-1">Info</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <!-- Temperature Chart with Tabs -->
-                        <div class="col-12 mb-4">
-                            <h3 class="chart-section-title text-center mb-2">Temperature</h3>
-                            <!-- Tab Navigation for Temperature Chart -->
-                            <ul class="nav nav-tabs justify-content-end" id="tempChartTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="temp-seven-day-tab" data-bs-toggle="tab"
-                                        data-bs-target="#temp-seven-day-pane" type="button" role="tab"
-                                        aria-controls="temp-seven-day-pane" aria-selected="true">Past Seven
-                                        Days</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="temp-all-time-tab" data-bs-toggle="tab"
-                                        data-bs-target="#temp-all-time-pane" type="button" role="tab"
-                                        aria-controls="temp-all-time-pane" aria-selected="false">All Time</button>
-                                </li>
-                            </ul>
-                            <!-- Tab Content (Temperature Chart) -->
-                            <div class="tab-content" id="tempChartTabContent">
-                                <div class="tab-pane fade show active" id="temp-seven-day-pane" role="tabpanel"
-                                    aria-labelledby="temp-seven-day-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.5s;">
-                                        <div class="chart-container">
-                                            <canvas id="tempChart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- New Tab Pane for All Time Temperature Data -->
-                                <div class="tab-pane fade" id="temp-all-time-pane" role="tabpanel"
-                                    aria-labelledby="temp-all-time-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.5s;">
-                                        <div class="chart-container">
-                                            <canvas id="tempChartAllTime"></canvas>
-                                        </div>
-                                    </div>
+        </div>
+        <div class="card">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2>Metric Graphs</h2>
+                    <button id="myBtn" title="Information">
+                        <i class="ti ti-info-circle"></i> Info
+                    </button>
+                </div>
+                <div>
+                    <!-- Temperature Chart with Tabs -->
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-center">Temperature</h3>
+                        <div class="tabs">
+                            <input type="radio" name="temp-tabs" id="temp-tab-1" checked="checked">
+                            <label for="temp-tab-1">Past Seven Days</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="tempChart"></canvas>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 mb-4">
-                            <h3 class="chart-section-title text-center mb-2">Weight</h3>
-                            <!-- Tab Navigation for Weight Chart -->
-                            <ul class="nav nav-tabs justify-content-end" id="weightChartTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="weight-seven-day-tab" data-bs-toggle="tab"
-                                        data-bs-target="#weight-seven-day-pane" type="button" role="tab"
-                                        aria-controls="weight-seven-day-pane" aria-selected="true">Past Seven
-                                        Days</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="weight-all-time-tab" data-bs-toggle="tab"
-                                        data-bs-target="#weight-all-time-pane" type="button" role="tab"
-                                        aria-controls="weight-all-time-pane" aria-selected="false">All Time</button>
-                                </li>
-                            </ul>
-                            <!-- Tab Content (Weight Chart) -->
-                            <div class="tab-content" id="weightChartTabContent">
-                                <div class="tab-pane fade show active" id="weight-seven-day-pane" role="tabpanel"
-                                    aria-labelledby="weight-seven-day-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.55s;">
-                                        <div class="chart-container">
-                                            <canvas id="weightChart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="weight-all-time-pane" role="tabpanel"
-                                    aria-labelledby="weight-all-time-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.55s;">
-                                        <div class="chart-container">
-                                            <canvas id="weightChartAllTime"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-4">
-                            <h3 class="chart-section-title text-center mb-2">Speed</h3>
-                            <!-- Tab Navigation for Speed Chart -->
-                            <ul class="nav nav-tabs justify-content-end" id="speedChartTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="speed-seven-day-tab" data-bs-toggle="tab"
-                                        data-bs-target="#speed-seven-day-pane" type="button" role="tab"
-                                        aria-controls="speed-seven-day-pane" aria-selected="true">Past Seven
-                                        Days</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="speed-all-time-tab" data-bs-toggle="tab"
-                                        data-bs-target="#speed-all-time-pane" type="button" role="tab"
-                                        aria-controls="speed-all-time-pane" aria-selected="false">All Time</button>
-                                </li>
-                            </ul>
-                            <!-- Tab Content (Speed Chart) -->
-                            <div class="tab-content" id="speedChartTabContent">
-                                <div class="tab-pane fade show active" id="speed-seven-day-pane" role="tabpanel"
-                                    aria-labelledby="speed-seven-day-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.6s;">
-                                        <div class="chart-container">
-                                            <canvas id="speedChart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="speed-all-time-pane" role="tabpanel"
-                                    aria-labelledby="speed-all-time-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.6s;">
-                                        <div class="chart-container">
-                                            <canvas id="speedChartAllTime"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-4">
-                            <h3 class="chart-section-title text-center mb-2">Flow</h3>
-                            <!-- Tab Navigation for Flow Chart -->
-                            <ul class="nav nav-tabs justify-content-end" id="flowChartTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="flow-seven-day-tab" data-bs-toggle="tab"
-                                        data-bs-target="#flow-seven-day-pane" type="button" role="tab"
-                                        aria-controls="flow-seven-day-pane" aria-selected="true">Past Seven
-                                        Days</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="flow-all-time-tab" data-bs-toggle="tab"
-                                        data-bs-target="#flow-all-time-pane" type="button" role="tab"
-                                        aria-controls="flow-all-time-pane" aria-selected="false">All Time</button>
-                                </li>
-                            </ul>
-                            <!-- Tab Content (Flow Chart) -->
-                            <div class="tab-content" id="flowChartTabContent">
-                                <div class="tab-pane fade show active" id="flow-seven-day-pane" role="tabpanel"
-                                    aria-labelledby="flow-seven-day-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.65s;">
-                                        <div class="chart-container">
-                                            <canvas id="flowChart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="flow-all-time-pane" role="tabpanel"
-                                    aria-labelledby="flow-all-time-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.65s;">
-                                        <div class="chart-container">
-                                            <canvas id="flowChartAllTime"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-4">
-                            <h3 class="chart-section-title text-center mb-2">PI</h3>
-                            <!-- Tab Navigation for PI Chart -->
-                            <ul class="nav nav-tabs justify-content-end" id="piChartTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="pi-seven-day-tab" data-bs-toggle="tab"
-                                        data-bs-target="#pi-seven-day-pane" type="button" role="tab"
-                                        aria-controls="pi-seven-day-pane" aria-selected="true">Past Seven Days</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pi-all-time-tab" data-bs-toggle="tab"
-                                        data-bs-target="#pi-all-time-pane" type="button" role="tab"
-                                        aria-controls="pi-all-time-pane" aria-selected="false">All Time</button>
-                                </li>
-                            </ul>
-                            <!-- Tab Content (PI Chart) -->
-                            <div class="tab-content" id="piChartTabContent">
-                                <div class="tab-pane fade show active" id="pi-seven-day-pane" role="tabpanel"
-                                    aria-labelledby="pi-seven-day-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.7s;">
-                                        <div class="chart-container">
-                                            <canvas id="piChart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pi-all-time-pane" role="tabpanel"
-                                    aria-labelledby="pi-all-time-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.7s;">
-                                        <div class="chart-container">
-                                            <canvas id="piChartAllTime"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-4">
-                            <h3 class="chart-section-title text-center mb-2">Power</h3>
-                            <!-- Tab Navigation for Power Chart -->
-                            <ul class="nav nav-tabs justify-content-end" id="powerChartTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="power-seven-day-tab" data-bs-toggle="tab"
-                                        data-bs-target="#power-seven-day-pane" type="button" role="tab"
-                                        aria-controls="power-seven-day-pane" aria-selected="true">Past Seven
-                                        Days</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="power-all-time-tab" data-bs-toggle="tab"
-                                        data-bs-target="#power-all-time-pane" type="button" role="tab"
-                                        aria-controls="power-all-time-pane" aria-selected="false">All Time</button>
-                                </li>
-                            </ul>
-                            <!-- Tab Content (Power Chart) -->
-                            <div class="tab-content" id="powerChartTabContent">
-                                <div class="tab-pane fade show active" id="power-seven-day-pane" role="tabpanel"
-                                    aria-labelledby="power-seven-day-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.75s;">
-                                        <div class="chart-container">
-                                            <canvas id="powerChart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="power-all-time-pane" role="tabpanel"
-                                    aria-labelledby="power-all-time-tab" tabindex="0">
-                                    <div class="chart-display-box" style="animation-delay: 0.75s;">
-                                        <div class="chart-container">
-                                            <canvas id="powerChartAllTime"></canvas>
-                                        </div>
-                                    </div>
+                            <input type="radio" name="temp-tabs" id="temp-tab-2">
+                            <label for="temp-tab-2">All Time</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="tempChartAllTime"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3 text-end">
-                        <button id="tabDownloadButton" class="btn btn-sm btn-outline-light me-2" title="Download Data">
-                            <i class="bi bi-file-earmark-arrow-down"></i><span class="d-none d-md-inline ms-1">
-                                Download</span>
-                        </button>
-                        <button id="tabUploadButton" class="btn btn-sm btn-outline-light" title="Import Data">
-                            <i class="bi bi-file-earmark-arrow-up"></i><span class="d-none d-md-inline ms-1">
-                                Import</span>
-                        </button>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-center">Weight</h3>
+                        <div class="tabs">
+                            <input type="radio" name="weight-tabs" id="weight-tab-1" checked="checked">
+                            <label for="weight-tab-1">Past Seven Days</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="weightChart"></canvas>
+                                </div>
+                            </div>
+                            <input type="radio" name="weight-tabs" id="weight-tab-2">
+                            <label for="weight-tab-2">All Time</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="weightChartAllTime"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-center">Speed</h3>
+                        <div class="tabs">
+                            <input type="radio" name="speed-tabs" id="speed-tab-1" checked="checked">
+                            <label for="speed-tab-1">Past Seven Days</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="speedChart"></canvas>
+                                </div>
+                            </div>
+                            <input type="radio" name="speed-tabs" id="speed-tab-2">
+                            <label for="speed-tab-2">All Time</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="speedChartAllTime"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-center">Flow</h3>
+                        <div class="tabs">
+                            <input type="radio" name="flow-tabs" id="flow-tab-1" checked="checked">
+                            <label for="flow-tab-1">Past Seven Days</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="flowChart"></canvas>
+                                </div>
+                            </div>
+                            <input type="radio" name="flow-tabs" id="flow-tab-2">
+                            <label for="flow-tab-2">All Time</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="flowChartAllTime"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-center">PI</h3>
+                        <div class="tabs">
+                            <input type="radio" name="pi-tabs" id="pi-tab-1" checked="checked">
+                            <label for="pi-tab-1">Past Seven Days</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="piChart"></canvas>
+                                </div>
+                            </div>
+                            <input type="radio" name="pi-tabs" id="pi-tab-2">
+                            <label for="pi-tab-2">All Time</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="piChartAllTime"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-center">Power</h3>
+                        <div class="tabs">
+                            <input type="radio" name="power-tabs" id="power-tab-1" checked="checked">
+                            <label for="power-tab-1">Past Seven Days</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="powerChart"></canvas>
+                                </div>
+                            </div>
+                            <input type="radio" name="power-tabs" id="power-tab-2">
+                            <label for="power-tab-2">All Time</label>
+                            <div class="tab">
+                                <div class="chart-container">
+                                    <canvas id="powerChartAllTime"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <input type="file" id="uploadInput" accept=".json" style="display: none;">
+                <div class="text-end" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button id="tabDownloadButton" title="Download Data">
+                        <i class="ti ti-file-download"></i> Download
+                    </button>
+                    <button id="tabUploadButton" title="Import Data">
+                        <i class="ti ti-file-upload"></i> Import
+                    </button>
+                </div>
             </div>
+            <input type="file" id="uploadInput" accept=".json" style="display: none;">
         </div>
-    </div>
+    </main>
 
     <!-- Information Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="vadContactInfoModalContent">
-                        <ul>
-                            <li>VAD flow increases 2.0 Lpm or lower than baseline</li>
-                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline
-                            </li>
-                            <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
-                            <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
-                            <li>Increasing swelling in legs, hands, or abdomin</li>
-                            <li>Temperature is 101.5°F or higher</li>
-                            <li>Driveline is tugged or pulled</li>
-                            <li>Signs or symptoms of infection at the driveline site(this includes redness,
-                                tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li>
-                            <li>You have any alarms you can't resolve</li>
-                            <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
-                            <li>The equipment is damaged or is not working properly</li>
-                            <li>You go to the emergency room, or require hospital admission</li>
-                        </ul>
-                    </div>
-                    <div id="generalAlertModalContent" style="display: none;">
-                        <p id="modalAlertText" style="text-align: center; font-size: 1.2em;"></p>
-                    </div>
-                </div>
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <h5 id="myModalLabel">Modal Title</h5>
+            <div id="vadContactInfoModalContent">
+                <ul>
+                    <li>VAD flow increases or decreases by 2.0 Lpm or more from baseline</li>
+                    <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline
+                    </li>
+                    <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
+                    <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
+                    <li>Increasing swelling in legs, hands, or abdomin</li>
+                    <li>Temperature is 101.5°F or higher</li>
+                    <li>Driveline is tugged or pulled</li>
+                    <li>Signs or symptoms of infection at the driveline site(this includes redness,
+                        tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li>
+                    <li>You have any alarms you can't resolve</li>
+                    <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
+                    <li>The equipment is damaged or is not working properly</li>
+                    <li>You go to the emergency room, or require hospital admission</li>
+                </ul>
+            </div>
+            <div id="generalAlertModalContent" style="display: none;">
+                <p id="modalAlertText" style="text-align: center; font-size: 1.2em;"></p>
             </div>
         </div>
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="confirmationModalBodyText"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"
-                        id="confirmNoButton">No</button>
-                    <button type="button" class="btn btn-light" id="confirmYesButton">Yes</button>
-                </div>
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <a href="#" class="close" id="confirmNoButton">&times;</a>
+            <h5 id="confirmationModalLabel">Confirm Action</h5>
+            <p id="confirmationModalBodyText"></p>
+            <div class="text-end" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                <a href="#" role="button" class="secondary">No</a>
+                <button id="confirmYesButton">Yes</button>
             </div>
         </div>
     </div>
@@ -936,51 +480,75 @@
             const powerInput = document.getElementById('powerInput');
             const saveButton = document.getElementById('saveButton');
 
-            const modalElement = document.getElementById("myModal");
-            const bootstrapModal = new bootstrap.Modal(modalElement);
+            const myModal = document.getElementById('myModal');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const allModals = [myModal, confirmationModal];
+
+            // Add close functionality to all close buttons
+            document.querySelectorAll('.modal .close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeBtn.closest('.modal').classList.remove('modal--visible');
+                });
+            });
+
+            // The "No" button in confirmation modal
+            const confirmNoLink = document.querySelector('#confirmationModal a.secondary');
+            if (confirmNoLink) {
+                confirmNoLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    confirmationModal.classList.remove('modal--visible');
+                });
+            }
+
+            // Also close modal if clicking on the background
+            allModals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('modal--visible');
+                    }
+                });
+            });
+
             const myModalLabel = document.getElementById('myModalLabel');
             const vadContactInfoModalContent = document.getElementById('vadContactInfoModalContent');
             const generalAlertModalContent = document.getElementById('generalAlertModalContent');
             const modalAlertText = document.getElementById('modalAlertText');
             const vadInfoBtn = document.getElementById("myBtn");
 
-            const confirmationModalElement = document.getElementById('confirmationModal');
-            const bootstrapConfirmationModal = new bootstrap.Modal(confirmationModalElement);
             const confirmationModalLabel = document.getElementById('confirmationModalLabel');
             const confirmationModalBodyText = document.getElementById('confirmationModalBodyText');
             const confirmYesButton = document.getElementById('confirmYesButton');
-
+ 
             let currentYesCallback = null;
 
             const tabUploadButton = document.getElementById('tabUploadButton');
             const tabDownloadButton = document.getElementById('tabDownloadButton');
             const uploadInput = document.getElementById('uploadInput');
-            const headerIcon = document.querySelector('.header-icon');
 
             // Unit toggle elements
             const unitToggle = document.getElementById('unitToggle');
             let unitPreference = localStorage.getItem('unitPreference') || 'imperial'; // 'imperial' or 'metric'
 
-            let blinkIntervals = {};
             let chartInstances = {};
             // Updated chart configs with base units (Imperial)
             const chartConfigs = {
-                temp: { canvasId: 'tempChart', label: 'Temperature', baseUnit: '°F', color: '#7F4F24', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
-                weight: { canvasId: 'weightChart', label: 'Weight', baseUnit: 'lbs', color: '#656D4A', precision: 1, yAxisMinSuggest: 100 },
-                speed: { canvasId: 'speedChart', label: 'Speed', baseUnit: 'RPM', color: '#A68A64', precision: 0, yAxisMin: 2400, yAxisMax: 10000 },
-                flow: { canvasId: 'flowChart', label: 'Flow', baseUnit: 'L/min', color: '#936639', precision: 1, yAxisMin: 1, yAxisMax: 10 },
-                pi: { canvasId: 'piChart', label: 'PI', baseUnit: '', color: '#582F0E', precision: 1, yAxisMin: 1, yAxisMax: 10 },
-                power: { canvasId: 'powerChart', label: 'Power', baseUnit: 'Watts', color: '#B6AD90', precision: 1, yAxisMin: 1, yAxisMax: 10 }
+                temp: { canvasId: 'tempChart', label: 'Temperature', baseUnit: '°F', color: '#d94e4e', precision: 1, yAxisMin: 95, yAxisMax: 105, yAxisMinSuggest: 97 },
+                weight: { canvasId: 'weightChart', label: 'Weight', baseUnit: 'lbs', color: '#55acee', precision: 1, yAxisMin: 100, yAxisMax: 250 },
+                speed: { canvasId: 'speedChart', label: 'Speed', baseUnit: 'RPM', color: '#222', precision: 0, yAxisMin: 2400, yAxisMax: 10000 },
+                flow: { canvasId: 'flowChart', label: 'Flow', baseUnit: 'L/min', color: '#55acee', precision: 1, yAxisMin: 1, yAxisMax: 10 },
+                pi: { canvasId: 'piChart', label: 'PI', baseUnit: '', color: '#d94e4e', precision: 1, yAxisMin: 1, yAxisMax: 10 },
+                power: { canvasId: 'powerChart', label: 'Power', baseUnit: 'Watts', color: '#222', precision: 1, yAxisMin: 1, yAxisMax: 10 }
             };
 
             const inputFieldsConfig = [
-                { id: 'dateInput', name: 'Date', type: 'date', required: true, configKey: null, iconClass: 'bi-calendar-event' },
-                { id: 'tempInput', name: 'Temperature', type: 'number', required: true, configKey: 'temp', iconClass: 'bi-thermometer-half' },
-                { id: 'weightInput', name: 'Weight', type: 'number', required: true, configKey: 'weight', iconClass: 'bi-person-arms-up' },
-                { id: 'speedInput', name: 'Speed', type: 'number', required: true, configKey: 'speed', iconClass: 'bi-speedometer2' },
-                { id: 'flowInput', name: 'Flow', type: 'number', required: true, configKey: 'flow', iconClass: 'bi-water' },
-                { id: 'piInput', name: 'PI', type: 'number', required: true, configKey: 'pi', iconClass: 'bi-graph-up' },
-                { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power', iconClass: 'bi-lightning-charge' }
+                { id: 'dateInput', name: 'Date', type: 'date', required: true, configKey: null, iconClass: 'ti ti-calendar' },
+                { id: 'tempInput', name: 'Temperature', type: 'number', required: true, configKey: 'temp', iconClass: 'ti ti-thermometer' },
+                { id: 'weightInput', name: 'Weight', type: 'number', required: true, configKey: 'weight', iconClass: 'ti ti-weight' },
+                { id: 'speedInput', name: 'Speed', type: 'number', required: true, configKey: 'speed', iconClass: 'ti ti-gauge' },
+                { id: 'flowInput', name: 'Flow', type: 'number', required: true, configKey: 'flow', iconClass: 'ti ti-activity' },
+                { id: 'piInput', name: 'PI', type: 'number', required: true, configKey: 'pi', iconClass: 'ti ti-chart-line' },
+                { id: 'powerInput', name: 'Power', type: 'number', required: true, configKey: 'power', iconClass: 'ti ti-bolt' }
             ];
 
             // Unit Conversion Functions
@@ -1095,7 +663,7 @@
 
             /**
              * Checks the flow input and applies/removes a blinking class
-             * if it increases by 2.0 Lpm or more from the first recorded reading.
+             * if it deviates by 2.0 Lpm or more from the first recorded reading (baseline).
              */
             function checkFlowForBlink() {
                 const currentFlowValue = parseFloat(flowInput.value);
@@ -1118,8 +686,8 @@
                 }
 
                 if (firstRecordedFlow !== null && !isNaN(firstRecordedFlow)) {
-                    const flowIncrease = currentFlowValue - firstRecordedFlow;
-                    if (flowIncrease >= 2.0) {
+                    const flowDifference = Math.abs(currentFlowValue - firstRecordedFlow);
+                    if (flowDifference >= 2.0) {
                         flowInput.classList.add('blink-red');
                     }
                 }
@@ -1231,37 +799,30 @@
              * Converts existing input values if the unit system changes.
              */
             function updateInputUnits() {
-                const tempAddon = document.getElementById('tempInput-addon');
-                const weightAddon = document.getElementById('weightInput-addon');
-
                 if (unitPreference === 'metric') {
                     tempInput.placeholder = 'Temperature (°C)';
                     if (tempInput.value) {
                         const currentVal = parseFloat(tempInput.value);
                         if (!isNaN(currentVal)) tempInput.value = fahrenheitToCelsius(currentVal).toFixed(1);
                     }
-                    tempAddon.innerHTML = '<i class="bi bi-thermometer-half me-2"></i>';
 
                     weightInput.placeholder = 'Weight (kg)';
                     if (weightInput.value) {
                         const currentVal = parseFloat(weightInput.value);
                         if (!isNaN(currentVal)) weightInput.value = lbsToKg(currentVal).toFixed(1);
                     }
-                    weightAddon.innerHTML = '<i class="bi bi-person-arms-up me-2"></i>';
                 } else { // imperial
                     tempInput.placeholder = 'Temperature (°F)';
                     if (tempInput.value) {
                         const currentVal = parseFloat(tempInput.value);
                         if (!isNaN(currentVal)) tempInput.value = celsiusToFahrenheit(currentVal).toFixed(1);
                     }
-                    tempAddon.innerHTML = '<i class="bi bi-thermometer-half me-2"></i>';
 
                     weightInput.placeholder = 'Weight (lbs)';
                     if (weightInput.value) {
                         const currentVal = parseFloat(weightInput.value);
                         if (!isNaN(currentVal)) weightInput.value = kgToLbs(currentVal).toFixed(1);
                     }
-                    weightAddon.innerHTML = '<i class="bi bi-person-arms-up me-2"></i>';
                 }
                 checkTemperatureForBlink(); // Check temperature for blinking after unit change
                 checkWeightForBlink(); // Check weight for blinking after unit change
@@ -1365,12 +926,6 @@
              * Handles data conversion for display purposes.
              */
             function displayCharts() {
-                // Clear any existing blink interval for the flow chart before redrawing
-                if (blinkIntervals.flow) {
-                    clearInterval(blinkIntervals.flow);
-                    delete blinkIntervals.flow;
-                }
-
                 let allSavedData = JSON.parse(localStorage.getItem('lvadData')) || [];
                 allSavedData.sort((a, b) => {
                     const dateA = getLocalDateFromString(a.date);
@@ -1379,17 +934,6 @@
                     if (isNaN(dateB.getTime())) return -1;
                     return dateA - dateB;
                 });
-
-                const firstFlowEntry = allSavedData.find(d => d.flow !== null && d.flow !== undefined && isFinite(d.flow));
-                const lastFlowEntry = allSavedData.length > 0 ? allSavedData[allSavedData.length - 1] : null;
-
-                let shouldBlinkFlow = false;
-                // Ensure there are at least two distinct entries to compare
-                if (firstFlowEntry && lastFlowEntry && lastFlowEntry.date !== firstFlowEntry.date && lastFlowEntry.flow !== null && isFinite(lastFlowEntry.flow)) {
-                    if (lastFlowEntry.flow >= firstFlowEntry.flow + 2) { // Changed to >= 2.0 increase
-                        shouldBlinkFlow = true;
-                    }
-                }
 
                 let endDate7Day;
                 if (allSavedData.length > 0) {
@@ -1487,14 +1031,14 @@
                             datasets: [{
                                 label: config.label,
                                 data: displayData,
-                                borderColor: config.color,
-                                backgroundColor: config.color + '33', /* Add transparency for fill */
+                                borderColor: 'black',
+                                backgroundColor: config.color + '80', /* Add transparency for fill */
                                 tension: 0.1,
-                                fill: false,
-                                pointBackgroundColor: '#C2C5AA', /* Light Green-Gray for points */
+                                fill: true,
+                                pointBackgroundColor: 'black',
                                 pointBorderColor: config.color,
                                 pointHoverBackgroundColor: config.color,
-                                pointHoverBorderColor: '#C2C5AA', /* Light Green-Gray on hover */
+                                pointHoverBorderColor: 'black',
                                 spanGaps: false
                             }]
                         },
@@ -1510,15 +1054,15 @@
                                     title: {
                                         display: !!displayUnit,
                                         text: displayUnit,
-                                        color: '#C2C5AA', /* Light Green-Gray for axis title */
-                                        font: { size: 10, family: 'Poppins' } /* Poppins for axis title */
+                                        color: '#222',
+                                        font: { size: 12, family: 'Comic Sans MS' } /* Comic Sans for axis title */
                                     },
-                                    ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' } }, /* Poppins for ticks */
-                                    grid: { color: 'rgba(194, 197, 170, 0.2)' } /* Adjusted grid color */
+                                    ticks: { color: '#222', font: { size: 12, family: 'Comic Sans MS' } }, /* Poppins for ticks */
+                                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
                                 },
                                 x: {
-                                    ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' } }, /* Poppins for ticks */
-                                    grid: { color: 'rgba(194, 197, 170, 0.1)' } /* Adjusted grid color */
+                                    ticks: { color: '#222', font: { size: 12, family: 'Comic Sans MS' } }, /* Poppins for ticks */
+                                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
                                 }
                             },
                             plugins: {
@@ -1527,11 +1071,11 @@
                                     display: false,
                                 },
                                 tooltip: {
-                                    backgroundColor: '#333D29', /* Very Dark Green-Gray for tooltip background */
-                                    titleColor: '#C2C5AA', /* Light Green-Gray for title */
-                                    bodyColor: '#C2C5AA', /* Light Green-Gray for body text */
-                                    bodyFont: { family: 'Poppins' }, /* Poppins for tooltip body */
-                                    titleFont: { family: 'Poppins' }, /* Poppins for tooltip title */
+                                    backgroundColor: '#fff',
+                                    titleColor: '#222',
+                                    bodyColor: '#222',
+                                    bodyFont: { family: 'Comic Sans MS' }, /* Comic Sans for tooltip body */
+                                    titleFont: { family: 'Comic Sans MS' }, /* Comic Sans for tooltip title */
                                     callbacks: {
                                         label: function (context) {
                                             let tooltipLabelText = config.label + ': '; // Use original label
@@ -1550,9 +1094,9 @@
                                         const value = context.dataset.data[context.dataIndex];
                                         if (value === 0) return 'rgba(194, 197, 170, 0.6)'; /* Adjusted datalabel color */
                                         if (value === null || value === undefined) return 'transparent';
-                                        return '#C2C5AA'; /* Light Green-Gray for datalabels */
+                                        return '#222';
                                     },
-                                    font: { size: 9, weight: 'normal', family: 'Poppins' }, /* Poppins for datalabels */
+                                    font: { size: 11, weight: 'normal', family: 'Comic Sans MS' }, /* Poppins for datalabels */
                                     formatter: function (value, context) {
                                         if (value === null || value === undefined) return '';
                                         if (value === 0 && config.label !== chartConfigs.temp.label) return '-'; // Use original config label
@@ -1607,14 +1151,14 @@
                                 datasets: [{
                                     label: config.label, // Use original label
                                     data: displayData,
-                                    borderColor: config.color,
-                                    backgroundColor: config.color + '33', /* Add transparency for fill */
+                                    borderColor: 'black',
+                                    backgroundColor: config.color + '80', /* Add transparency for fill */
                                     tension: 0.1,
-                                    fill: false,
+                                    fill: true,
                                     pointRadius: 0,
                                     pointHoverRadius: 5,
                                     pointHoverBackgroundColor: config.color,
-                                    pointHoverBorderColor: '#C2C5AA', /* Light Green-Gray on hover */
+                                    pointHoverBorderColor: 'black',
                                     spanGaps: false
                                 }]
                             },
@@ -1627,12 +1171,12 @@
                                         min: displayYAxisMin,
                                         max: displayYAxisMax,
                                         suggestedMin: displayYAxisMinSuggest,
-                                        ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' } }, /* Poppins for ticks */
-                                        grid: { color: 'rgba(194, 197, 170, 0.2)' } /* Adjusted grid color */
+                                        ticks: { color: '#222', font: { size: 12, family: 'Comic Sans MS' } }, /* Poppins for ticks */
+                                        grid: { color: 'rgba(0, 0, 0, 0.1)' }
                                     },
                                     x: {
-                                        ticks: { color: '#C2C5AA', font: { size: 10, family: 'Poppins' }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 }, /* Poppins for ticks */
-                                        grid: { color: 'rgba(194, 197, 170, 0.1)' } /* Adjusted grid color */
+                                        ticks: { color: '#222', font: { size: 12, family: 'Comic Sans MS' }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 }, /* Poppins for ticks */
+                                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
                                     }
                                 },
                                 plugins: {
@@ -1641,11 +1185,11 @@
                                         display: false,
                                     },
                                     tooltip: {
-                                        backgroundColor: '#333D29', /* Very Dark Green-Gray for tooltip background */
-                                        titleColor: '#C2C5AA', /* Light Green-Gray for title */
-                                        bodyColor: '#C2C5AA', /* Light Green-Gray for body text */
-                                        bodyFont: { family: 'Poppins' }, /* Poppins for tooltip body */
-                                        titleFont: { family: 'Poppins' }, /* Poppins for tooltip title */
+                                        backgroundColor: '#fff',
+                                        titleColor: '#222',
+                                        bodyColor: '#222',
+                                        bodyFont: { family: 'Comic Sans MS' }, /* Comic Sans for tooltip body */
+                                        titleFont: { family: 'Comic Sans MS' }, /* Poppins for tooltip title */
                                         callbacks: {
                                             label: function (context) {
                                                 let tooltipLabelText = config.label + ': '; // Use original label
@@ -1663,67 +1207,20 @@
                         // console.error(`Canvas with ID ${allTimeCanvasId} not found for All Time ${metricKey} chart.`);
                     }
                 });
-
-                if (shouldBlinkFlow) {
-                    const flowChart7Day = chartInstances.flowChart;
-                    const flowChartAllTime = chartInstances.flowChartAllTime;
-
-                    const findLastDataPointIndex = (chart) => {
-                        if (!chart) return -1;
-                        const data = chart.data.datasets[0].data;
-                        for (let i = data.length - 1; i >= 0; i--) {
-                            if (data[i] !== null && data[i] !== undefined) {
-                                return i;
-                            }
-                        }
-                        return -1;
-                    };
-
-                    const lastIndex7Day = findLastDataPointIndex(flowChart7Day);
-                    const lastIndexAllTime = findLastDataPointIndex(flowChartAllTime);
-
-                    if (flowChart7Day && lastIndex7Day > -1) {
-                        const dataset = flowChart7Day.data.datasets[0];
-                        if (!Array.isArray(dataset.pointRadius)) {
-                            dataset.pointRadius = new Array(dataset.data.length).fill(3);
-                        }
-                    }
-                    if (flowChartAllTime && lastIndexAllTime > -1) {
-                        const dataset = flowChartAllTime.data.datasets[0];
-                        if (!Array.isArray(dataset.pointRadius)) {
-                            dataset.pointRadius = new Array(dataset.data.length).fill(0);
-                        }
-                    }
-
-                    let isBlinkOn = true;
-                    blinkIntervals.flow = setInterval(() => {
-                        if (flowChart7Day && lastIndex7Day > -1) {
-                            const dataset = flowChart7Day.data.datasets[0];
-                            dataset.pointRadius[lastIndex7Day] = isBlinkOn ? 8 : 3;
-                            flowChart7Day.update('none');
-                        }
-                        if (flowChartAllTime && lastIndexAllTime > -1) {
-                            const dataset = flowChartAllTime.data.datasets[0];
-                            dataset.pointRadius[lastIndexAllTime] = isBlinkOn ? 8 : 0;
-                            flowChartAllTime.update('none');
-                        }
-                        isBlinkOn = !isBlinkOn;
-                    }, 500);
-                }
             }
 
             function displayModalWithMessage(message, type = 'alert') {
-                let titleIconHtml = '<i class="bi bi-exclamation-triangle-fill me-2"></i> Alert';
+                let titleIconHtml = '<i class="ti ti-alert-triangle"></i> Alert';
                 if (type === 'success') {
-                    titleIconHtml = '<i class="bi bi-check-circle-fill me-2"></i> Success';
+                    titleIconHtml = '<i class="ti ti-check"></i> Success';
                 } else if (type === 'info') {
-                    titleIconHtml = '<i class="bi bi-info-square-fill me-2"></i> Information';
+                    titleIconHtml = '<i class="ti ti-info-circle"></i> Information';
                 }
                 myModalLabel.innerHTML = titleIconHtml;
 
                 if (Array.isArray(message)) {
                     modalAlertText.innerHTML = message.map(errObj => {
-                        const iconHtml = errObj.iconClass ? `<i class="bi ${errObj.iconClass} me-2"></i>` : '';
+                        const iconHtml = errObj.iconClass ? `<i class="${errObj.iconClass}"></i>` : '';
                         return `${iconHtml}${errObj.message}`;
                     }).join('<br>');
                 } else {
@@ -1731,33 +1228,33 @@
                 }
                 vadContactInfoModalContent.style.display = 'none';
                 generalAlertModalContent.style.display = 'block';
-                bootstrapModal.show();
+                myModal.classList.add('modal--visible');
 
                 if (type === 'success' && message === "Data saved successfully!") {
                     setTimeout(() => {
-                        bootstrapModal.hide();
+                        myModal.classList.remove('modal--visible');
                     }, 3000);
                 }
             }
 
             function displayVadInfoModal() {
-                myModalLabel.innerHTML = '<i class="bi bi-info-square-fill me-2"></i> Contact the VAD team when';
+                myModalLabel.innerHTML = '<i class="ti ti-info-circle"></i> Contact the VAD team when';
                 vadContactInfoModalContent.style.display = 'block';
                 generalAlertModalContent.style.display = 'none';
                 modalAlertText.textContent = '';
-                bootstrapModal.show();
+                myModal.classList.add('modal--visible');
             }
 
             function showConfirmationModal(title, message, yesCallback) {
                 confirmationModalLabel.innerHTML = title;
                 confirmationModalBodyText.textContent = message;
                 currentYesCallback = yesCallback;
-                bootstrapConfirmationModal.show();
+                confirmationModal.classList.add('modal--visible');
             }
 
             confirmYesButton.addEventListener('click', () => {
                 if (currentYesCallback) currentYesCallback();
-                bootstrapConfirmationModal.hide();
+                confirmationModal.classList.remove('modal--visible');
                 currentYesCallback = null;
             });
 
@@ -1788,7 +1285,7 @@
                     displayModalWithMessage("No data available to download.", 'info');
                     return;
                 }
-                showConfirmationModal('<i class="bi bi-arrow-down-square me-2"></i>Confirm Download', "Are you sure you want to download the LVAD data history?", _executeDownload);
+                showConfirmationModal('<i class="ti ti-file-download"></i>Confirm Download', "Are you sure you want to download the LVAD data history?", _executeDownload);
             }
 
             function validateInput(value, fieldConfig) {
@@ -1998,21 +1495,6 @@
                 event.target.value = null;
             }
 
-
-            if (headerIcon) {
-                let isFilled = false;
-                setInterval(() => {
-                    if (isFilled) {
-                        headerIcon.classList.remove('bi-heart-pulse-fill');
-                        headerIcon.classList.add('bi-heart-pulse');
-                    } else {
-                        headerIcon.classList.remove('bi-heart-pulse');
-                        headerIcon.classList.add('bi-heart-pulse-fill');
-                    }
-                    isFilled = !isFilled;
-                }, 1000);
-            }
-
             // Initialize unit toggle and display
             unitToggle.checked = (unitPreference === 'metric');
             updateInputUnits(); // Set initial input units and labels
@@ -2058,7 +1540,7 @@
 
             if (tabUploadButton && uploadInput) {
                 tabUploadButton.addEventListener('click', () => {
-                    showConfirmationModal('<i class="bi bi-arrow-up-square me-2"></i>Confirm Import', "Import data? Entries with the same date will be updated. Invalid entries will be skipped.", () => uploadInput.click());
+                    showConfirmationModal('<i class="ti ti-file-upload"></i>Confirm Import', "Import data? Entries with the same date will be updated. Invalid entries will be skipped.", () => uploadInput.click());
                 });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
@@ -2076,7 +1558,6 @@
             if (tempInput) tempInput.focus();
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
