@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;700&family=Permanent+Marker&family=Short+Stack&display=swap" rel="stylesheet">
     <!-- Doodle CSS -->
     <link rel="stylesheet" href="https://unpkg.com/doodle.css/doodle.css">
-    <!-- Hand-drawn Icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <!-- Tabler Icons CSS (Outline) - Pinned to a specific version to prevent breaking changes -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -87,7 +87,8 @@
         margin-bottom: 1rem;
     }
 
-    .input-with-icon .ti {
+    .input-with-icon .ti,
+    .input-with-icon .ti::before {
         font-size: 1.5rem;
     }
 
@@ -99,6 +100,10 @@
     .ti-activity { color: #87a985; }
     .ti-chart-line { color: #b089ab; }
     .ti-bolt { color: #b9ab73; }
+    .ti-device-floppy { color: #5a8a9e; }
+    .ti-info-circle { color: #5a8a9e; }
+    .ti-file-download { color: #5a8a9e; }
+    .ti-file-upload { color: #5a8a9e; }
 
     .input-with-icon input {
         flex-grow: 1;
@@ -299,9 +304,7 @@
             <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                     <h2>Metric Graphs</h2>
-                    <button id="myBtn" title="Information">
-                        <i class="ti ti-info-circle"></i> Info
-                    </button>
+                    <button id="myBtn" title="Information"><i class="ti ti-info-circle"></i> Info</button>
                 </div>
                 <div>
                     <!-- Temperature Charts -->
