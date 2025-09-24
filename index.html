@@ -19,7 +19,7 @@
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <style>
-    body {
+   body {
         font-family: 'Short Stack', 'Comic Sans MS', cursive; /* Use Short Stack as primary, fallback to Comic Sans */
         min-height: 100vh;
         font-size: 1.1rem; /* Increase base font size for better legibility */
@@ -29,7 +29,7 @@
         width: 100%;
         padding: 10px 20px;
         box-sizing: border-box;
-        background-color: white;
+        background-color: inherit;
         /* Padding for left/right only, top/bottom handled by inner content */
         padding: 0 20px;
     }
@@ -52,7 +52,7 @@
         padding: 10px 0; /* Restore top/bottom padding */
     }
 
-    /* doodle.css gives <hr> a large margin, so we reset it here */
+   /* doodle.css gives <hr> a large margin, so we reset it here */
     .header hr {
         margin: 0;
         margin-bottom: 2px; /* Small margin to ensure it's visible */
@@ -73,7 +73,7 @@
         padding: 2rem 1rem;
     }
 
-    .main-content > .card {
+   .main-content > .card {
         flex: 1 1 400px; /* Flex properties for responsive columns */
         max-width: 900px;
         min-height: 70vh;
@@ -89,21 +89,31 @@
 
     .input-with-icon .ti,
     .input-with-icon .ti::before {
-        font-size: 1.5rem;
+        font-size: 2rem; /* Increased icon size */
+        transform: rotate(-5deg); /* Add a base rotation */
     }
 
     /* Icon-specific colors */
-    .ti-calendar { color: #000; }
-    .ti-thermometer { color: #c87e7e; }
-    .ti-weight { color: #937b6a; }
-    .ti-gauge { color: #838383; }
-    .ti-activity { color: #87a985; }
-    .ti-chart-line { color: #b089ab; }
-    .ti-bolt { color: #b9ab73; }
+    .ti-calendar { color: #000; transform: rotate(-8deg); }
+    .ti-thermometer { color: #c87e7e; transform: rotate(4deg); }
+    .ti-weight { color: #937b6a; transform: rotate(6deg); }
+    .ti-gauge { color: #838383; transform: rotate(1deg); }
+    .ti-activity { color: #87a985; transform: rotate(-10deg); }
+    .ti-chart-line { color: #b089ab; transform: rotate(2deg); }
+    .ti-bolt { color: #b9ab73; transform: rotate(-5deg); }
     .ti-device-floppy { color: #5a8a9e; }
     .ti-info-circle { color: #5a8a9e; }
     .ti-file-download { color: #5a8a9e; }
     .ti-file-upload { color: #5a8a9e; }
+
+    /* Apply specific rotations to override the base rotation for a more varied, hand-drawn feel */
+    .input-with-icon .ti-calendar { transform: rotate(-8deg); }
+    .input-with-icon .ti-thermometer { transform: rotate(4deg); }
+    .input-with-icon .ti-weight { transform: rotate(6deg); }
+    .input-with-icon .ti-gauge { transform: rotate(1deg); }
+    .input-with-icon .ti-activity { transform: rotate(-10deg); }
+    .input-with-icon .ti-chart-line { transform: rotate(2deg); }
+    .input-with-icon .ti-bolt { transform: rotate(-5deg); }
 
     .input-with-icon input {
         flex-grow: 1;
@@ -125,7 +135,7 @@
     }
 
     /* Modal styles for post-it effect */
-    .modal {
+   .modal {
         position: fixed; /* Make it a full-screen overlay */
         top: 0;
         left: 0;
@@ -203,7 +213,7 @@
         50% { opacity: 0; }
     }
 
-    .blink-red {
+   .blink-red {
         animation: blink 1s step-end infinite;
         color: #a05e5e !important;
         border-color: #a05e5e !important;
@@ -253,7 +263,7 @@
     </div>
 
     <main class="main-content">
-        <div class="card">
+       <div class="card">
             <div class="unit-toggle-wrapper" style="gap: 1rem;">
                 <label for="unitSelect">Units:</label>
                 <select id="unitSelect">
@@ -300,7 +310,7 @@
             </div>
 
         </div>
-        <div class="card">
+       <div class="card">
             <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                     <h2>Metric Graphs</h2>
@@ -394,7 +404,7 @@
     </main>
 
     <!-- Information Modal -->
-    <div class="modal" id="myModal">
+   <div class="modal" id="myModal">
         <div class="modal-content">
             <a href="#" class="close">&times;</a>
             <h5 id="myModalLabel">Modal Title</h5>
@@ -423,7 +433,7 @@
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal">
+   <div class="modal" id="confirmationModal">
         <div class="modal-content">
             <a href="#" class="close" id="confirmNoButton">&times;</a>
             <h5 id="confirmationModalLabel">Confirm Action</h5>
@@ -489,7 +499,7 @@
             const confirmYesButton = document.getElementById('confirmYesButton');
  
             let currentYesCallback = null;
-
+ 
             const tabUploadButton = document.getElementById('tabUploadButton');
             const tabDownloadButton = document.getElementById('tabDownloadButton');
             const uploadInput = document.getElementById('uploadInput');
@@ -1150,7 +1160,7 @@
                                         ticks: { color: '#222', font: { size: 12, family: "'Short Stack', 'Comic Sans MS', cursive" }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 },
                                         grid: { color: '#9eb5c0' }
                                     }
-                                },
+                                }, 
                                 plugins: {
                                     legend: { display: false },
                                     title: {
@@ -1528,5 +1538,5 @@
         });
     </script>
 </body>
-
+ 
 </html>
