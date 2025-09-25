@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My LVAD Log</title>
     <!-- Google Fonts: Baloo Thambi 2, Short Stack, and Permanent Marker -->
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;700&family=Permanent+Marker&family=Short+Stack&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Short+Stack&display=swap" rel="stylesheet">
     <!-- Doodle CSS -->
     <link rel="stylesheet" href="https://unpkg.com/doodle.css/doodle.css">
-    <!-- Tabler Icons CSS (Outline) - Pinned to a specific version to prevent breaking changes -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -88,9 +86,8 @@
     }
 
     .input-with-icon .ti,
-    .input-with-icon .ti::before {
-        font-size: 2rem; /* Increased icon size */
-        transform: rotate(-5deg); /* Add a base rotation */
+    .input-with-icon svg.ti {
+        transform: rotate(-5deg); /* Base rotation for hand-drawn feel */
     }
 
     /* Icon-specific colors */
@@ -206,11 +203,6 @@
 
     .main-content h3 {
         font-size: 1.4rem; /* Increase subheading size */
-    }
-
-    /* Add some space between icons and text in buttons/modals */
-    .modal-content i.ti, button i.ti {
-        margin-right: 0.5em;
     }
 
     /* Adjust SVG icons in buttons */
