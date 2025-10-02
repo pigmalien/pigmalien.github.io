@@ -223,6 +223,18 @@
         border-color: #a05e5e !important;
     }
 
+    /* Wiggle animation for the save icon when form is dirty */
+    @keyframes wiggle-icon {
+        0%, 100% { transform: rotate(0); }
+        25% { transform: rotate(-10deg); }
+        50% { transform: rotate(10deg); }
+        75% { transform: rotate(-5deg); }
+    }
+
+    .pulse-save .ti-device-floppy {
+        animation: wiggle-icon 0.8s ease-in-out infinite;
+    }
+
     /* Responsive styles for mobile devices */
     @media (max-width: 600px) {
         .header {
@@ -242,6 +254,55 @@
             height: 3.25rem;
         }
     }
+
+    /* Styles for the collapsible "All Time" graph sections */
+    .collapsible-all-time {
+        margin-top: 2rem;
+    }
+
+    .collapsible-all-time summary {
+        font-family: 'Short Stack', 'Comic Sans MS', cursive;
+        font-size: 1.2rem;
+        text-align: right; /* Align text to the right */
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        list-style: none; /* Remove default marker */
+        position: relative;
+        padding: 0.25rem 3rem 0.25rem 0.25rem; /* Add right padding for caret */
+    }
+
+    .collapsible-all-time summary::-webkit-details-marker {
+        display: none; /* Remove default marker for Chrome/Safari */
+    }
+
+    /* Add a chevron indicator */
+    .collapsible-all-time summary::after {
+        content: 'ˇ'; /* Using a character that looks like a chevron */
+        font-family: sans-serif; /* Use a standard font for the symbol */
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%) rotate(0deg);
+        transition: transform 0.3s ease-in-out;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .collapsible-all-time[open] > summary::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* The content to be animated */
+    .collapsible-content {
+        overflow: hidden;
+        max-height: 0;
+        margin-top: 0;
+        /* Define the transition on the base state for both opening and closing */
+        transition: max-height 0.5s ease-in-out, margin-top 0.5s ease-in-out;
+    }
+
+    /* No specific .collapsible-content.open class needed, JS will manage max-height directly */
+
 </style>
 
 <body class="doodle">
@@ -348,10 +409,12 @@
                         <div class="chart-container">
                             <canvas id="tempChart"></canvas>
                         </div>
-                        <p class="text-center" style="font-family: 'Short Stack', 'Comic Sans MS', cursive; font-size: 1.2rem; margin-bottom: 0.5rem; margin-top: 2rem;">All Time</p>
-                        <div class="chart-container">
-                            <canvas id="tempChartAllTime"></canvas>
-                        </div>
+                        <details class="collapsible-all-time">
+                            <summary>All Time</summary>
+                            <div class="collapsible-content">
+                                <div class="chart-container"><canvas id="tempChartAllTime"></canvas></div>
+                            </div>
+                        </details>
                     </div>
                     <!-- Weight Charts -->
                     <div class="doodle border" style="margin-bottom: 2rem; padding: 1rem;">
@@ -360,10 +423,12 @@
                         <div class="chart-container">
                             <canvas id="weightChart"></canvas>
                         </div>
-                        <p class="text-center" style="font-family: 'Short Stack', 'Comic Sans MS', cursive; font-size: 1.2rem; margin-bottom: 0.5rem; margin-top: 2rem;">All Time</p>
-                        <div class="chart-container">
-                            <canvas id="weightChartAllTime"></canvas>
-                        </div>
+                        <details class="collapsible-all-time">
+                            <summary>All Time</summary>
+                            <div class="collapsible-content">
+                                <div class="chart-container"><canvas id="weightChartAllTime"></canvas></div>
+                            </div>
+                        </details>
                     </div>
                     <!-- Speed Charts -->
                     <div class="doodle border" style="margin-bottom: 2rem; padding: 1rem;">
@@ -372,10 +437,12 @@
                         <div class="chart-container">
                             <canvas id="speedChart"></canvas>
                         </div>
-                        <p class="text-center" style="font-family: 'Short Stack', 'Comic Sans MS', cursive; font-size: 1.2rem; margin-bottom: 0.5rem; margin-top: 2rem;">All Time</p>
-                        <div class="chart-container">
-                            <canvas id="speedChartAllTime"></canvas>
-                        </div>
+                        <details class="collapsible-all-time">
+                            <summary>All Time</summary>
+                            <div class="collapsible-content">
+                                <div class="chart-container"><canvas id="speedChartAllTime"></canvas></div>
+                            </div>
+                        </details>
                     </div>
                     <!-- Flow Charts -->
                     <div class="doodle border" style="margin-bottom: 2rem; padding: 1rem;">
@@ -384,10 +451,12 @@
                         <div class="chart-container">
                             <canvas id="flowChart"></canvas>
                         </div>
-                        <p class="text-center" style="font-family: 'Short Stack', 'Comic Sans MS', cursive; font-size: 1.2rem; margin-bottom: 0.5rem; margin-top: 2rem;">All Time</p>
-                        <div class="chart-container">
-                            <canvas id="flowChartAllTime"></canvas>
-                        </div>
+                        <details class="collapsible-all-time">
+                            <summary>All Time</summary>
+                            <div class="collapsible-content">
+                                <div class="chart-container"><canvas id="flowChartAllTime"></canvas></div>
+                            </div>
+                        </details>
                     </div>
                     <!-- PI Charts -->
                     <div class="doodle border" style="margin-bottom: 2rem; padding: 1rem;">
@@ -396,10 +465,12 @@
                         <div class="chart-container">
                             <canvas id="piChart"></canvas>
                         </div>
-                        <p class="text-center" style="font-family: 'Short Stack', 'Comic Sans MS', cursive; font-size: 1.2rem; margin-bottom: 0.5rem; margin-top: 2rem;">All Time</p>
-                        <div class="chart-container">
-                            <canvas id="piChartAllTime"></canvas>
-                        </div>
+                        <details class="collapsible-all-time">
+                            <summary>All Time</summary>
+                            <div class="collapsible-content">
+                                <div class="chart-container"><canvas id="piChartAllTime"></canvas></div>
+                            </div>
+                        </details>
                     </div>
                     <!-- Power Charts -->
                     <div class="doodle border" style="margin-bottom: 2rem; padding: 1rem;">
@@ -408,10 +479,12 @@
                         <div class="chart-container">
                             <canvas id="powerChart"></canvas>
                         </div>
-                        <p class="text-center" style="font-family: 'Short Stack', 'Comic Sans MS', cursive; font-size: 1.2rem; margin-bottom: 0.5rem; margin-top: 2rem;">All Time</p>
-                        <div class="chart-container">
-                            <canvas id="powerChartAllTime"></canvas>
-                        </div>
+                        <details class="collapsible-all-time">
+                            <summary>All Time</summary>
+                            <div class="collapsible-content">
+                                <div class="chart-container"><canvas id="powerChartAllTime"></canvas></div>
+                            </div>
+                        </details>
                     </div>
                 </div>
                 <div class="text-end" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
@@ -895,6 +968,7 @@
                 checkPiForBlink(); // Re-check PI after saving and clearing inputs
                 checkPowerForBlink(); // Re-check Power after saving and clearing inputs
             }
+            saveButton.classList.remove('pulse-save');
 
             function formatDateLabel(dateObj) {
                 if (!(dateObj instanceof Date) || isNaN(dateObj.getTime())) return "Invalid Date";
@@ -1328,8 +1402,8 @@
                     } else {
                         inputElement.value = dateToYYYYMMDD(new Date());
                     }
+                    saveButton.classList.remove('pulse-save');
                 });
-                if (tempInput) tempInput.focus();
             }
 
 
@@ -1562,7 +1636,48 @@
             checkFlowForBlink();
             checkPiForBlink();
             checkPowerForBlink();
-            if (tempInput) tempInput.focus();
+        });
+
+        // Add event listeners to input fields to detect changes
+        const formInputs = [dateInput, tempInput, weightInput, speedInput, flowInput, piInput, powerInput];
+        formInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // Add a class to the save button if any input has a value (or date is not today)
+                saveButton.classList.add('pulse-save');
+            });
+        });
+
+        // Handle collapsible animations
+        document.querySelectorAll('.collapsible-all-time').forEach(details => {
+            const summary = details.querySelector('summary');
+            const content = details.querySelector('.collapsible-content');
+
+            summary.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default <details> behavior
+
+                if (details.open) {
+                    // --- Start Closing Animation ---
+                    // Set the max-height to its current scrollHeight before transitioning to 0
+                    content.style.maxHeight = content.scrollHeight + 'px';
+
+                    // In the next frame, set max-height to 0 to trigger the animation
+                    requestAnimationFrame(() => {
+                        content.style.maxHeight = '0px';
+                        content.style.marginTop = '0';
+                    });
+
+                    // After the transition, set the 'open' attribute to false
+                    content.addEventListener('transitionend', () => {
+                        details.open = false;
+                    }, { once: true });
+
+                } else {
+                    // --- Start Opening Animation ---
+                    details.open = true; // Make it open
+                    content.style.marginTop = '1rem';
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
         });
     </script>
 </body>
