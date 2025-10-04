@@ -211,28 +211,24 @@
         vertical-align: middle; /* Better alignment with text */
     }
 
-    /* Blinking animation for warning */
-    @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-    }
-
+    /* Alert style for inputs - changes background to yellow */
    .blink-red {
-        animation: blink 1s step-end infinite;
-        color: #a05e5e !important;
-        border-color: #a05e5e !important;
+        background-color: #ffffa0 !important; /* Post-it yellow */
+        border: 2px dashed #b9ab73 !important; /* Dashed border, power color */
+        transition: background-color 0.3s ease, border-color 0.3s ease; /* Add a smooth transition */
     }
 
-    /* Wiggle animation for the save icon when form is dirty */
-    @keyframes wiggle-icon {
-        0%, 100% { transform: rotate(0); }
-        25% { transform: rotate(-10deg); }
-        50% { transform: rotate(10deg); }
-        75% { transform: rotate(-5deg); }
+    /* Heartbeat animation for the save button when form is dirty */
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        14% { transform: scale(1.08); }
+        28% { transform: scale(1); }
+        42% { transform: scale(1.08); }
+        70% { transform: scale(1); }
     }
 
-    .pulse-save .ti-device-floppy {
-        animation: wiggle-icon 0.8s ease-in-out infinite;
+    .pulse-save {
+        animation: heartbeat 1.5s ease-in-out infinite;
     }
 
     /* Responsive styles for mobile devices */
@@ -291,6 +287,31 @@
     .collapsible-all-time[open] > summary::after {
         transform: translateY(-50%) rotate(180deg);
     }
+
+    /* Styles for the new info collapsible section */
+    .info-collapsible {
+        margin-bottom: 1.5rem;
+        background-color: #ffffa0; /* Post-it yellow */
+        padding: 0.5rem 1rem; /* Keep the padding on the main element */
+        border-radius: 4px; /* Add a slight radius for a softer look */
+        border: 2px dashed #b9ab73; /* Simple dashed border, power color */
+    }
+
+    .info-collapsible summary {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.3rem;
+        color: #333;
+        cursor: pointer;
+        list-style: none; /* Remove default marker */
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-collapsible summary::-webkit-details-marker {
+        display: none; /* Hide marker in WebKit browsers */
+    }
+
 
     /* The content to be animated */
     .collapsible-content {
@@ -389,18 +410,32 @@
                         </svg>
                         Save</button>
                 </div>
+                <details class="info-collapsible collapsible-all-time" style="margin-top: 2rem;">
+                    <summary>
+                        <svg viewBox="0 0 24 24" class="ti ti-info-circle" style="width: 1.5rem; height: 1.5rem; flex-shrink: 0;">
+                            <path d="M12,2 C6,2 2,6 2,12 S 6,22 12,22 S 22,18 22,12 S 18,2 12,2 Z M12,11.5 Q12,17 12,17 M12,8 a 0.5,0.5 0 1,0 0.01,0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        When to contact the VAD team
+                    </summary>
+                    <div class="collapsible-content" style="padding-top: 0.5rem;">
+                        <ul>
+                            <li>VAD flow increases or decreases by 2.0 Lpm or more from baseline</li>
+                            <li>PI is less than 2 or greater than 8, or has increased or decreased by 4 from baseline</li>
+                            <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
+                            <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
+                            <li>Increasing swelling in legs, hands, or abdomin</li>
+                            <li>Temperature is 101.5°F or higher</li>
+                            <li>Driveline is tugged or pulled</li>
+                            <li>Signs or symptoms of infection at the driveline site (redness, tenderness, warmth, or drainage)</li>
+                        </ul>
+                    </div>
+                </details>
             </div>
 
         </div>
        <div class="card">
             <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2>Metric Graphs</h2>
-                    <button id="myBtn" title="Information">
-                        <svg viewBox="0 0 24 24" class="ti ti-info-circle" style="width: 1.5rem; height: 1.5rem;">
-                            <path d="M12,2 C6,2 2,6 2,12 S 6,22 12,22 S 22,18 22,12 S 18,2 12,2 Z M12,11.5 Q12,17 12,17 M12,8 a 0.5,0.5 0 1,0 0.01,0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg> Info</button>
-                </div>
+                <h2 class="mb-3">Metric Graphs</h2>
                 <div>
                     <!-- Temperature Charts -->
                     <div class="doodle border" style="margin-bottom: 2rem; padding: 1rem;">
@@ -517,14 +552,7 @@
                     <li>Power reading has increased by 2 watts from baseline, or is greater than 8</li>
                     <li>Weight gain of 2 to 3 lbs overnight or 5 lbs in 1 week</li>
                     <li>Increasing swelling in legs, hands, or abdomin</li>
-                    <li>Temperature is 101.5°F or higher</li>
-                    <li>Driveline is tugged or pulled</li>
-                    <li>Signs or symptoms of infection at the driveline site(this includes redness,
-                        tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li>
-                    <li>You have any alarms you can't resolve</li>
-                    <li>You notice any changes in how the VAD or VAD equipment sounds or feels</li>
-                    <li>The equipment is damaged or is not working properly</li>
-                    <li>You go to the emergency room, or require hospital admission</li>
+                    <li>Temperature is 101.5°F or higher</li><li>Driveline is tugged or pulled</li><li>Signs or symptoms of infection at the driveline site(this includes redness, tenderness,warmth, or drainage) Call anytime with concerns about how the site looks</li><li>You have any alarms you can't resolve</li><li>You notice any changes in how the VAD or VAD equipment sounds or feels</li><li>The equipment is damaged or is not working properly</li><li>You go to the emergency room, or require hospital admission</li>
                 </ul>
             </div>
             <div id="generalAlertModalContent" style="display: none;">
@@ -593,7 +621,6 @@
             const vadContactInfoModalContent = document.getElementById('vadContactInfoModalContent');
             const generalAlertModalContent = document.getElementById('generalAlertModalContent');
             const modalAlertText = document.getElementById('modalAlertText');
-            const vadInfoBtn = document.getElementById("myBtn");
 
             const confirmationModalLabel = document.getElementById('confirmationModalLabel');
             const confirmationModalBodyText = document.getElementById('confirmationModalBodyText');
@@ -1321,14 +1348,6 @@
                 }
             }
 
-            function displayVadInfoModal() {
-                myModalLabel.innerHTML = '<svg viewBox="0 0 24 24" class="ti ti-info-circle" style="width: 1.5rem; height: 1.5rem; vertical-align: middle; margin-right: 0.5em;"><path d="M12,2 C6,2 2,6 2,12 S 6,22 12,22 S 22,18 22,12 S 18,2 12,2 Z M12,11.5 Q12,17 12,17 M12,8 a 0.5,0.5 0 1,0 0.01,0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Contact the VAD team when';
-                vadContactInfoModalContent.style.display = 'block';
-                generalAlertModalContent.style.display = 'none';
-                modalAlertText.textContent = '';
-                myModal.classList.add('modal--visible');
-            }
-
             function showConfirmationModal(title, message, yesCallback) {
                 confirmationModalLabel.innerHTML = title;
                 confirmationModalBodyText.textContent = message;
@@ -1625,7 +1644,6 @@
                 });
                 uploadInput.addEventListener('change', uploadJsonData);
             }
-            if (vadInfoBtn) vadInfoBtn.onclick = displayVadInfoModal;
             if (tabDownloadButton) tabDownloadButton.addEventListener('click', downloadJsonData);
 
             // Initial display calls
