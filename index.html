@@ -155,6 +155,11 @@
         background-color: rgba(0,0,0,0.4); /* Semi-transparent overlay */
     }
 
+    /* On mobile, align modal to center for a better user experience */
+    @media (max-width: 600px) {
+        .modal { justify-content: center; }
+    }
+
     .modal.modal--visible {
         opacity: 1;
         pointer-events: auto; /* Interact when visible */
@@ -173,6 +178,15 @@
 
     .modal.modal--visible .modal-content {
         transform: translateX(0) rotate(2deg);
+    }
+
+    /* Adjust modal animation and size for mobile */
+    @media (max-width: 600px) {
+        .modal-content {
+            transform: translateY(100vh) rotate(5deg); /* Animate from bottom */
+            margin: 1rem; /* Reduce margin */
+        }
+        .modal.modal--visible .modal-content { transform: translateY(0) rotate(2deg); }
     }
 
     .modal.modal--visible .modal-content:hover {
@@ -234,6 +248,11 @@
     /* Responsive styles for mobile devices */
     @media (max-width: 600px) {
         .header {
+            padding: 0 1rem; /* Reduce horizontal padding */
+        }
+
+        .header-content {
+            flex-direction: column; /* Stack title and icon vertically */
             padding: 0 10px; /* Reduce horizontal padding */
         }
 
@@ -248,6 +267,11 @@
         .header-icon {
             width: 3.25rem;      /* Reduce icon size */
             height: 3.25rem;
+            margin-top: 0.5rem; /* Adjust margin for stacked layout */
+        }
+
+        .input-with-icon {
+            margin-bottom: 0.75rem; /* Slightly reduce space between inputs */
         }
     }
 
@@ -324,6 +348,21 @@
 
     /* No specific .collapsible-content.open class needed, JS will manage max-height directly */
 
+    /* Consent Banner Styles */
+    #consentBanner {
+        padding: 1rem;
+        background-color: #fdfdcb; /* A lighter post-it yellow */
+        text-align: center;
+        border-bottom: 2px dashed #b9ab73; /* Dashed border, power color */
+        font-family: 'Short Stack', 'Comic Sans MS', cursive;
+    }
+
+    #consentBanner p {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.1rem;
+    }
+
+
 </style>
 
 <body class="doodle">
@@ -347,10 +386,25 @@
         </div>
         <hr>
     </div>
-
+    <div id="consentBanner" style="display: none;">
+        <p>Your data is only stored in your browser local storage (this device) with your consent.</p>
+        <div>
+            <button id="consentOkButton">OK</button>
+            <button id="consentNoButton" class="secondary">No thanks</button>
+        </div>
+    </div>
+ 
     <main class="main-content">
        <div class="card">
             <div class="unit-toggle-wrapper" style="gap: 1rem;">
+                <div id="consent-message" style="display: none; width: 100%; text-align: center; background-color: #ffffa0; padding: 1rem; border: 2px dashed #b9ab73; margin-bottom: 1rem;">
+                    <p style="margin:0;">
+                        <svg viewBox="0 0 24 24" class="ti ti-info-circle" style="width: 1.2rem; height: 1.2rem; vertical-align: middle; margin-right: 0.5em; color: #5a8a9e;">
+                            <path d="M12,2 C6,2 2,6 2,12 S 6,22 12,22 S 22,18 22,12 S 18,2 12,2 Z M12,11.5 Q12,17 12,17 M12,8 a 0.5,0.5 0 1,0 0.01,0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        This app requires your consent to use browser storage to save and display your data. Please reload to provide consent.
+                    </p>
+                </div>
                 <label for="unitSelect">Units:</label>
                 <select id="unitSelect">
                     <option value="imperial">Imperial&nbsp;&nbsp;</option>
@@ -522,12 +576,15 @@
                         </details>
                     </div>
                 </div>
-                <div class="text-end" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                <!-- Data Management Section -->
+                <div class="doodle border" style="margin-top: 2rem; padding: 1rem; text-align: center;">
+                    <h3 class="text-center" style="margin-top: 0;">Data Management</h3>
                     <button id="tabDownloadButton" title="Download Data">
                         <svg viewBox="0 0 24 24" class="ti ti-file-download" style="width: 1.5rem; height: 1.5rem;">
                             <path d="M4,17 Q12,21 20,17 M12,4 Q12,15 12,15 M12,15 Q8,11 8,11 M12,15 Q16,11 16,11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg> Download
                     </button>
+                    <p style="margin: 1rem 0;">You can download your data to import to another device.</p>
                     <button id="tabUploadButton" title="Import Data">
                         <svg viewBox="0 0 24 24" class="ti ti-file-upload" style="width: 1.5rem; height: 1.5rem;">
                             <path d="M4,17 Q12,21 20,17 M12,15 Q12,4 12,4 M12,4 Q8,8 8,8 M12,4 Q16,8 16,8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -568,7 +625,7 @@
             <h5 id="confirmationModalLabel">Confirm Action</h5>
             <p id="confirmationModalBodyText"></p>
             <div class="text-end" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-                <a href="#" role="button" class="secondary">No</a>
+                <button class="secondary" id="confirmNoButton">No</button>
                 <button id="confirmYesButton">Yes</button>
             </div>
         </div>
@@ -631,6 +688,11 @@
             const tabUploadButton = document.getElementById('tabUploadButton');
             const tabDownloadButton = document.getElementById('tabDownloadButton');
             const uploadInput = document.getElementById('uploadInput');
+
+            const consentBanner = document.getElementById('consentBanner');
+            const consentOkButton = document.getElementById('consentOkButton');
+            const consentNoButton = document.getElementById('consentNoButton');
+            const consentMessage = document.getElementById('consent-message');
 
             // Unit toggle elements
             const unitSelect = document.getElementById('unitSelect');
@@ -1167,12 +1229,11 @@
                                     suggestedMin: displayYAxisMinSuggest,
                                     title: {
                                         display: false
-                                    },
-                                    ticks: { color: '#222', font: { size: 12, family: "'Short Stack', 'Comic Sans MS', cursive" } },
+                                    },                                    ticks: { color: '#222', font: { size: window.innerWidth < 600 ? 10 : 12, family: "'Short Stack', 'Comic Sans MS', cursive" } },
                                     grid: { color: '#9eb5c0' }
                                 },
                                 x: {
-                                    ticks: { color: '#222', font: { size: 12, family: "'Short Stack', 'Comic Sans MS', cursive" } },
+                                    ticks: { color: '#222', font: { size: window.innerWidth < 600 ? 10 : 12, family: "'Short Stack', 'Comic Sans MS', cursive" } },
                                     grid: { color: '#9eb5c0' }
                                 }
                             },
@@ -1282,11 +1343,11 @@
                                         min: displayYAxisMin,
                                         max: displayYAxisMax,
                                         suggestedMin: displayYAxisMinSuggest,
-                                        ticks: { color: '#222', font: { size: 12, family: "'Short Stack', 'Comic Sans MS', cursive" } },
+                                        ticks: { color: '#222', font: { size: window.innerWidth < 600 ? 10 : 12, family: "'Short Stack', 'Comic Sans MS', cursive" } },
                                         grid: { color: '#9eb5c0' }
                                     },
                                     x: {
-                                        ticks: { color: '#222', font: { size: 12, family: "'Short Stack', 'Comic Sans MS', cursive" }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 },
+                                        ticks: { color: '#222', font: { size: window.innerWidth < 600 ? 9 : 12, family: "'Short Stack', 'Comic Sans MS', cursive" }, autoSkip: true, maxTicksLimit: labelsForChart.length > 30 ? 15 : 30 },
                                         grid: { color: '#9eb5c0' }
                                     }
                                 }, 
@@ -1427,6 +1488,11 @@
 
 
             saveButton.addEventListener('click', () => {
+                const consent = localStorage.getItem('lvadConsent');
+                if (consent !== 'true') {
+                    displayModalWithMessage("This app requires your consent to use browser storage to save your data. Please reload to provide consent.", 'info');
+                    return;
+                }
                 const validationErrors = [];
                 const dataToSave = {};
 
@@ -1654,14 +1720,55 @@
             checkFlowForBlink();
             checkPiForBlink();
             checkPowerForBlink();
-        });
 
-        // Add event listeners to input fields to detect changes
-        const formInputs = [dateInput, tempInput, weightInput, speedInput, flowInput, piInput, powerInput];
-        formInputs.forEach(input => {
-            input.addEventListener('input', () => {
-                // Add a class to the save button if any input has a value (or date is not today)
-                saveButton.classList.add('pulse-save');
+            function handleConsent() {
+                const consent = localStorage.getItem('lvadConsent');
+                if (consent === 'true') {
+                    // User has consented, app functions normally.
+                } else {
+                    // If consent is not 'true' (i.e., it's null or something else),
+                    // we treat it as "no consent given".
+                    if (consentBanner) consentBanner.style.display = 'block'; // Show banner to ask for consent.
+                    disableAppFunctionality(false); // Disable functionality but don't show the inline message yet.
+                }
+            }
+
+            function disableAppFunctionality(showMessage = false) {
+                // Hide form inputs and show message
+                document.querySelector('.card > div > div:nth-of-type(2)').style.display = 'none'; // Hides the block with all inputs
+                document.querySelector('.card > div > .text-end').style.display = 'none'; // Hides save button
+                document.querySelector('.info-collapsible').style.display = 'none'; // Hides "When to contact"
+                if (consentMessage) consentMessage.style.display = showMessage ? 'block' : 'none';
+
+                // Disable chart-side buttons
+                if (tabDownloadButton) tabDownloadButton.disabled = true;
+                if (tabUploadButton) tabUploadButton.disabled = true;
+            }
+
+            if (consentOkButton) {
+                consentOkButton.addEventListener('click', () => {
+                    localStorage.setItem('lvadConsent', 'true');
+                    // Reload the page to ensure all scripts run with the new consent state
+                    window.location.reload();
+                });
+            }
+
+            if (consentNoButton) {
+                consentNoButton.addEventListener('click', () => {
+                    localStorage.removeItem('lvadConsent'); // Ensure no consent key is stored.
+                    if (consentBanner) consentBanner.style.display = 'none';
+                    disableAppFunctionality(true); // Now disable and show the message.
+                });
+            }
+            handleConsent();
+
+            // Add event listeners to input fields to detect changes
+            const formInputs = [dateInput, tempInput, weightInput, speedInput, flowInput, piInput, powerInput];
+            formInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    // Add a class to the save button if any input has a value (or date is not today)
+                    saveButton.classList.add('pulse-save');
+                });
             });
         });
 
