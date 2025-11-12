@@ -68,14 +68,19 @@
         flex-wrap: wrap;
         gap: 2rem;
         justify-content: center;
-        padding: 2rem 1rem;
+        padding: 2rem 0; /* Remove horizontal padding to allow cards to span full width */
     }
 
    .main-content > .card {
         flex: 1 1 400px; /* Flex properties for responsive columns */
         max-width: 900px;
         min-height: 70vh;
-        padding: 20px;
+        padding: 20px; /* doodle.css uses 20px, which is fine */
+        box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    }
+
+    @media (max-width: 420px) {
+        .main-content > .card { flex-basis: 100%; } /* On very narrow screens, let cards take full width */
     }
 
     .input-with-icon {
